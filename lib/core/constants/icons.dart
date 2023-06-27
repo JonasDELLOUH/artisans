@@ -1,0 +1,135 @@
+import 'package:artisans/core/colors/colors.dart';
+import 'package:flutter/material.dart';
+
+class ConstantIcons {
+  static const searchIcon = Icon(
+    Icons.search,
+    size: 30,
+  );
+  static const homeIcon = Icon(
+    Icons.home,
+    size: 30,
+  );
+
+  static Widget addPostIconF({Color color = blackColor}) => Icon(
+        Icons.add_circle_outline,
+        size: 30,
+        color: color,
+      );
+  static const addPostIcon = Icon(
+    Icons.add_circle_outline,
+    size: 30,
+  );
+  static const defaultMemberIcon = Icon(
+    Icons.person,
+    size: 30,
+  );
+  static const loveIcon = Icon(
+    Icons.favorite_border,
+    size: 30,
+  );
+  static const addCommentIcon = Icon(
+    Icons.insert_comment,
+    size: 30,
+  );
+  static const sendMessageIcon = Icon(
+    Icons.textsms,
+    size: 30,
+  );
+  static const navigateNextIcon = Icon(
+    Icons.navigate_next,
+    size: 30,
+  );
+  static const photoIcon = Icon(
+    Icons.photo_camera,
+    size: 30,
+  );
+  static const sendcommentIcon = Icon(
+    Icons.send,
+    size: 30,
+  );
+  static const chatIcon = Icon(
+    Icons.chat,
+    size: 30,
+  );
+  static const videoCallIcon = Icon(
+    Icons.video_call,
+    size: 30,
+  );
+  static const phoneIcon = Icon(
+    Icons.phone,
+    size: 30,
+  );
+
+  static Widget phoneIconF({Color color = blackColor, double size = 30}) =>
+      Icon(
+        Icons.phone,
+        size: size,
+        color: color,
+      );
+
+  static const emojiIcon = Icon(
+    Icons.emoji_emotions,
+    size: 30,
+  );
+  static const attachFileIcon = Icon(
+    Icons.attach_file,
+    size: 30,
+  );
+  static const microIcon = Icon(
+    Icons.keyboard_voice,
+    size: 30,
+    color: blackColor,
+  );
+  static const sendIcon = Icon(
+    Icons.send,
+    size: 30,
+    color: blackColor,
+  );
+
+  static Widget backIcon(BuildContext context, {Color color = blackColor, double size = 30}) => IconButton(
+      onPressed: () {
+        Navigator.pop(context);
+      },
+      icon: Icon(
+        Icons.arrow_back,
+        color: color,
+        size: 30,
+      ));
+
+  static Widget editIcon({Color color = blackColor, double size = 30}) => Icon(
+        Icons.edit,
+        color: color,
+        size: size,
+      );
+
+  static Widget jobIcon({Color color = blackColor, double size = 30}) =>
+      Icon(Icons.work, color: color, size: size);
+
+  static Widget workshopIcon({Color color = blackColor, double size = 30}) =>
+      Icon(
+        Icons.home_work_sharp,
+        color: color,
+        size: size,
+      );
+
+  static Widget emailIcon({Color color = blackColor, double size = 30}) => Icon(
+        Icons.mail,
+        color: color,
+        size: size,
+      );
+
+  static Widget cameraIcon({Color color = blackColor, double size = 30}) =>
+      Icon(
+        Icons.camera_alt_rounded,
+        color: color,
+        size: size,
+      );
+
+  static Widget libraryIcon({Color color = blackColor, double size = 30}) =>
+      Icon(
+        Icons.photo_library_outlined,
+        color: color,
+        size: size,
+      );
+}

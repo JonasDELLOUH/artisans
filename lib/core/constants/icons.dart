@@ -16,6 +16,16 @@ class ConstantIcons {
         size: 30,
         color: color,
       );
+  static Widget visibilityOff({Color color = blackColor}) => Icon(
+    Icons.visibility_off,
+    size: 30,
+    color: color,
+  );
+  static Widget visibility({Color color = blackColor}) => Icon(
+    Icons.visibility,
+    size: 30,
+    color: color,
+  );
   static const addPostIcon = Icon(
     Icons.add_circle_outline,
     size: 30,

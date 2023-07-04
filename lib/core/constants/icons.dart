@@ -102,9 +102,9 @@ class ConstantIcons {
         Navigator.pop(context);
       },
       icon: Icon(
-        Icons.arrow_back,
+        Icons.arrow_back_ios,
         color: color,
-        size: 30,
+        size: 20,
       ));
 
   static Widget editIcon({Color color = blackColor, double size = 30}) => Icon(

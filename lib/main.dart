@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       getPages: AppRoutes.pages,
-      initialRoute: AppRoutes.signInRoute,
+      initialRoute: AppRoutes.signUpRoute,
       debugShowCheckedModeBanner: false,
       translations: Languages(),
       locale: Get.deviceLocale,

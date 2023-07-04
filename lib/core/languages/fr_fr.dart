@@ -8,4 +8,8 @@ Map<String, String> frFr = {
   'sign_in': "Se connecter",
   'forgot_password': "Mot de pass oublié?",
   'or_sign_with': "Ou se connecter avec",
+  "has_already_account": "Vous avez déjà un compte?",
+  "sign_up": "S'inscrire'",
+  "artisan_slogan": "Artisanat réinventé, satisfaction garantie",
+  'your_name': "Votre nom",
 };

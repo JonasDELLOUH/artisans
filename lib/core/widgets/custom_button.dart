@@ -21,7 +21,7 @@ Widget CustomTextButton({double height = 50, required String text,
         backgroundColor: MaterialStatePropertyAll<Color>(backgroundColor),
       ),
       onPressed: () {},
-      child: CustomText(text: text,fontWeight: fontWeight, fontSize: fontSize, color: textColor ),
+      child: customText(text: text,fontWeight: fontWeight, fontSize: fontSize, color: textColor ),
     ),
   );
 }

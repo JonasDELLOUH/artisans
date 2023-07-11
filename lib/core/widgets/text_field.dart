@@ -1,62 +1,81 @@
 import 'package:artisans/core/colors/colors.dart';
-import 'package:artisans/core/widgets/text_widgets.dart';
 import 'package:flutter/material.dart';
 
-Widget customTextField(
-    {required TextEditingController controller,
-    String? labelText,
-    String? hintText,
-    bool obscureText = false,
-      Key? kKey,
-      TextInputType? textInputType = TextInputType.text,
-      void Function(String)? onChanged,
-void Function(String?)? onSaved,
-String? Function(String?)? validator,
-      Widget? prefixIcon,
-      Widget? suffixIcon,
-      String? errorText
-    }) {
-  return TextFormField(
-    controller: controller,
-    cursorColor: blueColor,
-    style: textStyle(color: blackColor, fontSize: 12),
-    key: kKey,
-    keyboardType: textInputType,
-    onSaved: onSaved,
-    onChanged: onChanged,
-    validator: validator,
-    obscureText: obscureText,
-    decoration: InputDecoration(
-      contentPadding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8),
-        labelText: labelText,
-        labelStyle: textStyle(color: blueColor, fontSize: 14),
+class CustomTextFormField extends StatelessWidget {
+  final TextEditingController? controller;
+  final TextInputType? keyboardType;
+  final String? hintText;
+  final TextStyle? hintStyle;
+  final TextStyle? textStyle;
+  final Widget? suffixIcon;
+  final Widget? prefixIcon;
+  final bool obscureText;
+  final EdgeInsetsGeometry contentPadding;
+  final InputBorder? border;
+  final InputBorder? focusedBorder;
+  final ValueChanged<String>? onChanged;
+  final String? labelText;
+  final TextStyle? labelStyle;
+  final BorderRadius borderRadius;
+  final String? Function(String?)? validator;
+
+  const CustomTextFormField(
+      {Key? key,
+        this.controller,
+        this.keyboardType,
+        this.hintText,
+        this.hintStyle,
+        this.textStyle,
+        this.suffixIcon,
+        this.prefixIcon,
+        this.obscureText = false,
+        this.contentPadding =
+        const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+        this.border,
+        this.onChanged,
+        this.labelText,
+        this.labelStyle,
+        this.borderRadius = BorderRadius.zero,
+        this.validator, this.focusedBorder})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      validator: validator,
+      controller: controller,
+      keyboardType: keyboardType,
+      obscureText: obscureText,
+      style: textStyle ??
+          const TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w400),
+      onChanged: onChanged,
+      decoration: InputDecoration(
         hintText: hintText,
-        hintStyle: textStyle(color: blueColor),
-        prefixIcon: prefixIcon,
+        hintStyle: hintStyle,
         suffixIcon: suffixIcon,
-        enabledBorder:  OutlineInputBorder(
-          borderSide: BorderSide(
-            color:  greyColor.withOpacity(0.2),
+        prefixIcon: prefixIcon,
+        contentPadding: contentPadding,
+        border: border ??
+            OutlineInputBorder(
+              borderSide: const BorderSide(
+                width: 1,
+              ),
+              borderRadius: borderRadius,
+            ),
+        focusedBorder: focusedBorder ?? OutlineInputBorder(
+          borderSide: const BorderSide(
+            color: blueColor,
+            width: 1,
           ),
+          borderRadius: borderRadius,
         ),
-        focusedBorder: OutlineInputBorder(
-          //gapPadding: 16,
-          borderSide: BorderSide(
-            color:  greyColor.withOpacity(0.2),
-          ),
+        labelText: labelText,
+        labelStyle: labelStyle ?? const TextStyle(
+          color: blueColor
         ),
-        errorStyle: textStyle(),
-        errorBorder: const OutlineInputBorder(
-          borderSide: BorderSide(
-            color: redColor,
-          ),
-        ),
-        focusedErrorBorder: const OutlineInputBorder(
-          //gapPaddings: 16,
-          borderSide: BorderSide(
-            color: greyColor,
-          ),
-        ),
-        errorText: errorText),
-  );
+      ),
+    );
+  }
 }

@@ -12,4 +12,7 @@ Map<String, String> frFr = {
   "sign_up": "S'inscrire'",
   "artisan_slogan": "Artisanat réinventé, satisfaction garantie",
   'your_name': "Votre nom",
+  'search': "Rechercher",
+  'nearest': "Plus proche",
+  'view_all': "Voir Tout"
 };

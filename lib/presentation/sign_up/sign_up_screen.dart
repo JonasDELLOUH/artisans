@@ -1,3 +1,4 @@
+import 'package:artisans/core/routes/app_routes.dart';
 import 'package:artisans/presentation/sign_up/sign_up_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -28,7 +29,12 @@ class SignUpScreen extends GetWidget<SignUpController> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        ConstantIcons.backIcon(context, color: whiteColor),
+                        InkWell(
+                            child: ConstantIcons.backIcon(context, color: whiteColor),
+                          onTap: (){
+
+                          },
+                        ),
                         Row(
                           children: [
                             customText(
@@ -37,6 +43,9 @@ class SignUpScreen extends GetWidget<SignUpController> {
                                 fontSize: 12),
                             CustomTextButton(
                                 text: "sign_in".tr,
+                                onPressed: (){
+                                  Get.toNamed(AppRoutes.signInRoute);
+                                },
                                 textColor: whiteColor,
                                 fontWeight: FontWeight.w700,
                                 fontSize: 14,
@@ -99,24 +108,27 @@ class SignUpScreen extends GetWidget<SignUpController> {
                             const SizedBox(
                               height: 10,
                             ),
-                            customTextField(
+                            CustomTextFormField(
                                 controller: controller.emailController,
-                                labelText: 'email_address'.tr),
+                                labelText: 'email_address'.tr, borderRadius: const BorderRadius.all(Radius.circular(15)),),
                             const SizedBox(
                               height: 15,
                             ),
-                            customTextField(
+                            CustomTextFormField(
                                 controller: controller.nameController,
                                 labelText: 'your_name'.tr,
+                                borderRadius: const BorderRadius.all(Radius.circular(15))
                                ),
                             const SizedBox(
                               height: 15,
                             ),
-                            customTextField(
+                            CustomTextFormField(
                                 controller: controller.passwordController,
                                 labelText: 'password'.tr,
                                 suffixIcon: ConstantIcons.visibility(
-                                    color: greyColor.withOpacity(0.6))),
+                                    color: greyColor.withOpacity(0.6)),
+                                borderRadius: const BorderRadius.all(Radius.circular(15))
+                            ),
                             const SizedBox(
                               height: 20,
                             ),
@@ -128,7 +140,7 @@ class SignUpScreen extends GetWidget<SignUpController> {
                               color: blueColor,
                               borderRadius: 10,
                               child:
-                              customText(text: "sign_in".tr, color: whiteColor),
+                              customText(text: "sign_up".tr, color: whiteColor),
                             ),
                             const SizedBox(
                               height: 20,

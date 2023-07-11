@@ -12,4 +12,7 @@ Map<String, String> enUS = {
   "sign_up": "Sign up",
   "artisan_slogan": "Reinvented craftsmanship, satisfaction guaranteed",
   'your_name': "Your name",
+  'search': "Search",
+  'nearest': "Nearest",
+  'view_all': "View All"
 };

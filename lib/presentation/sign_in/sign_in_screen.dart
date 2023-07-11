@@ -1,4 +1,5 @@
 import 'package:artisans/core/constants/icons.dart';
+import 'package:artisans/core/routes/app_routes.dart';
 import 'package:artisans/core/widgets/custom_button.dart';
 import 'package:artisans/core/widgets/text_widgets.dart';
 import 'package:artisans/presentation/sign_in/sign_in_controller.dart';
@@ -36,6 +37,9 @@ class SignInScreen extends GetWidget<SignInController> {
                             color: whiteColor,
                             fontSize: 12),
                         CustomTextButton(
+                          onPressed: (){
+                            Get.toNamed(AppRoutes.signInRoute);
+                          },
                             text: "start".tr,
                             textColor: whiteColor,
                             fontWeight: FontWeight.w700,
@@ -99,17 +103,21 @@ class SignInScreen extends GetWidget<SignInController> {
                         const SizedBox(
                           height: 10,
                         ),
-                        customTextField(
+                        CustomTextFormField(
                             controller: controller.emailController,
-                            labelText: 'email_address'.tr),
+                            labelText: 'email_address'.tr,
+                            borderRadius: const BorderRadius.all(Radius.circular(15))
+                        ),
                         const SizedBox(
                           height: 15,
                         ),
-                        customTextField(
+                        CustomTextFormField(
                             controller: controller.emailController,
                             labelText: 'password'.tr,
                             suffixIcon: ConstantIcons.visibility(
-                                color: greyColor.withOpacity(0.6))),
+                                color: greyColor.withOpacity(0.6)),
+                            borderRadius: const BorderRadius.all(Radius.circular(15))
+                        ),
                         const SizedBox(
                           height: 20,
                         ),
@@ -117,7 +125,10 @@ class SignInScreen extends GetWidget<SignInController> {
                           width: width * 0.82,
                           height: 50,
                           controller: controller.btnController,
-                          onPressed: () {},
+                          onPressed: () {
+                            controller.btnController.stop();
+                            Get.toNamed(AppRoutes.menuRoute);
+                          },
                           color: blueColor,
                           borderRadius: 10,
                           child:

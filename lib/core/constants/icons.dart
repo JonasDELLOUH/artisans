@@ -6,9 +6,10 @@ class ConstantIcons {
     Icons.search,
     size: 30,
   );
-  static const homeIcon = Icon(
+  static Widget homeIcon({Color color = blackColor}) => Icon(
     Icons.home,
-    size: 30,
+    size: 20,
+    color: color,
   );
 
   static Widget addPostIconF({Color color = blackColor}) => Icon(
@@ -58,10 +59,6 @@ class ConstantIcons {
     Icons.send,
     size: 30,
   );
-  static const chatIcon = Icon(
-    Icons.chat,
-    size: 30,
-  );
   static const videoCallIcon = Icon(
     Icons.video_call,
     size: 30,
@@ -74,6 +71,13 @@ class ConstantIcons {
   static Widget phoneIconF({Color color = blackColor, double size = 30}) =>
       Icon(
         Icons.phone,
+        size: size,
+        color: color,
+      );
+
+  static Widget chatIcon({Color color = blackColor, double size = 20}) =>
+      Icon(
+        Icons.chat,
         size: size,
         color: color,
       );
@@ -113,6 +117,17 @@ class ConstantIcons {
         size: size,
       );
 
+  static Widget notificationIcon({Color color = blackColor, double size = 20}) => Icon(
+    Icons.notifications,
+    color: color,
+    size: size,
+  );
+  static Widget profileIcon({Color color = blackColor, double size = 20}) => Icon(
+    Icons.person,
+    color: color,
+    size: size,
+  );
+
   static Widget jobIcon({Color color = blackColor, double size = 30}) =>
       Icon(Icons.work, color: color, size: size);
 
@@ -143,3 +158,4 @@ class ConstantIcons {
         size: size,
       );
 }
+

@@ -8,6 +8,7 @@ Widget CustomTextButton({double height = 50, required String text,
   Color backgroundColor = blueColor,
   double fontSize = 15,
   FontWeight fontWeight = FontWeight.normal,
+void Function()? onPressed
 
 }) {
   return Container(
@@ -20,7 +21,7 @@ Widget CustomTextButton({double height = 50, required String text,
       style: ButtonStyle(
         backgroundColor: MaterialStatePropertyAll<Color>(backgroundColor),
       ),
-      onPressed: () {},
+      onPressed: onPressed,
       child: customText(text: text,fontWeight: fontWeight, fontSize: fontSize, color: textColor ),
     ),
   );

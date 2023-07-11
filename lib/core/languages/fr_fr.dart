@@ -14,5 +14,7 @@ Map<String, String> frFr = {
   'your_name': "Votre nom",
   'search': "Rechercher",
   'nearest': "Plus proche",
-  'view_all': "Voir Tout"
+  'view_all': "Voir Tout",
+  'result_found': "Résultats trouvés",
+  'all': "Tout"
 };

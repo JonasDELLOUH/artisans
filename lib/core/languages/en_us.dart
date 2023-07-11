@@ -14,5 +14,7 @@ Map<String, String> enUS = {
   'your_name': "Your name",
   'search': "Search",
   'nearest': "Nearest",
-  'view_all': "View All"
+  'view_all': "View All",
+  'result_found': "Result found",
+  'all': "All"
 };

@@ -18,6 +18,7 @@ class CustomTextFormField extends StatelessWidget {
   final TextStyle? labelStyle;
   final BorderRadius borderRadius;
   final String? Function(String?)? validator;
+  final bool? enabled;
 
   const CustomTextFormField(
       {Key? key,
@@ -36,12 +37,13 @@ class CustomTextFormField extends StatelessWidget {
         this.labelText,
         this.labelStyle,
         this.borderRadius = BorderRadius.zero,
-        this.validator, this.focusedBorder})
+        this.validator, this.focusedBorder, this.enabled})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      enabled: enabled,
       validator: validator,
       controller: controller,
       keyboardType: keyboardType,
@@ -51,6 +53,7 @@ class CustomTextFormField extends StatelessWidget {
               fontSize: 16,
               fontWeight: FontWeight.w400),
       onChanged: onChanged,
+      cursorColor: blueColor,
       decoration: InputDecoration(
         hintText: hintText,
         hintStyle: hintStyle,

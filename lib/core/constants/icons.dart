@@ -122,6 +122,11 @@ class ConstantIcons {
     color: color,
     size: size,
   );
+  static Widget postIcon({Color color = blackColor, double size = 20}) => Icon(
+    Icons.public_rounded,
+    color: color,
+    size: size,
+  );
   static Widget profileIcon({Color color = blackColor, double size = 20}) => Icon(
     Icons.person,
     color: color,

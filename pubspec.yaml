@@ -42,6 +42,8 @@ dependencies:
   velocity_x: ^4.1.0
   google_map_polyline_new: ^0.3.0+2
   google_maps_flutter: ^2.3.1
+  cached_network_image: ^3.2.3
+  material_design_icons_flutter: ^7.0.7296
 
 dev_dependencies:
   flutter_test:

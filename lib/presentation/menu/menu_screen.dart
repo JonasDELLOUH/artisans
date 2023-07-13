@@ -3,8 +3,8 @@ import "package:artisans/presentation/chats/chats_controller.dart";
 import "package:artisans/presentation/chats/chats_screen.dart";
 import "package:artisans/presentation/home/home_controller.dart";
 import "package:artisans/presentation/home/home_screen.dart";
-import "package:artisans/presentation/notifications/notifications_controller.dart";
-import "package:artisans/presentation/notifications/notifications_screen.dart";
+import "package:artisans/presentation/posts/posts_controller.dart";
+import "package:artisans/presentation/posts/posts_screen.dart";
 import "package:artisans/presentation/profil/profil_controller.dart";
 import "package:artisans/presentation/profil/profile_screen.dart";
 import "package:flutter/material.dart";
@@ -32,10 +32,8 @@ class MenuScreen extends GetWidget<menu_controller.MenuController> {
           onPageChanged: controller.changePage,
           children: [
             HomeScreen(controller: Get.put(HomeController())),
+            PostsScreen(controller: Get.put(PostsController())),
             ChatsScreen(controller: Get.put(ChatsController())),
-            NotificationsScreen(
-              controller: Get.put(NotificationsController()),
-            ),
             ProfileScreen(controller: Get.put(ProfileController()))
           ],
         ),
@@ -50,14 +48,14 @@ class MenuScreen extends GetWidget<menu_controller.MenuController> {
                   label: "",
                   activeIcon: ConstantIcons.homeIcon(color: violetColor)),
               BottomNavigationBarItem(
+                icon: ConstantIcons.postIcon(),
+                label: "",
+                activeIcon: ConstantIcons.postIcon(color: violetColor),
+              ),
+              BottomNavigationBarItem(
                 icon: ConstantIcons.chatIcon(),
                 label: "",
                 activeIcon: ConstantIcons.chatIcon(color: violetColor),
-              ),
-              BottomNavigationBarItem(
-                icon: ConstantIcons.notificationIcon(),
-                label: "",
-                activeIcon: ConstantIcons.notificationIcon(color: violetColor),
               ),
               BottomNavigationBarItem(
                   icon: ConstantIcons.profileIcon(),

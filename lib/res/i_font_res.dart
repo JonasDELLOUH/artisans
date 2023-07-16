@@ -4,4 +4,5 @@
 // ignore_for_file: lines_longer_than_80_chars
 class FontRes {
   static const String OPENSANS = 'OpenSans';
+  static const String TIKTOKICONS = 'TikTokIcons';
 }

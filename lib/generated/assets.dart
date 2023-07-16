@@ -3,11 +3,18 @@ class Assets {
   Assets._();
 
   static const String assetsImagesGoogle = 'assets/images/google.png';
+  static const String assetsVideosVideo1 = 'assets/videos/video_1.mp4';
+  static const String assetsVideosVideo2 = 'assets/videos/video_2.mp4';
+  static const String assetsVideosVideo3 = 'assets/videos/video_3.mp4';
   static const String fontsOpenSans = 'assets/fonts/OpenSans.ttf';
+  static const String fontsTikTokIcons = 'assets/fonts/TikTokIcons.ttf';
   static const String imagesFacebook = 'assets/images/facebook.png';
   static const String imagesGoogle = 'assets/images/google.jpg';
   static const String imagesLogin = 'assets/images/login.png';
   static const String imagesRegister = 'assets/images/register.png';
   static const String imagesTwitter = 'assets/images/twitter.png';
+  static const String videosVideo1 = 'assets/videos/video_1.mp4';
+  static const String videosVideo2 = 'assets/videos/video_2.mp4';
+  static const String videosVideo3 = 'assets/videos/video_3.mp4';
 
 }

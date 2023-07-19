@@ -16,5 +16,6 @@ Map<String, String> enUS = {
   'nearest': "Nearest",
   'view_all': "View All",
   'result_found': "Result found",
-  'all': "All"
+  'all': "All",
+  "authentication_failed": "Authentication failed"
 };

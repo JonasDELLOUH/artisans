@@ -104,7 +104,7 @@ class SignInScreen extends GetWidget<SignInController> {
                           height: 10,
                         ),
                         CustomTextFormField(
-                            controller: controller.emailController,
+                            controller: controller.usernameController,
                             labelText: 'email_address'.tr,
                             borderRadius: const BorderRadius.all(Radius.circular(15))
                         ),
@@ -112,7 +112,7 @@ class SignInScreen extends GetWidget<SignInController> {
                           height: 15,
                         ),
                         CustomTextFormField(
-                            controller: controller.emailController,
+                            controller: controller.usernameController,
                             labelText: 'password'.tr,
                             suffixIcon: ConstantIcons.visibility(
                                 color: greyColor.withOpacity(0.6)),
@@ -126,8 +126,7 @@ class SignInScreen extends GetWidget<SignInController> {
                           height: 50,
                           controller: controller.btnController,
                           onPressed: () {
-                            controller.btnController.stop();
-                            Get.toNamed(AppRoutes.menuRoute);
+                            controller.signIn();
                           },
                           color: blueColor,
                           borderRadius: 10,

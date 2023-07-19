@@ -30,17 +30,17 @@ class _ChatUsersListState extends State<ChatUsersList> {
         }));
       },
       child: Container(
-        padding: EdgeInsets.only(left: 16, right: 16, top: 10, bottom: 10),
+        padding: const EdgeInsets.only(left: 16, right: 16, top: 10, bottom: 10),
         child: Row(
           children: <Widget>[
             Expanded(
               child: Row(
                 children: <Widget>[
-                  CircleAvatar(
+                  const CircleAvatar(
                     backgroundImage: NetworkImage("https://images.unsplash.com/photo-1525253086316-d0c936c814f8"),
                     maxRadius: 30,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 16,
                   ),
                   Expanded(

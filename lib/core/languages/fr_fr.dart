@@ -16,5 +16,6 @@ Map<String, String> frFr = {
   'nearest': "Plus proche",
   'view_all': "Voir Tout",
   'result_found': "Résultats trouvés",
-  'all': "Tout"
+  'all': "Tout",
+  "authentication_failed": "Authentication échouée"
 };

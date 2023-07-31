@@ -4,6 +4,8 @@ import 'package:artisans/presentation/create_salon/create_salon_binding.dart';
 import 'package:artisans/presentation/create_salon/create_salon_screen.dart';
 import 'package:artisans/presentation/menu/menu_binding.dart';
 import 'package:artisans/presentation/menu/menu_screen.dart';
+import 'package:artisans/presentation/personal_data/personal_data_binding.dart';
+import 'package:artisans/presentation/personal_data/personal_data_screen.dart';
 import 'package:artisans/presentation/salon/salon_binding.dart';
 import 'package:artisans/presentation/salon/salon_screen.dart';
 import 'package:artisans/presentation/search/search_binding.dart';
@@ -28,6 +30,7 @@ class AppRoutes {
   static const String salonRoute = "/salon";
   static const String addPostRoute = "/add_post";
   static const String createSalonRoute = "/create_salon";
+  static const String personalDataRoute = "/personal_data";
 
   static List<GetPage> pages = [
     GetPage(
@@ -55,14 +58,15 @@ class AppRoutes {
         page: () => StoriesScreen(),
         binding: StoriesBinding()),
     GetPage(
-        name: salonRoute, page: () => SalonScreen(), binding: SalonBinding()),
+        name: salonRoute, page: () => const SalonScreen(), binding: SalonBinding()),
     GetPage(
         name: addPostRoute,
-        page: () => AddPostScreen(),
+        page: () => const AddPostScreen(),
         binding: AddPostBinding()),
     GetPage(
         name: createSalonRoute,
         page: () => CreateSalonScreen(),
-        binding: CreateSalonBinding())
+        binding: CreateSalonBinding()),
+    GetPage(name: personalDataRoute, page: () => const PersonalDataScreen(), binding: PersonalDataBinding())
   ];
 }

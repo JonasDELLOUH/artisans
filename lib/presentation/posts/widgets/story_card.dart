@@ -1,4 +1,5 @@
 import 'package:artisans/core/colors/colors.dart';
+import 'package:artisans/core/routes/app_routes.dart';
 import 'package:artisans/widgets/custom_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:get/get.dart';
@@ -28,7 +29,11 @@ class StoryCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Get.to(const StoriesScreen());
+        if(isAddStory){
+          Get.toNamed(AppRoutes.addPostRoute);
+        } else{
+          Get.to(const StoriesScreen());
+        }
       },
       child: Stack(
         children: [

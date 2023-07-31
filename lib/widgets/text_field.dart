@@ -19,8 +19,9 @@ class CustomTextFormField extends StatelessWidget {
   final BorderRadius borderRadius;
   final String? Function(String?)? validator;
   final bool? enabled;
+  int? maxLines;
 
-  const CustomTextFormField(
+   CustomTextFormField(
       {Key? key,
         this.controller,
         this.keyboardType,
@@ -36,6 +37,7 @@ class CustomTextFormField extends StatelessWidget {
         this.onChanged,
         this.labelText,
         this.labelStyle,
+        this.maxLines = 1,
         this.borderRadius = BorderRadius.zero,
         this.validator, this.focusedBorder, this.enabled})
       : super(key: key);
@@ -43,6 +45,7 @@ class CustomTextFormField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      maxLines: maxLines,
       enabled: enabled,
       validator: validator,
       controller: controller,

@@ -1,4 +1,5 @@
 import 'package:artisans/core/colors/colors.dart';
+import 'package:artisans/core/routes/app_routes.dart';
 import 'package:artisans/presentation/profil/profil_controller.dart';
 import 'package:artisans/presentation/profil/widgets/profile_tile.dart';
 import 'package:artisans/widgets/custom_text.dart';
@@ -38,11 +39,14 @@ class ProfileScreen extends StatelessWidget {
                 ),
               ),
               const Divider(),
-              profileTile(iconData: Icons.person_2_outlined, tileName: "personal_data".tr),
+              profileTile(iconData: Icons.person_2_outlined, tileName: "personal_data".tr, onTap: (){
+                Get.toNamed(AppRoutes.personalDataRoute);
+              }),
               profileTile(iconData: Icons.settings, tileName: "settings".tr),
               profileTile(iconData: Icons.password, tileName: "change_password".tr),
               profileTile(iconData: Icons.workspaces_outlined, tileName: "create_salon".tr),
               profileTile(iconData: Icons.logout_outlined, tileName: "logout".tr),
+              profileTile(iconData: Icons.work_outline_rounded, tileName: "salon_info".tr),
               const Divider(),
               profileTile(iconData: Icons.privacy_tip_outlined, tileName: "privacy_policy".tr, color: blackColor)
             ],

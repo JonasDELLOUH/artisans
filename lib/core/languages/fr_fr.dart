@@ -24,5 +24,11 @@ Map<String, String> frFr = {
   "create_salon": "Créer un salon",
   "change_password": "Changer le mot de password",
   'logout': "Se déconnecter",
-  'privacy_policy': "Politique de confidentialité"
+  'privacy_policy': "Politique de confidentialité",
+  'content': "Contenue",
+  'add_a_post': "Ajouter un post",
+  'add_a_story': "Ajouter une storie",
+  'add': "Ajouter",
+  "salon_info": "Informations du salon"
+
 };

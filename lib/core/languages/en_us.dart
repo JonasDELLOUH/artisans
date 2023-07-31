@@ -24,5 +24,10 @@ Map<String, String> enUS = {
   "create_salon": "Create salon",
   "change_password": "Change password",
   'logout': "Logout",
-  'privacy_policy': "Privacy policy"
+  'privacy_policy': "Privacy policy",
+  'content': "Content",
+  'add_a_post': "Add a post",
+  'add_a_story': "Add a story",
+  'add': "Add",
+  "salon_info": "Salon informations"
 };

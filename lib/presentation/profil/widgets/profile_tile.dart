@@ -2,13 +2,11 @@ import 'package:artisans/core/colors/colors.dart';
 import 'package:artisans/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 
-Widget profileTile({required IconData iconData, required String tileName, Color color = blueColor}) {
+Widget profileTile({required IconData iconData, required String tileName, Color color = blueColor, void Function()? onTap}) {
   return Container(
     margin: const EdgeInsets.symmetric(vertical: 5),
     child: InkWell(
-      onTap: (){
-
-      },
+      onTap: onTap,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [

@@ -1,10 +1,10 @@
 import 'package:artisans/core/colors/colors.dart';
-import 'package:artisans/core/widgets/artisan_tile.dart';
-import 'package:artisans/core/widgets/custom_button.dart';
-import 'package:artisans/core/widgets/custom_icon.dart';
-import 'package:artisans/core/widgets/custom_image_network.dart';
-import 'package:artisans/core/widgets/custom_text.dart';
-import 'package:artisans/core/widgets/search_text_field.dart';
+import 'package:artisans/widgets/artisan_tile.dart';
+import 'package:artisans/widgets/custom_button.dart';
+import 'package:artisans/widgets/custom_icon.dart';
+import 'package:artisans/widgets/custom_image_network.dart';
+import 'package:artisans/widgets/custom_text.dart';
+import 'package:artisans/widgets/search_text_field.dart';
 import 'package:artisans/presentation/home/home_controller.dart';
 import 'package:artisans/presentation/home/widgets/job_tile.dart';
 import 'package:flutter/material.dart';
@@ -64,18 +64,29 @@ class HomeScreen extends StatelessWidget {
             const SizedBox(
               height: 10,
             ),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: [
-                  JobTile(jobName: "Soudure"),
-                  JobTile(jobName: "Coiffure"),
-                  JobTile(jobName: "Couture"),
-                  JobTile(jobName: "Soudure"),
-                  JobTile(jobName: "Soudure"),
-                ],
+            SizedBox(
+              height: 70,
+              child: ListView.builder(
+                shrinkWrap: true,
+                itemCount: 20,
+                scrollDirection: Axis.horizontal,
+                  itemBuilder: (context, index){
+                    return JobTile(jobName: "Soudure");
+                  }
               ),
             ),
+            // SingleChildScrollView(
+            //   scrollDirection: Axis.horizontal,
+            //   child: Row(
+            //     children: [
+            //
+            //       JobTile(jobName: "Coiffure"),
+            //       JobTile(jobName: "Couture"),
+            //       JobTile(jobName: "Soudure"),
+            //       JobTile(jobName: "Soudure"),
+            //     ],
+            //   ),
+            // ),
             Expanded(
               child: SingleChildScrollView(
                 child: Column(
@@ -137,10 +148,10 @@ class HomeScreen extends StatelessWidget {
                     ),
                     ListView.builder(
                         shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
+                        physics: const NeverScrollableScrollPhysics(),
                         itemCount: 4,
                         itemBuilder: (context, index){
-                          return ArtisanTile(
+                          return SalonTile(
                             salonName: 'Jim Jax',
                             location: '8591 Elgn St. Celina, Delaware',
                             nbrStars: 5,

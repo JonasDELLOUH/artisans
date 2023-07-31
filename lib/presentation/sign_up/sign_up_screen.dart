@@ -3,12 +3,11 @@ import 'package:artisans/presentation/sign_up/sign_up_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
-
 import '../../core/colors/colors.dart';
 import '../../core/constants/icons.dart';
-import '../../core/widgets/custom_button.dart';
-import '../../core/widgets/text_field.dart';
-import '../../core/widgets/text_widgets.dart';
+import '../../widgets/custom_button.dart';
+import '../../widgets/text_field.dart';
+import '../../widgets/text_widgets.dart';
 
 class SignUpScreen extends GetWidget<SignUpController> {
   const SignUpScreen({Key? key}) : super(key: key);

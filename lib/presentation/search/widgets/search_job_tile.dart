@@ -1,5 +1,5 @@
 import 'package:artisans/core/colors/colors.dart';
-import 'package:artisans/core/widgets/custom_text.dart';
+import 'package:artisans/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

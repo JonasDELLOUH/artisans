@@ -29,7 +29,7 @@ class SignInController extends GetxController{
         appSnackBar("error", "authentication_failed".tr,
             response["result"]["errors"][0]);
       } else {
-        response["result"]["accessToken"];
+
         Get.toNamed(AppRoutes.menuRoute);
       }
     } else {

@@ -1,10 +1,10 @@
 import 'package:artisans/core/colors/colors.dart';
-import 'package:artisans/core/widgets/custom_text.dart';
-import 'package:artisans/core/widgets/search_text_field.dart';
+import 'package:artisans/widgets/custom_text.dart';
+import 'package:artisans/widgets/search_text_field.dart';
 import 'package:artisans/presentation/search/widgets/search_job_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../core/widgets/artisan_tile.dart';
+import '../../widgets/artisan_tile.dart';
 import '../search/search_controller.dart' as search_controller;
 
 class SearchScreen extends GetView<search_controller.SearchController> {
@@ -66,7 +66,7 @@ class SearchScreen extends GetView<search_controller.SearchController> {
                   physics: ScrollPhysics(),
                     itemCount: 10,
                     itemBuilder: (context, index){
-                      return ArtisanTile(
+                      return SalonTile(
                         salonName: 'Jim Jax',
                         location: '8591 Elgn St. Celina, Delaware',
                         nbrStars: 5,

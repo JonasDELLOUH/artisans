@@ -1,4 +1,5 @@
 import 'package:artisans/core/colors/colors.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class CustomImageNetwork extends StatelessWidget {
@@ -39,20 +40,16 @@ class CustomImageNetwork extends StatelessWidget {
   Widget build(BuildContext context) {
     return ClipRRect(
       borderRadius: borderRadius,
-      child: Image.network(
+      child: CachedNetworkImage(imageUrl:
         imageUrl,
         width: width,
         height: height,
         fit: fit,
-        alignment: alignment,
         repeat: repeat,
         color: color,
         colorBlendMode: colorBlendMode,
         filterQuality: filterQuality,
         matchTextDirection: matchTextDirection,
-        gaplessPlayback: gaplessPlayback,
-        loadingBuilder: loadingBuilder,
-        errorBuilder: errorBuilder,
       ),
     );
   }

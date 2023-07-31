@@ -1,68 +1,23 @@
-import 'package:artisans/core/routes/app_routes.dart';
-import 'package:artisans/core/widgets/profile_avatar.dart';
-import 'package:artisans/core/widgets/responsive.dart';
+import 'package:artisans/core/colors/colors.dart';
+import 'package:artisans/widgets/custom_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../../core/config/palette.dart';
+import '../../../core/models/story_model.dart';
+import '../../../core/models/user_model.dart';
 
-import '../../presentation/stories/stories_screen.dart';
-import '../config/palette.dart';
-import '../models/story_model.dart';
-import '../models/user_model.dart';
+import 'package:flutter/material.dart';
 
-class Stories extends StatelessWidget {
-  final User currentUser;
-  final List<Story> stories;
+import '../../../widgets/profile_avatar.dart';
+import '../../../widgets/responsive.dart';
+import '../../stories/stories_screen.dart';
 
-  const Stories({
-    Key? key,
-    required this.currentUser,
-    required this.stories,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 200.0,
-      color: Responsive.isDesktop(context) ? Colors.transparent : Colors.white,
-      child: ListView.builder(
-        padding: const EdgeInsets.symmetric(
-          vertical: 10.0,
-          horizontal: 8.0,
-        ),
-        scrollDirection: Axis.horizontal,
-        itemCount: 1 + stories.length,
-        itemBuilder: (BuildContext context, int index) {
-          if (index == 0) {
-            return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 4.0),
-              child: _StoryCard(
-                isAddStory: true,
-                currentUser: currentUser,
-                story: stories[index],
-              ),
-            );
-          }
-          final Story story = stories[index - 1];
-          return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 4.0),
-            child: _StoryCard(
-              story: story,
-              currentUser: currentUser,
-            ),
-          );
-        },
-      ),
-    );
-  }
-}
-
-class _StoryCard extends StatelessWidget {
+class StoryCard extends StatelessWidget {
   final bool isAddStory;
   final User currentUser;
   final Story story;
 
-  const _StoryCard({
+  const StoryCard({
     Key? key,
     this.isAddStory = false,
     required this.currentUser,
@@ -72,8 +27,8 @@ class _StoryCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: (){
-        Get.to(StoriesScreen());
+      onTap: () {
+        Get.to(const StoriesScreen());
       },
       child: Stack(
         children: [
@@ -110,15 +65,15 @@ class _StoryCard extends StatelessWidget {
                 ? Container(
                     height: 40.0,
                     width: 40.0,
-                    decoration: const BoxDecoration(
-                      color: Colors.white,
+                    decoration:  BoxDecoration(
+                      color: whiteColor.withOpacity(0.8),
                       shape: BoxShape.circle,
                     ),
                     child: IconButton(
                       padding: EdgeInsets.zero,
                       icon: const Icon(Icons.add),
                       iconSize: 30.0,
-                      color: Palette.facebookBlue,
+                      color: blueColor,
                       onPressed: () => print('Add to Story'),
                     ),
                   )
@@ -131,12 +86,10 @@ class _StoryCard extends StatelessWidget {
             bottom: 8.0,
             left: 8.0,
             right: 8.0,
-            child: Text(
+            child: CustomText(text:
               isAddStory ? 'Add to Story' : story.user.name,
-              style: const TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-              ),
+                color: whiteColor,
+                fontWeight: FontWeight.w600,fontSize: 14,
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
             ),

@@ -1,9 +1,10 @@
+import 'package:artisans/widgets/custom_text.dart';
 import 'package:artisans/presentation/chats/chats_controller.dart';
 import 'package:flutter/material.dart';
 import "package:get/get.dart";
 
 import '../../core/models/chat_user_model.dart';
-import '../../core/widgets/chat.dart';
+import 'widgets/chat.dart';
 
 class ChatsScreen extends StatelessWidget {
   ChatsScreen({Key? key, required this.controller}) : super(key: key);
@@ -24,29 +25,29 @@ class ChatsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return  Scaffold(
       body: SingleChildScrollView(
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             SafeArea(
               child: Padding(
-                padding: EdgeInsets.only(left: 16,right: 16,top: 10),
+                padding: const EdgeInsets.only(left: 16,right: 16,top: 10),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Text("Chats",style: TextStyle(fontSize: 30,fontWeight: FontWeight.bold),),
+                    const CustomText(text: "Chats", fontSize: 30,fontWeight: FontWeight.bold),
                     Container(
-                      padding: EdgeInsets.only(left: 8,right: 8,top: 2,bottom: 2),
+                      padding: const EdgeInsets.only(left: 8,right: 8,top: 2,bottom: 2),
                       height: 30,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(30),
                         color: Colors.pink[50],
                       ),
-                      child: Row(
+                      child: const Row(
                         children: <Widget>[
                           Icon(Icons.add,color: Colors.pink,size: 20,),
                           SizedBox(width: 2,),
-                          Text("New",style: TextStyle(fontSize: 14,fontWeight: FontWeight.bold),),
+                          CustomText(text: "New",fontSize: 14,fontWeight: FontWeight.bold),
                         ],
                       ),
                     )
@@ -55,7 +56,7 @@ class ChatsScreen extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(top: 16,left: 16,right: 16),
+              padding: const EdgeInsets.only(top: 16,left: 16,right: 16),
               child: TextField(
                 decoration: InputDecoration(
                   hintText: "Search...",
@@ -63,7 +64,7 @@ class ChatsScreen extends StatelessWidget {
                   prefixIcon: Icon(Icons.search,color: Colors.grey.shade400,size: 20,),
                   filled: true,
                   fillColor: Colors.grey.shade100,
-                  contentPadding: EdgeInsets.all(8),
+                  contentPadding: const EdgeInsets.all(8),
                   enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(30),
                       borderSide: BorderSide(
@@ -76,10 +77,10 @@ class ChatsScreen extends StatelessWidget {
             ListView.builder(
               itemCount: chatUsers.length,
               shrinkWrap: true,
-              padding: EdgeInsets.only(top: 16),
-              physics: NeverScrollableScrollPhysics(),
+              padding: const EdgeInsets.only(top: 16),
+              physics: const NeverScrollableScrollPhysics(),
               itemBuilder: (context, index){
-                return ChatUsersList(
+                return ChatMenuCard(
                   text: chatUsers[index].text,
                   secondaryText: chatUsers[index].secondaryText,
                   image: chatUsers[index].image,

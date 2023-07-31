@@ -17,5 +17,12 @@ Map<String, String> frFr = {
   'view_all': "Voir Tout",
   'result_found': "Résultats trouvés",
   'all': "Tout",
-  "authentication_failed": "Authentication échouée"
+  "authentication_failed": "Authentication échouée",
+  "phone": "Téléphone",
+  'personal_data': "Données personnellles",
+  'settings': "Paramètres",
+  "create_salon": "Créer un salon",
+  "change_password": "Changer le mot de password",
+  'logout': "Se déconnecter",
+  'privacy_policy': "Politique de confidentialité"
 };

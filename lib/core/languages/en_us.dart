@@ -17,5 +17,12 @@ Map<String, String> enUS = {
   'view_all': "View All",
   'result_found': "Result found",
   'all': "All",
-  "authentication_failed": "Authentication failed"
+  "authentication_failed": "Authentication failed",
+  "phone": "Phone",
+  'personal_data': "Personal data",
+  'settings': "Settings",
+  "create_salon": "Create salon",
+  "change_password": "Change password",
+  'logout': "Logout",
+  'privacy_policy': "Privacy policy"
 };

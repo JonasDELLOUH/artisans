@@ -1,8 +1,8 @@
-import 'package:artisans/core/widgets/profile_avatar.dart';
-import 'package:artisans/core/widgets/responsive.dart';
+import 'package:artisans/widgets/profile_avatar.dart';
+import 'package:artisans/widgets/responsive.dart';
 import 'package:flutter/material.dart';
 
-import '../models/user_model.dart';
+import '../core/models/user_model.dart';
 
 class CreatePostContainer extends StatelessWidget {
   final User currentUser;
@@ -40,7 +40,7 @@ class CreatePostContainer extends StatelessWidget {
               ],
             ),
             const Divider(height: 10.0, thickness: 0.5),
-            Container(
+            SizedBox(
               height: 40.0,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -51,7 +51,7 @@ class CreatePostContainer extends StatelessWidget {
                       Icons.videocam,
                       color: Colors.red,
                     ),
-                    label: Text('Live'),
+                    label: const Text('Live'),
                   ),
                   const VerticalDivider(width: 8.0),
                   ElevatedButton.icon(
@@ -60,7 +60,7 @@ class CreatePostContainer extends StatelessWidget {
                       Icons.photo_library,
                       color: Colors.green,
                     ),
-                    label: Text('Photo'),
+                    label: const Text('Photo'),
                   ),
                   const VerticalDivider(width: 8.0),
                   ElevatedButton.icon(
@@ -69,7 +69,7 @@ class CreatePostContainer extends StatelessWidget {
                       Icons.video_call,
                       color: Colors.purpleAccent,
                     ),
-                    label: Text('Room'),
+                    label: const Text('Room'),
                   ),
                 ],
               ),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../colors/colors.dart';
-import '../constants/icons.dart';
+import '../core/colors/colors.dart';
+
 
 class CustomIcon extends StatelessWidget {
   const CustomIcon({Key? key, this.icon, this.iconSize = 20, this.iconColor}) : super(key: key);
@@ -14,7 +14,7 @@ class CustomIcon extends StatelessWidget {
     return ClipRRect(
       borderRadius: BorderRadius.circular(10),
       child: Container(
-        height: 30, width: 30,
+        height: iconSize! * 1.5, width: iconSize! * 1.5,
         decoration: BoxDecoration(
             border: Border.all(color: greyColor)
         ),

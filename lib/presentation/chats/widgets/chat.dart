@@ -1,32 +1,32 @@
 import 'package:flutter/material.dart';
 
-import '../../presentation/single_chat/single_chat_screen.dart';
+import '../../single_chat/single_chat_screen.dart';
 
-class ChatUsersList extends StatefulWidget {
+class ChatMenuCard extends StatefulWidget {
   String text;
   String secondaryText;
   String image;
   String time;
   bool isMessageRead;
 
-  ChatUsersList(
-      {required this.text,
+  ChatMenuCard(
+      {super.key, required this.text,
       required this.secondaryText,
       required this.image,
       required this.time,
       required this.isMessageRead});
 
   @override
-  _ChatUsersListState createState() => _ChatUsersListState();
+  _ChatMenuCardState createState() => _ChatMenuCardState();
 }
 
-class _ChatUsersListState extends State<ChatUsersList> {
+class _ChatMenuCardState extends State<ChatMenuCard> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
         Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return ChatDetailPage();
+          return SingleChatScreen();
         }));
       },
       child: Container(
@@ -50,7 +50,7 @@ class _ChatUsersListState extends State<ChatUsersList> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Text(widget.text),
-                          SizedBox(
+                          const SizedBox(
                             height: 6,
                           ),
                           Text(

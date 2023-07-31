@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:get/get.dart';
 import 'package:get/get_connect/connect.dart';
 import 'package:velocity_x/velocity_x.dart';
@@ -56,9 +55,7 @@ class ApiClient extends GetConnect {
       //   print(jsonDecode(json));
       return {
         "result": null,
-        "error": jsonDecode(json) == null
-            ? "Something wrong"
-            : jsonDecode(json)['message'].toString()
+        "error": json
       };
     }
   }

@@ -1,13 +1,13 @@
 import 'package:artisans/core/colors/colors.dart';
-import 'package:artisans/core/widgets/custom_text.dart';
-import 'package:artisans/core/widgets/profile_avatar.dart';
-import 'package:artisans/core/widgets/responsive.dart';
+import 'package:artisans/widgets/custom_text.dart';
+import 'package:artisans/widgets/responsive.dart';
+import 'package:artisans/presentation/posts/widgets/post_header.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
-import '../config/palette.dart';
-import '../models/post_model.dart';
+import '../../../core/config/palette.dart';
+import '../../../core/models/post_model.dart';
 
 class PostContainer extends StatelessWidget {
   final Post post;
@@ -31,7 +31,7 @@ class PostContainer extends StatelessWidget {
           : null,
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 8.0),
-        color: Colors.white,
+        color: whiteColor,
         child: Column(
           children: [
             Padding(
@@ -39,7 +39,7 @@ class PostContainer extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  _PostHeader(post: post),
+                  PostHeader(post: post),
                   const SizedBox(height: 4.0),
                   CustomText(
                     text: post.caption,
@@ -68,53 +68,6 @@ class PostContainer extends StatelessWidget {
   }
 }
 
-class _PostHeader extends StatelessWidget {
-  final Post post;
-
-  const _PostHeader({
-    Key? key,
-    required this.post,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        ProfileAvatar(imageUrl: post.user.imageUrl),
-        const SizedBox(width: 8.0),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              CustomText(
-                text: post.user.name,
-                fontWeight: FontWeight.w600,
-              ),
-              Row(
-                children: [
-                  CustomText(
-                    text: '${post.timeAgo} • ',
-                    fontSize: 12.0,
-                    color: greyColor.withOpacity(0.6),
-                  ),
-                  Icon(
-                    Icons.public,
-                    color: Colors.grey[600],
-                    size: 12.0,
-                  )
-                ],
-              ),
-            ],
-          ),
-        ),
-        IconButton(
-          icon: const Icon(Icons.more_horiz),
-          onPressed: () => print('More'),
-        ),
-      ],
-    );
-  }
-}
 
 class _PostStats extends StatelessWidget {
   final Post post;

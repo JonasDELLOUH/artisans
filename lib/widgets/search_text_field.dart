@@ -1,6 +1,6 @@
 import 'package:artisans/core/colors/colors.dart';
 import 'package:artisans/core/constants/icons.dart';
-import 'package:artisans/core/widgets/text_field.dart';
+import 'package:artisans/widgets/text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -14,6 +14,7 @@ class SearchTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     return Container(
+      height: 40,
       padding: const EdgeInsets.all(5),
       decoration:  BoxDecoration(
         color: greyColor.withOpacity(0.1),

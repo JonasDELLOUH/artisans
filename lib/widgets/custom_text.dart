@@ -1,4 +1,4 @@
-import 'package:artisans/core/widgets/text_widgets.dart';
+import 'package:artisans/widgets/text_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 

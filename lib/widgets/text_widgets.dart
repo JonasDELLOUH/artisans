@@ -1,7 +1,8 @@
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 
-import '../colors/colors.dart';
+import '../core/colors/colors.dart';
+
 Widget customText(
     {required String text,
     Color color = blackColor,

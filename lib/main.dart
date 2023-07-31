@@ -4,7 +4,6 @@ import 'package:artisans/core/themes/theme_services.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-
 import 'core/themes/themes.dart';
 
 Future<void> main() async {
@@ -20,7 +19,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       getPages: AppRoutes.pages,
-      initialRoute: AppRoutes.signUpRoute,
+      initialRoute: AppRoutes.menuRoute,
       debugShowCheckedModeBanner: false,
       translations: Languages(),
       locale: Get.deviceLocale,

@@ -29,5 +29,9 @@ Map<String, String> enUS = {
   'add_a_post': "Add a post",
   'add_a_story': "Add a story",
   'add': "Add",
-  "salon_info": "Salon informations"
+  "salon_info": "Salon informations",
+  'name': "Name",
+  'update': "Update",
+  'last_password': "Last password",
+  'new_password': "New password"
 };

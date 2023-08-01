@@ -43,10 +43,8 @@ class SalonTile extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Container(
-                      child: Row(
-                        children: stars(5),
-                      ),
+                    Row(
+                      children: stars(5),
                     ),
                     Container(
                       child: Row(

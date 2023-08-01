@@ -1,5 +1,7 @@
 import 'package:artisans/presentation/add_post/add_post_binding.dart';
 import 'package:artisans/presentation/add_post/add_post_screen.dart';
+import 'package:artisans/presentation/change_password/change_password_binding.dart';
+import 'package:artisans/presentation/change_password/change_password_screen.dart';
 import 'package:artisans/presentation/create_salon/create_salon_binding.dart';
 import 'package:artisans/presentation/create_salon/create_salon_screen.dart';
 import 'package:artisans/presentation/menu/menu_binding.dart';
@@ -31,6 +33,7 @@ class AppRoutes {
   static const String addPostRoute = "/add_post";
   static const String createSalonRoute = "/create_salon";
   static const String personalDataRoute = "/personal_data";
+  static const String changePasswordRoute = "/change_password";
 
   static List<GetPage> pages = [
     GetPage(
@@ -67,6 +70,7 @@ class AppRoutes {
         name: createSalonRoute,
         page: () => CreateSalonScreen(),
         binding: CreateSalonBinding()),
-    GetPage(name: personalDataRoute, page: () => const PersonalDataScreen(), binding: PersonalDataBinding())
+    GetPage(name: personalDataRoute, page: () => const PersonalDataScreen(), binding: PersonalDataBinding()),
+    GetPage(name: changePasswordRoute, page: () => const ChangePasswordScreen(), binding: ChangePasswordBinding())
   ];
 }

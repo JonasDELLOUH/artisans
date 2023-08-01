@@ -43,7 +43,9 @@ class ProfileScreen extends StatelessWidget {
                 Get.toNamed(AppRoutes.personalDataRoute);
               }),
               profileTile(iconData: Icons.settings, tileName: "settings".tr),
-              profileTile(iconData: Icons.password, tileName: "change_password".tr),
+              profileTile(iconData: Icons.password, tileName: "change_password".tr, onTap: (){
+                Get.toNamed(AppRoutes.changePasswordRoute);
+              }),
               profileTile(iconData: Icons.workspaces_outlined, tileName: "create_salon".tr),
               profileTile(iconData: Icons.logout_outlined, tileName: "logout".tr),
               profileTile(iconData: Icons.work_outline_rounded, tileName: "salon_info".tr),

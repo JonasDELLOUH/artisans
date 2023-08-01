@@ -1,5 +1,5 @@
 import 'package:artisans/core/colors/colors.dart';
-import 'package:artisans/widgets/artisan_tile.dart';
+import 'package:artisans/widgets/salon_tile.dart';
 import 'package:artisans/widgets/custom_button.dart';
 import 'package:artisans/widgets/custom_icon.dart';
 import 'package:artisans/widgets/custom_image_network.dart';

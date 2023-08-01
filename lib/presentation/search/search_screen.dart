@@ -4,7 +4,7 @@ import 'package:artisans/widgets/search_text_field.dart';
 import 'package:artisans/presentation/search/widgets/search_job_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../widgets/artisan_tile.dart';
+import '../../widgets/salon_tile.dart';
 import '../search/search_controller.dart' as search_controller;
 
 class SearchScreen extends GetView<search_controller.SearchController> {

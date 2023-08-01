@@ -29,6 +29,9 @@ Map<String, String> frFr = {
   'add_a_post': "Ajouter un post",
   'add_a_story': "Ajouter une storie",
   'add': "Ajouter",
-  "salon_info": "Informations du salon"
-
+  "salon_info": "Informations du salon",
+  'name': "Nom",
+  'update': "Modifier",
+  'last_password': "Ancien mot de passe",
+  'new_password': "Nouveau mot de passe"
 };

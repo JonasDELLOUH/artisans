@@ -33,5 +33,17 @@ Map<String, String> frFr = {
   'name': "Nom",
   'update': "Modifier",
   'last_password': "Ancien mot de passe",
-  'new_password': "Nouveau mot de passe"
+  'new_password': "Nouveau mot de passe",
+  'choose_job': "Choisir un travail",
+  'search': "Rechercher",
+  'salon_name': "Nom du salon",
+  'salon_location': "Localisation du salon",
+  'salon_phone': "Numéro du salon",
+  'salon_mail': "E-mail du salon",
+  'next': "Suivant",
+  'pay': "Payer",
+  'take_location': "Gardez ou modifiez cette localisation comme addresse de votre salon",
+  'take_salon_image': "Définissez une photo de couverture pour votre salon",
+  'loading_error': "erreur de chargement",
+  'loading': "Chargement"
 };

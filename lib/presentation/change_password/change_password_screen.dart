@@ -24,36 +24,38 @@ class ChangePasswordScreen extends GetView<ChangePasswordController> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(15),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            CustomText(text: "last_password".tr),
-            const SizedBox(height: 5,),
-            CustomTextFormField(
-              hintText: "*************",
-              controller: controller.lastPasswordController,
-              borderRadius: const BorderRadius.all(Radius.circular(15)),),
-            const SizedBox(
-              height: 15,
-            ),
-            CustomText(text: "new_password".tr),
-            const SizedBox(height: 5,),
-            CustomTextFormField(
-                controller: controller.newPasswordController,
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              CustomText(text: "last_password".tr),
+              const SizedBox(height: 5,),
+              CustomTextFormField(
                 hintText: "*************",
-                borderRadius: const BorderRadius.all(Radius.circular(15))
-            ),
-            const SizedBox(height: 30,),
-            RoundedLoadingButton(
-              width: Get.width * 0.7,
-              height: 50,
-              controller: controller.btnController,
-              onPressed: () {},
-              color: blueColor,
-              borderRadius: 10,
-              child: CustomText(text: "update".tr, color: whiteColor),
-            )
-          ],
+                controller: controller.lastPasswordController,
+                borderRadius: const BorderRadius.all(Radius.circular(15)),),
+              const SizedBox(
+                height: 15,
+              ),
+              CustomText(text: "new_password".tr),
+              const SizedBox(height: 5,),
+              CustomTextFormField(
+                  controller: controller.newPasswordController,
+                  hintText: "*************",
+                  borderRadius: const BorderRadius.all(Radius.circular(15))
+              ),
+              const SizedBox(height: 30,),
+              RoundedLoadingButton(
+                width: Get.width * 0.7,
+                height: 50,
+                controller: controller.btnController,
+                onPressed: () {},
+                color: blueColor,
+                borderRadius: 10,
+                child: CustomText(text: "update".tr, color: whiteColor),
+              )
+            ],
+          ),
         ),
       ),
     );

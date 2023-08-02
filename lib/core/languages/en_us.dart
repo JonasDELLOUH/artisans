@@ -33,5 +33,17 @@ Map<String, String> enUS = {
   'name': "Name",
   'update': "Update",
   'last_password': "Last password",
-  'new_password': "New password"
+  'new_password': "New password",
+  'choose_job': "Choose a job",
+  'search': "Search",
+  'salon_name': "Salon name",
+  'salon_location': "Salon location",
+  'salon_phone': "Salon Number",
+  'salon_mail': "Salon e-mail",
+  'next': "Next",
+  'pay': "Pay",
+  'take_location': "Keep or change this location as your salon address",
+  'take_salon_image': "Set a cover photo for your living room",
+  'loading_error': "Loading error",
+  'loading': "Loading"
 };

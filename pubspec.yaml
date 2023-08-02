@@ -49,6 +49,8 @@ dependencies:
   dio: ^4.0.6
   image_picker: ^1.0.1
   images_picker: ^1.2.11
+  drop_down_list: ^0.0.5
+  google_static_maps_controller: ^1.0.0
 
 dev_dependencies:
   flutter_test:

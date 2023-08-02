@@ -51,6 +51,7 @@ dependencies:
   images_picker: ^1.2.11
   drop_down_list: ^0.0.5
   google_static_maps_controller: ^1.0.0
+  dotted_border: ^2.0.0+3
 
 dev_dependencies:
   flutter_test:

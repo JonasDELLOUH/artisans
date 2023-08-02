@@ -1,5 +1,6 @@
 import 'package:artisans/presentation/create_salon/create_salon_controller.dart';
 import 'package:artisans/presentation/create_salon/widgets/step_tile.dart';
+import 'package:artisans/widgets/take_tof_empty.dart';
 import 'package:drop_down_list/drop_down_list.dart';
 import 'package:drop_down_list/model/selected_list_item.dart';
 import 'package:flutter/material.dart';
@@ -33,12 +34,14 @@ class CreateSalonScreen extends GetView<CreateSalonController> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Obx(() =>
-              controller.stepIndex.value == 1 ?
-              infoStepWidget() : controller.stepIndex.value == 2
-                  ? addressWidget()
-                  : imageView()),
-              const SizedBox(height: 50,),
+              Obx(() => controller.stepIndex.value == 1
+                  ? infoStepWidget()
+                  : controller.stepIndex.value == 2
+                      ? addressWidget()
+                      : imageView()),
+              const SizedBox(
+                height: 50,
+              ),
               stepsNumbers(),
               const SizedBox(
                 height: 20,
@@ -59,7 +62,7 @@ class CreateSalonScreen extends GetView<CreateSalonController> {
                     },
                     backgroundColor: blueColor,
                     text:
-                    controller.stepIndex.value == 3 ? "pay".tr : "next".tr,
+                        controller.stepIndex.value == 3 ? "pay".tr : "next".tr,
                   ),
                 );
               }),
@@ -77,11 +80,15 @@ class CreateSalonScreen extends GetView<CreateSalonController> {
     return Column(
       children: [
         CustomText(
-            text: "take_location".tr),
-        const SizedBox(height: 50,),
+          text: "take_location".tr,
+          textAlign: TextAlign.center,
+        ),
+        const SizedBox(
+          height: 50,
+        ),
         FutureBuilder(
-          future: precacheImage(
-              controller.locationController.image, Get.context!),
+          future:
+              precacheImage(controller.locationController.image, Get.context!),
           builder: (context, snapshot) {
             print(snapshot.hasData);
             print(snapshot.hasError);
@@ -89,16 +96,14 @@ class CreateSalonScreen extends GetView<CreateSalonController> {
 
             if (snapshot.connectionState == ConnectionState.done) {
               return ClipRRect(
-                  borderRadius:
-                  const BorderRadius.all(Radius.circular(30)),
+                  borderRadius: const BorderRadius.all(Radius.circular(30)),
                   child: Image(
-                      errorBuilder: (context, error, stackTrace) =>
-                          Container(
+                      errorBuilder: (context, error, stackTrace) => Container(
                             decoration: BoxDecoration(
-                                borderRadius: const BorderRadius.all(
-                                    Radius.circular(30)),
-                                border: Border.all(
-                                    color: Colors.red, width: 3)),
+                                borderRadius:
+                                    const BorderRadius.all(Radius.circular(30)),
+                                border:
+                                    Border.all(color: Colors.red, width: 3)),
                             width: 300,
                             height: 264,
                             child: Center(
@@ -109,14 +114,11 @@ class CreateSalonScreen extends GetView<CreateSalonController> {
             } else {
               return Container(
                 decoration: BoxDecoration(
-                    borderRadius:
-                    const BorderRadius.all(Radius.circular(30)),
-                    border: Border.all(
-                        color: blueColor, width: 3)),
+                    borderRadius: const BorderRadius.all(Radius.circular(30)),
+                    border: Border.all(color: blueColor, width: 3)),
                 width: 300,
                 height: 264,
-                child: Center(
-                    child: CustomText(text: "${"loading".tr}....")),
+                child: Center(child: CustomText(text: "${"loading".tr}....")),
               );
             }
           },
@@ -126,9 +128,13 @@ class CreateSalonScreen extends GetView<CreateSalonController> {
   }
 
   Widget imageView() {
-    return  Column(
+    return Column(
       children: [
-        CustomText(text: "take_salon_image".tr)
+        CustomText(text: "take_salon_image".tr),
+        const SizedBox(
+          height: 50,
+        ),
+        takeTofEmptyView(text: "take_salon_image1".tr)
       ],
     );
   }
@@ -138,15 +144,19 @@ class CreateSalonScreen extends GetView<CreateSalonController> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         CustomText(text: "choose_job".tr),
-        const SizedBox(height: 5,),
+        const SizedBox(
+          height: 5,
+        ),
         InkWell(
             onTap: () {
               DropDownState(
                 DropDown(
                   bottomSheetTitle: CustomText(
-                    text: "choose_job".tr, color: blueColor,),
-                  submitButtonChild: const CustomText(text:
-                  'Done',
+                    text: "choose_job".tr,
+                    color: blueColor,
+                  ),
+                  submitButtonChild: const CustomText(
+                    text: 'Done',
                     fontWeight: FontWeight.bold,
                   ),
                   searchHintText: "search".tr,
@@ -163,33 +173,43 @@ class CreateSalonScreen extends GetView<CreateSalonController> {
                 ),
               ).showModal(Get.context);
             },
-            child: Obx(() =>
-                CustomTextFormField(
+            child: Obx(() => CustomTextFormField(
                   enabled: false,
                   hintText: controller.itemSelected.value!.name,
                   borderRadius: const BorderRadius.all(Radius.circular(15)),
-                ))
+                ))),
+        const SizedBox(
+          height: 10,
         ),
-        const SizedBox(height: 10,),
         CustomText(text: "salon_name".tr),
-        const SizedBox(height: 5,),
+        const SizedBox(
+          height: 5,
+        ),
         CustomTextFormField(
           controller: controller.salonNameController,
           hintText: "salon_name".tr,
           borderRadius: const BorderRadius.all(Radius.circular(15)),
         ),
-        const SizedBox(height: 10,),
+        const SizedBox(
+          height: 10,
+        ),
         CustomText(text: "salon_mail".tr),
-        const SizedBox(height: 5,),
+        const SizedBox(
+          height: 5,
+        ),
         CustomTextFormField(
           controller: controller.emailController,
           keyboardType: TextInputType.emailAddress,
           hintText: "salon_mail".tr,
           borderRadius: const BorderRadius.all(Radius.circular(15)),
         ),
-        const SizedBox(height: 10,),
+        const SizedBox(
+          height: 10,
+        ),
         CustomText(text: "salon_phone".tr),
-        const SizedBox(height: 5,),
+        const SizedBox(
+          height: 5,
+        ),
         CustomTextFormField(
           controller: controller.telController,
           keyboardType: TextInputType.phone,
@@ -210,9 +230,7 @@ class CreateSalonScreen extends GetView<CreateSalonController> {
               onTap: () {
                 controller.stepIndex.value = 1;
               },
-              isOn: controller.stepIndex.value > 0
-                  ? true
-                  : false);
+              isOn: controller.stepIndex.value > 0 ? true : false);
         }),
         Obx(() {
           return betweenStep(
@@ -227,9 +245,7 @@ class CreateSalonScreen extends GetView<CreateSalonController> {
               onTap: () {
                 controller.stepIndex.value = 2;
               },
-              isOn: controller.stepIndex.value > 1
-                  ? true
-                  : false);
+              isOn: controller.stepIndex.value > 1 ? true : false);
         }),
         Obx(() {
           return betweenStep(
@@ -244,9 +260,7 @@ class CreateSalonScreen extends GetView<CreateSalonController> {
               onTap: () {
                 controller.stepIndex.value = 3;
               },
-              isOn: controller.stepIndex.value > 2
-                  ? true
-                  : false);
+              isOn: controller.stepIndex.value > 2 ? true : false);
         }),
       ],
     );

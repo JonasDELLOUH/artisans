@@ -45,5 +45,6 @@ Map<String, String> enUS = {
   'take_location': "Keep or change this location as your salon address",
   'take_salon_image': "Set a cover photo for your living room",
   'loading_error': "Loading error",
-  'loading': "Loading"
+  'loading': "Loading",
+  'take_salon_image1': "Set your living room photo"
 };

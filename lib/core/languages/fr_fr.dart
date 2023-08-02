@@ -45,5 +45,6 @@ Map<String, String> frFr = {
   'take_location': "Gardez ou modifiez cette localisation comme addresse de votre salon",
   'take_salon_image': "Définissez une photo de couverture pour votre salon",
   'loading_error': "erreur de chargement",
-  'loading': "Chargement"
+  'loading': "Chargement",
+  'take_salon_image1': "Prendre un photo du salon"
 };

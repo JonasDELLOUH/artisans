@@ -66,14 +66,21 @@ class HomeScreen extends StatelessWidget {
             ),
             SizedBox(
               height: 70,
-              child: ListView.builder(
-                shrinkWrap: true,
-                itemCount: 20,
-                scrollDirection: Axis.horizontal,
-                  itemBuilder: (context, index){
-                    return JobTile(jobName: "Soudure");
-                  }
-              ),
+              child: Obx(() =>
+              controller.jobIsInLoading.value
+                  ?  LinearProgressIndicator(
+                color: greyColor.withOpacity(0.4),
+                backgroundColor: whiteColor,
+              )
+                  : ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: controller.jobs.value.length,
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (context, index) {
+                        return JobTile(
+                          jobModel: controller.jobs.value[index],
+                        );
+                      })),
             ),
             // SingleChildScrollView(
             //   scrollDirection: Axis.horizontal,

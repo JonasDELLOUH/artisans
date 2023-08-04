@@ -1,11 +1,12 @@
 import 'package:artisans/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 
+import '../../../core/models/job_model.dart';
 import '../../../widgets/custom_image_network.dart';
 
 class JobTile extends StatelessWidget {
-  JobTile({Key? key, required this.jobName}) : super(key: key);
-  final String jobName;
+  const JobTile({Key? key, required this.jobModel}) : super(key: key);
+  final JobModel jobModel;
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +24,7 @@ class JobTile extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 5,),
-          CustomText(text: jobName, fontSize: 10,)
+          CustomText(text: jobModel.jobName, fontSize: 10,)
         ],
       ),
     );

@@ -2,6 +2,7 @@ import 'package:artisans/widgets/profile_avatar.dart';
 import 'package:artisans/widgets/responsive.dart';
 import 'package:flutter/material.dart';
 
+import '../core/models/user.dart';
 import '../core/models/user_model.dart';
 
 class CreatePostContainer extends StatelessWidget {

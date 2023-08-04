@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 
 import '../../core/colors/colors.dart';
+import '../../widgets/custom_text.dart';
 import '../../widgets/text_field.dart';
 
 class SignInScreen extends GetWidget<SignInController> {
@@ -22,7 +23,7 @@ class SignInScreen extends GetWidget<SignInController> {
       backgroundColor: blueColor,
       body: Stack(
         children: [
-          Container(
+          SizedBox(
             height: 200,
             child: Column(
               children: [
@@ -32,14 +33,14 @@ class SignInScreen extends GetWidget<SignInController> {
                     ConstantIcons.backIcon(context, color: whiteColor),
                     Row(
                       children: [
-                        customText(
+                        CustomText(
                             text: "have_not_account".tr,
                             color: whiteColor,
                             fontSize: 12),
                         CustomTextButton(
-                          onPressed: (){
-                            Get.toNamed(AppRoutes.signInRoute);
-                          },
+                            onPressed: () {
+                              Get.toNamed(AppRoutes.signUpRoute);
+                            },
                             text: "start".tr,
                             textColor: whiteColor,
                             fontWeight: FontWeight.w700,
@@ -52,7 +53,7 @@ class SignInScreen extends GetWidget<SignInController> {
                 const SizedBox(
                   height: 20,
                 ),
-                customText(
+                const CustomText(
                     text: "Artisans",
                     color: whiteColor,
                     fontSize: 25,
@@ -68,7 +69,7 @@ class SignInScreen extends GetWidget<SignInController> {
             child: Stack(
               children: [
                 Container(
-                  height: 100,
+                    height: 100,
                     margin: const EdgeInsets.symmetric(horizontal: 20),
                     decoration: BoxDecoration(
                         color: whiteColor.withOpacity(0.5),
@@ -87,142 +88,191 @@ class SignInScreen extends GetWidget<SignInController> {
                         topRight: Radius.circular(20)),
                   ),
                   child: SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        customText(
-                            text: "welcome_back".tr,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        customText(
-                            text: "enter_detail".tr,
-                            color: blackColor.withOpacity(0.4)),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        CustomTextFormField(
-                            controller: controller.usernameController,
-                            labelText: 'email_address'.tr,
-                            borderRadius: const BorderRadius.all(Radius.circular(15))
-                        ),
-                        const SizedBox(
-                          height: 15,
-                        ),
-                        CustomTextFormField(
-                            controller: controller.passwordController,
-                            labelText: 'password'.tr,
-                            suffixIcon: ConstantIcons.visibility(
-                                color: greyColor.withOpacity(0.6)),
-                            borderRadius: const BorderRadius.all(Radius.circular(15))
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        RoundedLoadingButton(
-                          width: width * 0.82,
-                          height: 50,
-                          controller: controller.btnController,
-                          onPressed: () {
-                            controller.signIn();
-                          },
-                          color: blueColor,
-                          borderRadius: 10,
-                          child:
-                              customText(text: "sign_in".tr, color: whiteColor),
-                        ),
-                        const SizedBox(
-                          height: 15,
-                        ),
-                        InkWell(
-                          onTap: (){},
-                            child: customText(text: "forgot_password".tr, color: greyColor, fontWeight: FontWeight.w700)),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Expanded(child: Container(height: 1, color: greyColor.withOpacity(0.2))),
-                      Expanded(
-                        flex: 2,
-                          child: Center(child: customText(text: "or_sign_with".tr, color: greyColor.withOpacity(0.5), fontWeight: FontWeight.w600))),
-                            Expanded(child: Container(height: 1, color: greyColor.withOpacity(0.2)))
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            InkWell(
-                              onTap: () {
+                    child: Form(
+                      key: controller.formKey,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          CustomText(
+                              text: "welcome_back".tr,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          CustomText(
+                              text: "enter_detail".tr,
+                              color: blackColor.withOpacity(0.4)),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          CustomTextFormField(
+                              validator: (validator) {
+                                if (validator!.isEmpty) {
+                                  return 'field_must_not_be_empty'.tr;
+                                }
+                                return null;
                               },
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 20),
-                                height: 50,
-                                width: width * 0.4,
-                                decoration: BoxDecoration(
-                                  border: Border.all(color: greyColor.withOpacity(0.1)),
-                                  borderRadius: const BorderRadius.horizontal(
-                                      left: Radius.circular(15), right: Radius.circular(15)),
-                                ),
-                                child: Center(
-                                  child: Row(
-                                    children: [
-                                      Image.asset(
-                                        'assets/images/google.png',
-                                        height: 20,
-                                        width: 20,
-                                      ),
-                                      const SizedBox(width: 5,),
-                                      customText(text:
-                                        "Google",
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.w700
-                                      ),
-                                    ],
+                              controller: controller.usernameController,
+                              labelText: 'your_name'.tr,
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(15))),
+                          const SizedBox(
+                            height: 15,
+                          ),
+                          Obx(() => CustomTextFormField(
+                              validator: (validator) {
+                                if (validator!.isEmpty) {
+                                  return 'field_must_not_be_empty'.tr;
+                                }
+                                return null;
+                              },
+                              controller: controller.passwordController,
+                              obscureText: !controller.passwordIsVisible.value,
+                              labelText: 'password'.tr,
+                              suffixIcon: controller.passwordIsVisible.value
+                                  ? IconButton(
+                                onPressed: () {
+                                  controller.passwordIsVisible.value = false;
+                                },
+                                icon: ConstantIcons.visibility(
+                                    color: greyColor.withOpacity(0.6)),
+                              )
+                                  : IconButton(
+                                icon: ConstantIcons.visibilityOff(
+                                    color: greyColor.withOpacity(0.6)),
+                                onPressed: () {
+                                  controller.passwordIsVisible.value = true;
+                                },
+                              ),
+                              borderRadius:
+                              const BorderRadius.all(Radius.circular(15)))),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          RoundedLoadingButton(
+                            width: width * 0.82,
+                            height: 50,
+                            controller: controller.btnController,
+                            onPressed: () {
+                              if (controller.formKey.currentState!.validate()) {
+                                controller.signIn();
+                              } else {
+                                controller.btnController.stop();
+                              }
+                            },
+                            color: blueColor,
+                            borderRadius: 10,
+                            child:
+                                CustomText(text: "sign_in".tr, color: whiteColor),
+                          ),
+                          const SizedBox(
+                            height: 15,
+                          ),
+                          InkWell(
+                              onTap: () {},
+                              child: CustomText(
+                                  text: "forgot_password".tr,
+                                  color: greyColor,
+                                  fontWeight: FontWeight.w700)),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(
+                                  child: Container(
+                                      height: 1,
+                                      color: greyColor.withOpacity(0.2))),
+                              Expanded(
+                                  flex: 2,
+                                  child: Center(
+                                      child: CustomText(
+                                          text: "or_sign_with".tr,
+                                          color: greyColor.withOpacity(0.5),
+                                          fontWeight: FontWeight.w600))),
+                              Expanded(
+                                  child: Container(
+                                      height: 1,
+                                      color: greyColor.withOpacity(0.2)))
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              InkWell(
+                                onTap: () {},
+                                child: Container(
+                                  padding:
+                                      const EdgeInsets.symmetric(horizontal: 20),
+                                  height: 50,
+                                  width: width * 0.4,
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                        color: greyColor.withOpacity(0.1)),
+                                    borderRadius: const BorderRadius.horizontal(
+                                        left: Radius.circular(15),
+                                        right: Radius.circular(15)),
+                                  ),
+                                  child: Center(
+                                    child: Row(
+                                      children: [
+                                        Image.asset(
+                                          'assets/images/google.png',
+                                          height: 20,
+                                          width: 20,
+                                        ),
+                                        const SizedBox(
+                                          width: 5,
+                                        ),
+                                        const CustomText(
+                                            text: "Google",
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w700),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
-                            InkWell(
-                              onTap: () {
-                              },
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 20),
-                                height: 50,
-                                width: width * 0.4,
-                                decoration: BoxDecoration(
-                                  border: Border.all(color: greyColor.withOpacity(0.1)),
-                                  borderRadius: const BorderRadius.horizontal(
-                                      left: Radius.circular(15), right: Radius.circular(15)),
-                                ),
-                                child: Center(
-                                  child: Row(
-                                    children: [
-                                      Image.asset(
-                                        'assets/images/facebook.png',
-                                        height: 20,
-                                        width: 20,
-                                      ),
-
-                                      customText(text:
-                                      "Facebook",
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.w700
-                                      ),
-                                    ],
+                              InkWell(
+                                onTap: () {},
+                                child: Container(
+                                  padding:
+                                      const EdgeInsets.symmetric(horizontal: 20),
+                                  height: 50,
+                                  width: width * 0.4,
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                        color: greyColor.withOpacity(0.1)),
+                                    borderRadius: const BorderRadius.horizontal(
+                                        left: Radius.circular(15),
+                                        right: Radius.circular(15)),
+                                  ),
+                                  child: Center(
+                                    child: Row(
+                                      children: [
+                                        Image.asset(
+                                          'assets/images/facebook.png',
+                                          height: 20,
+                                          width: 20,
+                                        ),
+                                        const CustomText(
+                                            text: "Facebook",
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w700),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
-                          ],
-                        ),
-                      ],
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -233,6 +283,4 @@ class SignInScreen extends GetWidget<SignInController> {
       ),
     ));
   }
-
-
 }

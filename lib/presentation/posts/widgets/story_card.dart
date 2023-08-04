@@ -5,6 +5,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:get/get.dart';
 import '../../../core/config/palette.dart';
 import '../../../core/models/story_model.dart';
+import '../../../core/models/user.dart';
 import '../../../core/models/user_model.dart';
 
 import 'package:flutter/material.dart';

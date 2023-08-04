@@ -127,7 +127,7 @@ class ApiClient extends GetConnect {
     print(formData.fields.lastIndex);
     try {
       Dio.Dio dio = new Dio.Dio();
-      Map<String, dynamic> map2 = await setHeadersWithToken();
+      Map<String, dynamic> map2 = await setHeadersWithToken(isWithFile: true);
       print("voici le token ${map2["Authorization"]}");
       var response = await dio.post(url,
           data: formData, options: Dio.Options(headers: map2));

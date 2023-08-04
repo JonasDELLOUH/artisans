@@ -1,3 +1,4 @@
+import 'package:artisans/core/models/user.dart';
 import 'package:artisans/core/models/user_model.dart';
 
 class Post {

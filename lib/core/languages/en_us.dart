@@ -11,7 +11,7 @@ Map<String, String> enUS = {
   "has_already_account": "Already have an account?",
   "sign_up": "Sign up",
   "artisan_slogan": "Reinvented craftsmanship, satisfaction guaranteed",
-  'your_name': "Your name",
+  'your_name': "Your username",
   'search': "Search",
   'nearest': "Nearest",
   'view_all': "View All",
@@ -46,5 +46,13 @@ Map<String, String> enUS = {
   'take_salon_image': "Set a cover photo for your living room",
   'loading_error': "Loading error",
   'loading': "Loading",
-  'take_salon_image1': "Set your living room photo"
+  'take_salon_image1': "Set your living room photo",
+  'field_must_not_be_empty': "This field can not be empty",
+  'invalid_email': "Invalid email",
+  'invalid_phone_number': "Invalid phone number",
+  "pwd_m_h_8_car": "Password must be at least 8 characters",
+  "pwd_m_h_1_l_min": "Password must contain at least one lowercase letter",
+  "pwd_m_h_1_l_maj": "Password must contain at least one uppercase letter",
+  "pwd_m_h_1_f": "Password must contain at least one number"
+
 };

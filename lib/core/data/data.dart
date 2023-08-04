@@ -1,6 +1,7 @@
 
 import '../models/post_model.dart';
 import '../models/story_model.dart';
+import '../models/user.dart';
 import '../models/user_model.dart';
 
 const User currentUser = User(

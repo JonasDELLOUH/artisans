@@ -3,7 +3,7 @@ import 'package:artisans/presentation/posts/widgets/story_card.dart';
 import 'package:flutter/material.dart';
 
 import '../../../core/models/story_model.dart';
-import '../../../core/models/user_model.dart';
+import '../../../core/models/user.dart';
 
 class Stories extends StatelessWidget {
   final User currentUser;

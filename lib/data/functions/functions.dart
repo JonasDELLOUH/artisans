@@ -3,9 +3,8 @@ import 'package:artisans/core/colors/colors.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 
-setHeadersWithToken() async => {
-  'Content-Type': 'application/json; charset=UTF-8',
-  // 'Content-Type': 'multipart/form-data',
+setHeadersWithToken({bool isWithFile = false}) async => {
+  'Content-Type': isWithFile ? 'multipart/form-data' : 'application/json; charset=UTF-8',
   'Accept': 'application/json',
   // 'Authorization': 'Bearer' + " " + (await getToken()),
 };

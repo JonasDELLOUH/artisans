@@ -11,7 +11,7 @@ Map<String, String> frFr = {
   "has_already_account": "Vous avez déjà un compte?",
   "sign_up": "S'inscrire'",
   "artisan_slogan": "Artisanat réinventé, satisfaction garantie",
-  'your_name': "Votre nom",
+  'your_name': "Votre nom d'utilisateur",
   'search': "Rechercher",
   'nearest': "Plus proche",
   'view_all': "Voir Tout",
@@ -46,5 +46,12 @@ Map<String, String> frFr = {
   'take_salon_image': "Définissez une photo de couverture pour votre salon",
   'loading_error': "erreur de chargement",
   'loading': "Chargement",
-  'take_salon_image1': "Prendre un photo du salon"
+  'take_salon_image1': "Prendre un photo du salon",
+  'field_must_not_be_empty': "ce champ ne peut pas être vide",
+  'invalid_email': "Email invalide",
+  'invalid_phone_number': "Numéro de téléphone invalide",
+  "pwd_m_h_8_car": "Le mot de passe doit avoir au moins 8 caractères",
+  "pwd_m_h_1_l_min": "Le mot de passe doit contenir au moins une lettre minuscule",
+  "pwd_m_h_1_l_maj": "Le mot de passe doit contenir au moins une lettre majuscule",
+  "pwd_m_h_1_f": "Le mot de passe doit contenir au moins un chiffre"
 };

@@ -6,6 +6,7 @@ import 'package:drop_down_list/model/selected_list_item.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../core/colors/colors.dart';
+import '../../core/functions/basics_functions.dart';
 import '../../widgets/custom_button.dart';
 import '../../widgets/custom_text.dart';
 import '../../widgets/text_field.dart';
@@ -51,7 +52,8 @@ class CreateSalonScreen extends GetView<CreateSalonController> {
                     padding: const EdgeInsets.symmetric(horizontal: 15),
                     borderRadius: 15,
                     onPressed: () {
-                      if (controller.stepIndex.value == 1) {
+                      if (controller.stepIndex.value == 1 &&
+                          (controller.step1IsOk() ?? false)) {
                         controller.stepIndex.value = 2;
                       } else if (controller.stepIndex.value == 2) {
                         controller.stepIndex.value = 3;
@@ -85,9 +87,9 @@ class CreateSalonScreen extends GetView<CreateSalonController> {
         const SizedBox(
           height: 50,
         ),
-        FutureBuilder(
+        Obx(() => FutureBuilder(
           future:
-              precacheImage(controller.locationController.image, Get.context!),
+          precacheImage(controller.locationController.value.image, Get.context!),
           builder: (context, snapshot) {
             print(snapshot.hasData);
             print(snapshot.hasError);
@@ -96,20 +98,20 @@ class CreateSalonScreen extends GetView<CreateSalonController> {
             if (snapshot.connectionState == ConnectionState.done) {
               return ClipRRect(
                   borderRadius: const BorderRadius.all(Radius.circular(30)),
-                  child: Image(
+                  child: Obx(() => Image(
                       errorBuilder: (context, error, stackTrace) => Container(
-                            decoration: BoxDecoration(
-                                borderRadius:
-                                    const BorderRadius.all(Radius.circular(30)),
-                                border:
-                                    Border.all(color: Colors.red, width: 3)),
-                            width: 300,
-                            height: 264,
-                            child: Center(
-                                child: CustomText(
-                                    text: "${"loading_error".tr}....")),
-                          ),
-                      image: controller.locationController.image));
+                        decoration: BoxDecoration(
+                            borderRadius:
+                            const BorderRadius.all(Radius.circular(30)),
+                            border:
+                            Border.all(color: Colors.red, width: 3)),
+                        width: 300,
+                        height: 264,
+                        child: Center(
+                            child: CustomText(
+                                text: "${"loading_error".tr}....")),
+                      ),
+                      image: controller.locationController.value.image)));
             } else {
               return Container(
                 decoration: BoxDecoration(
@@ -121,7 +123,7 @@ class CreateSalonScreen extends GetView<CreateSalonController> {
               );
             }
           },
-        )
+        ))
       ],
     );
   }
@@ -139,83 +141,108 @@ class CreateSalonScreen extends GetView<CreateSalonController> {
   }
 
   Widget infoStepWidget() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        CustomText(text: "choose_job".tr),
-        const SizedBox(
-          height: 5,
-        ),
-        InkWell(
-            onTap: () {
-              DropDownState(
-                DropDown(
-                  bottomSheetTitle: CustomText(
-                    text: "choose_job".tr,
-                    color: blueColor,
-                  ),
-                  submitButtonChild: const CustomText(
-                    text: 'Done',
-                    fontWeight: FontWeight.bold,
-                  ),
-                  searchHintText: "search".tr,
-                  data: controller.selectedListItems.value,
-                  selectedItems: (List<dynamic> selectedList) {
-                    List<String> list = [];
-                    for (var item in selectedList) {
-                      if (item is SelectedListItem) {
-                        controller.itemSelected.value = item;
+    return Form(
+      key: controller.formKey,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          CustomText(text: "choose_job".tr),
+          const SizedBox(
+            height: 5,
+          ),
+          InkWell(
+              onTap: () {
+                DropDownState(
+                  DropDown(
+                    bottomSheetTitle: CustomText(
+                      text: "choose_job".tr,
+                      color: blueColor,
+                    ),
+                    submitButtonChild: const CustomText(
+                      text: 'Done',
+                      fontWeight: FontWeight.bold,
+                    ),
+                    searchHintText: "search".tr,
+                    data: controller.selectedListItems.value,
+                    selectedItems: (List<dynamic> selectedList) {
+                      List<String> list = [];
+                      for (var item in selectedList) {
+                        if (item is SelectedListItem) {
+                          controller.itemSelected.value = item;
+                        }
                       }
-                    }
-                  },
-                  enableMultipleSelection: false,
-                ),
-              ).showModal(Get.context);
+                    },
+                    enableMultipleSelection: false,
+                  ),
+                ).showModal(Get.context);
+              },
+              child: Obx(() => CustomTextFormField(
+                    enabled: false,
+                    hintText: controller.itemSelected.value!.name,
+                    borderRadius: const BorderRadius.all(Radius.circular(15)),
+                  ))),
+          const SizedBox(
+            height: 10,
+          ),
+          CustomText(text: "salon_name".tr),
+          const SizedBox(
+            height: 5,
+          ),
+          CustomTextFormField(
+            validator: (validator) {
+              if (validator!.isEmpty) {
+                return 'field_must_not_be_empty'.tr;
+              }
+              return null;
             },
-            child: Obx(() => CustomTextFormField(
-                  enabled: false,
-                  hintText: controller.itemSelected.value!.name,
-                  borderRadius: const BorderRadius.all(Radius.circular(15)),
-                ))),
-        const SizedBox(
-          height: 10,
-        ),
-        CustomText(text: "salon_name".tr),
-        const SizedBox(
-          height: 5,
-        ),
-        CustomTextFormField(
-          controller: controller.salonNameController,
-          hintText: "salon_name".tr,
-          borderRadius: const BorderRadius.all(Radius.circular(15)),
-        ),
-        const SizedBox(
-          height: 10,
-        ),
-        CustomText(text: "salon_mail".tr),
-        const SizedBox(
-          height: 5,
-        ),
-        CustomTextFormField(
-          controller: controller.emailController,
-          keyboardType: TextInputType.emailAddress,
-          hintText: "salon_mail".tr,
-          borderRadius: const BorderRadius.all(Radius.circular(15)),
-        ),
-        const SizedBox(
-          height: 10,
-        ),
-        CustomText(text: "salon_phone".tr),
-        const SizedBox(
-          height: 5,
-        ),
-        CustomTextFormField(
-          controller: controller.telController,
-          keyboardType: TextInputType.phone,
-          hintText: "salon_phone".tr,
-          borderRadius: const BorderRadius.all(Radius.circular(15)),
-        ),
-      ],
+            controller: controller.salonNameController,
+            hintText: "salon_name".tr,
+            borderRadius: const BorderRadius.all(Radius.circular(15)),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          CustomText(text: "salon_mail".tr),
+          const SizedBox(
+            height: 5,
+          ),
+          CustomTextFormField(
+            validator: (validator) {
+              if (validator!.isEmpty) {
+                return null;
+              } else if (!isEmailValid(validator)) {
+                return 'invalid_email'.tr;
+              }
+              return null;
+            },
+            controller: controller.emailController,
+            keyboardType: TextInputType.emailAddress,
+            hintText: "salon_mail".tr,
+            borderRadius: const BorderRadius.all(Radius.circular(15)),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          CustomText(text: "salon_phone".tr),
+          const SizedBox(
+            height: 5,
+          ),
+          CustomTextFormField(
+            validator: (validator) {
+              if (validator!.isEmpty) {
+                return null;
+              } else if (!isPhoneNumberValid(validator)) {
+                return 'invalid_phone_number'.tr;
+              }
+              return null;
+            },
+            controller: controller.telController,
+            keyboardType: TextInputType.phone,
+            hintText: "salon_phone".tr,
+            borderRadius: const BorderRadius.all(Radius.circular(15)),
+          ),
+        ],
+      ),
     );
   }
 
@@ -242,7 +269,9 @@ class CreateSalonScreen extends GetView<CreateSalonController> {
           return stepTile(
               stepNumber: "2",
               onTap: () {
-                controller.stepIndex.value = 2;
+                if (controller.step1IsOk() ?? false) {
+                  controller.stepIndex.value = 2;
+                }
               },
               isOn: controller.stepIndex.value > 1 ? true : false);
         }),

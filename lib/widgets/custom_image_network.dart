@@ -17,31 +17,32 @@ class CustomImageNetwork extends StatelessWidget {
   final BorderRadiusGeometry? borderRadius;
   final Widget Function(BuildContext, Widget, ImageChunkEvent?)? loadingBuilder;
   final Widget Function(BuildContext, Object, StackTrace?)? errorBuilder;
+  Widget Function(BuildContext, String, dynamic)? errorWidget;
 
-  CustomImageNetwork({
-    Key? key,
-    required this.imageUrl,
-    this.width,
-    this.height,
-    this.fit = BoxFit.cover,
-    this.alignment = Alignment.center,
-    this.repeat = ImageRepeat.noRepeat,
-    this.color,
-    this.colorBlendMode,
-    this.filterQuality = FilterQuality.low,
-    this.matchTextDirection = false,
-    this.gaplessPlayback = false,
-    this.loadingBuilder,
-    this.errorBuilder,
-    this.borderRadius
-  }) : super(key: key);
+  CustomImageNetwork(
+      {Key? key,
+      required this.imageUrl,
+      this.width,
+      this.height,
+      this.fit = BoxFit.cover,
+      this.alignment = Alignment.center,
+      this.repeat = ImageRepeat.noRepeat,
+      this.color,
+      this.colorBlendMode,
+      this.filterQuality = FilterQuality.low,
+      this.matchTextDirection = false,
+      this.gaplessPlayback = false,
+      this.loadingBuilder,
+      this.errorBuilder,
+      this.borderRadius})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
       borderRadius: borderRadius,
-      child: CachedNetworkImage(imageUrl:
-        imageUrl,
+      child: CachedNetworkImage(
+        imageUrl: imageUrl,
         width: width,
         height: height,
         fit: fit,
@@ -50,6 +51,8 @@ class CustomImageNetwork extends StatelessWidget {
         colorBlendMode: colorBlendMode,
         filterQuality: filterQuality,
         matchTextDirection: matchTextDirection,
+        errorWidget:
+            errorWidget ?? (context, url, error) => const Icon(Icons.error),
       ),
     );
   }

@@ -19,6 +19,7 @@ class AppServices extends GetxService {
   }
 
   setCurrentUser(){
+    _token = getInGetStorage(key: Constants.token);
     currentUser.value = UserModel.fromJson(getInGetStorage(key: Constants.currentUser));
   }
 

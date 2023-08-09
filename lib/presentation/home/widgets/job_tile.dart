@@ -1,6 +1,7 @@
 import 'package:artisans/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 
+import '../../../core/constants/constants.dart';
 import '../../../core/models/job_model.dart';
 import '../../../widgets/custom_image_network.dart';
 
@@ -10,21 +11,19 @@ class JobTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print("url image job : ${Constants.imageOriginUrl + jobModel.jobImageUrl}");
     return Container(
-
-      width: 50,
+      width: 40,
+      height: 50,
       margin: const EdgeInsets.symmetric(horizontal: 5),
       child: Column(
         children: [
-          Expanded(
-            child: CustomImageNetwork(
-              imageUrl:
-              "https://images.unsplash.com/photo-1507679799987-c73779587ccf?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1502&q=80",
-              height: 80, borderRadius: BorderRadius.circular(15),
-            ),
+          CustomImageNetwork(
+            imageUrl: Constants.imageOriginUrl + jobModel.jobImageUrl,
+             borderRadius: BorderRadius.circular(10), height: 35,
           ),
           const SizedBox(height: 5,),
-          CustomText(text: jobModel.jobName, fontSize: 10,)
+          CustomText(text: jobModel.jobName, fontSize: 9, textAlign: TextAlign.center, overflow: TextOverflow.ellipsis, maxLines: 2,)
         ],
       ),
     );

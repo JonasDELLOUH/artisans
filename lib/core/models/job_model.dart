@@ -8,7 +8,7 @@ class JobModel {
 
   factory JobModel.fromJson(Map<String, dynamic> json) {
     return JobModel(
-        jobImageUrl: json["jobImageUrl"] ?? "",
+        jobImageUrl: json["imageUrl"] ?? "",
         jobName: json["jobName"],
         jobId: json["_id"]);
   }

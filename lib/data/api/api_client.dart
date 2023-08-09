@@ -11,52 +11,37 @@ class ApiClient extends GetConnect {
     print("get request : " + url);
     print(parameters.toString());
     try {
-      Dio.Dio dio = new Dio.Dio();
-      // dio.options.headers = await setHeadersWithToken();
-      var response = await dio.get(url, queryParameters: parameters);
+      Dio.Dio dio = Dio.Dio();
+      Map<String, dynamic> map2 = await setHeadersWithToken();
+      print("voici le token : ${map2["Authorization"]}");
+      var response = await dio.get(url,
+          queryParameters: parameters, options: Dio.Options(headers: map2));
       var apiResponse = response.data;
-      print("api get response : " + apiResponse.toString());
+      print("api get response : $apiResponse");
       return {"result": apiResponse};
     } on Dio.DioError catch (e) {
       var json = e.response.toString();
-      print("get response error : " + e.response.toString());
-      // errorFormSnackBar(map, jsonDecode(json), e.response?.statusCode);
-      print(jsonDecode(json));
-      return {
-        "result": null,
-        "error": jsonDecode(json) == null
-            ? " "
-            : jsonDecode(json)['message'].toString()
-      };
+      print("get response error : $json");
+      return {"result": null, "error": json};
     }
   }
 
   Future<dynamic> postFromApi(url, dynamic map) async {
-    print("post request : " + url);
+    print("post request : $url");
     print(map.toString());
     try {
-      Dio.Dio dio = new Dio.Dio();
+      Dio.Dio dio = Dio.Dio();
       Map<String, dynamic> map2 = await setHeadersWithToken();
       print("voici le token ${map2["Authorization"]}");
-      var response = await dio.post(url,
-          data: map, options: Dio.Options(headers: map2));
+      var response =
+          await dio.post(url, data: map, options: Dio.Options(headers: map2));
       var apiResponse = response.data;
-      print("post response : " + apiResponse.toString());
-      // if (apiResponse.containsKey("errors")) {
-      //   var errors = apiResponse["errors"];
-      //   errors.forEach((k, v) =>
-      //       appSnackBar("error", "update_user_failed".tr, v["message"]));
-      // }
+      print("post response : $apiResponse");
       return {"result": apiResponse};
     } on Dio.DioError catch (e) {
       var json = e.response.toString();
-      print("post response error : " + json);
-      // errorFormSnackBar(map, jsonDecode(json), e.response?.statusCode);
-      //   print(jsonDecode(json));
-      return {
-        "result": null,
-        "error": json
-      };
+      print("post response error : $json");
+      return {"result": null, "error": json};
     }
   }
 
@@ -64,13 +49,13 @@ class ApiClient extends GetConnect {
     print("post request : " + url);
     print(map.toString());
     try {
-      Dio.Dio dio = new Dio.Dio();
+      Dio.Dio dio = Dio.Dio();
       Map<String, dynamic> map2 = await setHeadersWithToken();
       print("voici le token ${map2["Authorization"]}");
-      var response = await dio.put(url,
-          data: map, options: Dio.Options(headers: map2));
+      var response =
+          await dio.put(url, data: map, options: Dio.Options(headers: map2));
       var apiResponse = response.data;
-      print("post response : " + apiResponse.toString());
+      print("post response : $apiResponse");
       if (apiResponse.containsKey("errors")) {
         var errors = apiResponse["errors"];
         errors.forEach((k, v) =>
@@ -79,7 +64,7 @@ class ApiClient extends GetConnect {
       return {"result": apiResponse};
     } on Dio.DioError catch (e) {
       var json = e.response.toString();
-      print("post response error : " + json);
+      print("post response error : $json");
       // errorFormSnackBar(map, jsonDecode(json), e.response?.statusCode);
       //   print(jsonDecode(json));
       return {
@@ -95,13 +80,13 @@ class ApiClient extends GetConnect {
     print("post request : " + url);
     print(map.toString());
     try {
-      Dio.Dio dio = new Dio.Dio();
+      Dio.Dio dio = Dio.Dio();
       Map<String, dynamic> map2 = await setHeadersWithToken();
       print("voici le token ${map2["Authorization"]}");
-      var response = await dio.patch(url,
-          data: map, options: Dio.Options(headers: map2));
+      var response =
+          await dio.patch(url, data: map, options: Dio.Options(headers: map2));
       var apiResponse = response.data;
-      print("post response : " + apiResponse.toString());
+      print("post response : $apiResponse");
       if (apiResponse.containsKey("errors")) {
         var errors = apiResponse["errors"];
         errors.forEach((k, v) =>
@@ -110,7 +95,7 @@ class ApiClient extends GetConnect {
       return {"result": apiResponse};
     } on Dio.DioError catch (e) {
       var json = e.response.toString();
-      print("post response error : " + json);
+      print("post response error : $json");
       // errorFormSnackBar(map, jsonDecode(json), e.response?.statusCode);
       //   print(jsonDecode(json));
       return {
@@ -126,17 +111,17 @@ class ApiClient extends GetConnect {
     print("post request : " + url);
     print(formData.fields.lastIndex);
     try {
-      Dio.Dio dio = new Dio.Dio();
+      Dio.Dio dio = Dio.Dio();
       Map<String, dynamic> map2 = await setHeadersWithToken(isWithFile: true);
       print("voici le token ${map2["Authorization"]}");
       var response = await dio.post(url,
           data: formData, options: Dio.Options(headers: map2));
       var apiResponse = response.data;
-      print("post response : " + apiResponse.toString());
+      print("post response : $apiResponse");
       return {"result": apiResponse};
     } on Dio.DioError catch (e) {
       var json = e.response.toString();
-      print("post response error : " + json);
+      print("post response error : $json");
       // errorFormSnackBar(map, jsonDecode(json), e.response?.statusCode);
       //   print(jsonDecode(json));
       return {

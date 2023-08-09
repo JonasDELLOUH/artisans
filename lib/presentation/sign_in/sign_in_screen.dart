@@ -132,21 +132,23 @@ class SignInScreen extends GetWidget<SignInController> {
                               labelText: 'password'.tr,
                               suffixIcon: controller.passwordIsVisible.value
                                   ? IconButton(
-                                onPressed: () {
-                                  controller.passwordIsVisible.value = false;
-                                },
-                                icon: ConstantIcons.visibility(
-                                    color: greyColor.withOpacity(0.6)),
-                              )
+                                      onPressed: () {
+                                        controller.passwordIsVisible.value =
+                                            false;
+                                      },
+                                      icon: ConstantIcons.visibility(
+                                          color: greyColor.withOpacity(0.6)),
+                                    )
                                   : IconButton(
-                                icon: ConstantIcons.visibilityOff(
-                                    color: greyColor.withOpacity(0.6)),
-                                onPressed: () {
-                                  controller.passwordIsVisible.value = true;
-                                },
-                              ),
+                                      icon: ConstantIcons.visibilityOff(
+                                          color: greyColor.withOpacity(0.6)),
+                                      onPressed: () {
+                                        controller.passwordIsVisible.value =
+                                            true;
+                                      },
+                                    ),
                               borderRadius:
-                              const BorderRadius.all(Radius.circular(15)))),
+                                  const BorderRadius.all(Radius.circular(15)))),
                           const SizedBox(
                             height: 20,
                           ),
@@ -163,8 +165,8 @@ class SignInScreen extends GetWidget<SignInController> {
                             },
                             color: blueColor,
                             borderRadius: 10,
-                            child:
-                                CustomText(text: "sign_in".tr, color: whiteColor),
+                            child: CustomText(
+                                text: "sign_in".tr, color: whiteColor),
                           ),
                           const SizedBox(
                             height: 15,
@@ -207,8 +209,8 @@ class SignInScreen extends GetWidget<SignInController> {
                               InkWell(
                                 onTap: () {},
                                 child: Container(
-                                  padding:
-                                      const EdgeInsets.symmetric(horizontal: 20),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 20),
                                   height: 50,
                                   width: width * 0.4,
                                   decoration: BoxDecoration(
@@ -241,8 +243,8 @@ class SignInScreen extends GetWidget<SignInController> {
                               InkWell(
                                 onTap: () {},
                                 child: Container(
-                                  padding:
-                                      const EdgeInsets.symmetric(horizontal: 20),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 20),
                                   height: 50,
                                   width: width * 0.4,
                                   decoration: BoxDecoration(

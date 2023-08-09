@@ -33,15 +33,19 @@ class SignInController extends GetxController{
     };
 
     var response = await apiClient.postFromApi(Constants.signInUrl, map);
-    btnController.stop();
 
     if (response["result"] != null) {
-      Get.toNamed(AppRoutes.menuRoute);
-      UserModel userModel = UserModel.fromJson(response["result"]);
+      UserModel userModel = UserModel.fromJson(response["result"]["user"]);
       addInGetStorage(key: Constants.currentUser, data: userModel.toJson());
+      print("token après login : ${response["result"]["token"]}");
+      addInGetStorage(key: Constants.token, data: response["result"]["token"]);
       appServices.setCurrentUser();
+      print("token dans getStorage : ${appServices.token}");
+      btnController.stop();
+      Get.toNamed(AppRoutes.menuRoute);
     } else {
       appSnackBar("error", "authentication_failed".tr, response["error"]);
+      btnController.stop();
     }
   }
 }

@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:images_picker/images_picker.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
-
 import '../../core/colors/colors.dart';
 import '../../widgets/custom_text.dart';
 
@@ -23,6 +22,16 @@ class AddPostController extends GetxController {
   }
 
   void imgFromCamera() async {
+    final ImagePicker picker = ImagePicker();
+    XFile? image = await picker.pickImage(source: ImageSource.camera);
+    dynamic files = [];
+    files.add(File(image!.path));
+    postImg.value = File(image.path);
+
+
+  }
+
+  imgFromGallery() async {
     final images = await ImagesPicker.pick(
       count: 1,
       pickType: isPost.value ? PickType.image : PickType.video,
@@ -36,15 +45,6 @@ class AddPostController extends GetxController {
         postVideo.value = File(selectedImage.path);
       }
     }
-  }
-
-  imgFromGallery() async {
-    final ImagePicker picker = ImagePicker();
-
-    XFile? image = await picker.pickImage(source: ImageSource.gallery);
-    dynamic files = [];
-    files.add(File(image!.path));
-    postImg.value = File(image.path);
   }
 
   void showPicker(context) {

@@ -91,12 +91,14 @@ class AddPostScreen extends GetView<AddPostController> {
                   const SizedBox(
                     height: 10,
                   ),
-                  Obx(() =>  CustomText(
-                    text: controller.isPost.value ? "Image" : "Video",
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
-                    color: blueColor,
-                  ),),
+                  Obx(
+                    () => CustomText(
+                      text: controller.isPost.value ? "Image" : "Video",
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                      color: blueColor,
+                    ),
+                  ),
                   const SizedBox(
                     height: 5,
                   ),
@@ -104,16 +106,21 @@ class AddPostScreen extends GetView<AddPostController> {
                       onTap: () {
                         controller.showPicker(Get.context);
                       },
-                      child: Obx(() => ((controller.isPost.value && controller.postImg.value == null) || (!controller.isPost.value && controller.postVideo.value == null))
+                      child: Obx(() => ((controller.isPost.value &&
+                                  controller.postImg.value == null) ||
+                              (!controller.isPost.value &&
+                                  controller.postVideo.value == null))
                           ? takeTofEmptyView(text: "take_salon_image1".tr)
                           : Center(
-                        child: CustomPictureView(
-                          file: controller.isPost.value ? controller.postImg.value! : controller.postImg.value!,
-                          width: Get.width * 0.8,
-                          height: 200,
-                          isVideo: !controller.isPost.value,
-                        ),
-                      )))
+                              child: CustomPictureView(
+                                file: controller.isPost.value
+                                    ? controller.postImg.value!
+                                    : controller.postImg.value!,
+                                width: Get.width * 0.8,
+                                height: 200,
+                                isVideo: !controller.isPost.value,
+                              ),
+                            )))
                 ],
               ),
               Container(

@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 
+import '../../widgets/custom_image_file.dart';
+import '../../widgets/take_tof_empty.dart';
 import '../../widgets/text_field.dart';
 
 class AddPostScreen extends GetView<AddPostController> {
@@ -99,16 +101,19 @@ class AddPostScreen extends GetView<AddPostController> {
                     height: 5,
                   ),
                   InkWell(
-                    onTap: () {
-                      controller.getImage();
-                    },
-                    child: CustomImageAsset(
-                      assetName: "assets/images/blog1.jpg",
-                      height: Get.height * 0.2,
-                      width: Get.width,
-                      borderRadius: const BorderRadius.all(Radius.circular(20)),
-                    ),
-                  )
+                      onTap: () {
+                        controller.showPicker(Get.context);
+                      },
+                      child: Obx(() => ((controller.isPost.value && controller.postImg.value == null) || (!controller.isPost.value && controller.postVideo.value == null))
+                          ? takeTofEmptyView(text: "take_salon_image1".tr)
+                          : Center(
+                        child: CustomPictureView(
+                          file: controller.isPost.value ? controller.postImg.value! : controller.postImg.value!,
+                          width: Get.width * 0.8,
+                          height: 200,
+                          isVideo: !controller.isPost.value,
+                        ),
+                      )))
                 ],
               ),
               Container(

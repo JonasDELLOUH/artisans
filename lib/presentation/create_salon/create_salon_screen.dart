@@ -1,5 +1,6 @@
 import 'package:artisans/presentation/create_salon/create_salon_controller.dart';
 import 'package:artisans/presentation/create_salon/widgets/step_tile.dart';
+import 'package:artisans/widgets/custom_image_file.dart';
 import 'package:artisans/widgets/take_tof_empty.dart';
 import 'package:drop_down_list/drop_down_list.dart';
 import 'package:drop_down_list/model/selected_list_item.dart';
@@ -88,42 +89,45 @@ class CreateSalonScreen extends GetView<CreateSalonController> {
           height: 50,
         ),
         Obx(() => FutureBuilder(
-          future:
-          precacheImage(controller.locationController.value.image, Get.context!),
-          builder: (context, snapshot) {
-            print(snapshot.hasData);
-            print(snapshot.hasError);
-            print(snapshot.connectionState);
+              future: precacheImage(
+                  controller.locationController.value.image, Get.context!),
+              builder: (context, snapshot) {
+                print(snapshot.hasData);
+                print(snapshot.hasError);
+                print(snapshot.connectionState);
 
-            if (snapshot.connectionState == ConnectionState.done) {
-              return ClipRRect(
-                  borderRadius: const BorderRadius.all(Radius.circular(30)),
-                  child: Obx(() => Image(
-                      errorBuilder: (context, error, stackTrace) => Container(
-                        decoration: BoxDecoration(
-                            borderRadius:
+                if (snapshot.connectionState == ConnectionState.done) {
+                  return ClipRRect(
+                      borderRadius: const BorderRadius.all(Radius.circular(30)),
+                      child: Obx(() => Image(
+                          errorBuilder: (context, error, stackTrace) =>
+                              Container(
+                                decoration: BoxDecoration(
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(30)),
+                                    border: Border.all(
+                                        color: Colors.red, width: 3)),
+                                width: 300,
+                                height: 264,
+                                child: Center(
+                                    child: CustomText(
+                                        text: "${"loading_error".tr}....")),
+                              ),
+                          image: controller.locationController.value.image)));
+                } else {
+                  return Container(
+                    decoration: BoxDecoration(
+                        borderRadius:
                             const BorderRadius.all(Radius.circular(30)),
-                            border:
-                            Border.all(color: Colors.red, width: 3)),
-                        width: 300,
-                        height: 264,
-                        child: Center(
-                            child: CustomText(
-                                text: "${"loading_error".tr}....")),
-                      ),
-                      image: controller.locationController.value.image)));
-            } else {
-              return Container(
-                decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.all(Radius.circular(30)),
-                    border: Border.all(color: blueColor, width: 3)),
-                width: 300,
-                height: 264,
-                child: Center(child: CustomText(text: "${"loading".tr}....")),
-              );
-            }
-          },
-        ))
+                        border: Border.all(color: blueColor, width: 3)),
+                    width: 300,
+                    height: 264,
+                    child:
+                        Center(child: CustomText(text: "${"loading".tr}....")),
+                  );
+                }
+              },
+            ))
       ],
     );
   }
@@ -135,7 +139,19 @@ class CreateSalonScreen extends GetView<CreateSalonController> {
         const SizedBox(
           height: 50,
         ),
-        takeTofEmptyView(text: "take_salon_image1".tr)
+        InkWell(
+            onTap: () {
+              controller.showPicker(Get.context);
+            },
+            child: Obx(() => controller.salonImage.value == null
+                ? takeTofEmptyView(text: "take_salon_image1".tr)
+                : Center(
+                    child: CustomPictureView(
+                      file: controller.salonImage.value!,
+                      width: Get.width * 0.8,
+                      height: 200,
+                    ),
+                  )))
       ],
     );
   }

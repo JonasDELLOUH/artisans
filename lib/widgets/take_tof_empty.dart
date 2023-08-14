@@ -15,7 +15,7 @@ Widget takeTofEmptyView({required String text, void Function()? onTap}) {
         borderRadius: const BorderRadius.all(Radius.circular(12)),
         child: Container(
           padding: const EdgeInsets.all(10),
-          height: 155,
+          height: 200,
           color: blueColor.withOpacity(0.1),
           child: Center(
             child: Column(

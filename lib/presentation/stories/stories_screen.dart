@@ -116,9 +116,8 @@ class _VideoPlayerItemState extends State<VideoPlayerItem> {
     // TODO: implement dispose
     super.dispose();
     _videoController.dispose();
-
-
   }
+
   Widget isPlaying(){
     return _videoController.value.isPlaying && !isShowPlaying  ? Container() : Icon(Icons.play_arrow,size: 80,color: Colors.white.withOpacity(0.5),);
   }

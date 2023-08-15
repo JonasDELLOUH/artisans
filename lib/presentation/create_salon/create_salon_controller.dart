@@ -1,8 +1,6 @@
 import 'dart:io';
-
 import 'package:artisans/core/colors/colors.dart';
 import 'package:drop_down_list/model/selected_list_item.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
@@ -116,7 +114,7 @@ class CreateSalonController extends GetxController {
   }
 
   bool step3IsOk() {
-    return true;
+    return step1IsOk() ?? false;
   }
 
   getJobInItem() {

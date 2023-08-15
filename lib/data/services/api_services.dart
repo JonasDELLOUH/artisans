@@ -36,4 +36,30 @@ class ApiServices {
       throw Exception();
     }
   }
+
+  static Future<UserData> createSalon(
+      {required String name,
+        required String email,
+        required int phoneNumber,
+        required String password,
+        required double long,
+        required double lat,
+        required String jonId,
+
+      }) async {
+    print("loginUser");
+    var response = await ApiProvider.client.post("register", data: {
+      "name": name,
+      "email": email,
+      "phone_number": phoneNumber,
+      "password": password
+    });
+    print("finish");
+    if (response.statusCode == HttpStatus.created) {
+      if (response.data is! Map) return UserData.fromJson({});
+      return UserData.fromJson(response.data);
+    } else {
+      throw Exception();
+    }
+  }
 }

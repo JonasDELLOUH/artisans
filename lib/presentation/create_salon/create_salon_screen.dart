@@ -1,6 +1,6 @@
 import 'package:artisans/presentation/create_salon/create_salon_controller.dart';
 import 'package:artisans/presentation/create_salon/widgets/step_tile.dart';
-import 'package:artisans/widgets/custom_image_file.dart';
+import 'package:artisans/widgets/custom_picture_view.dart';
 import 'package:artisans/widgets/take_tof_empty.dart';
 import 'package:drop_down_list/drop_down_list.dart';
 import 'package:drop_down_list/model/selected_list_item.dart';
@@ -302,7 +302,9 @@ class CreateSalonScreen extends GetView<CreateSalonController> {
           return stepTile(
               stepNumber: "3",
               onTap: () {
-                controller.stepIndex.value = 3;
+                if (controller.step3IsOk()) {
+                  controller.stepIndex.value = 3;
+                }
               },
               isOn: controller.stepIndex.value > 2 ? true : false);
         }),

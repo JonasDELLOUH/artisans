@@ -1,19 +1,16 @@
 import 'package:artisans/core/colors/colors.dart';
 import 'package:artisans/presentation/add_post/add_post_controller.dart';
 import 'package:artisans/widgets/custom_button.dart';
-import 'package:artisans/widgets/custom_image_asset.dart';
 import 'package:artisans/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
-
-import '../../widgets/custom_image_file.dart';
+import '../../widgets/custom_picture_view.dart';
 import '../../widgets/take_tof_empty.dart';
 import '../../widgets/text_field.dart';
 
 class AddPostScreen extends GetView<AddPostController> {
   const AddPostScreen({super.key});
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -115,12 +112,26 @@ class AddPostScreen extends GetView<AddPostController> {
                               child: CustomPictureView(
                                 file: controller.isPost.value
                                     ? controller.postImg.value!
-                                    : controller.postImg.value!,
+                                    : controller.postVideo.value!,
                                 width: Get.width * 0.8,
-                                height: 200,
+                                height: Get.width * 0.6,
                                 isVideo: !controller.isPost.value,
                               ),
-                            )))
+                            ))),
+                  Obx(() => (!controller.isPost.value &&
+                          controller.postVideo.value != null)
+                      ? Center(
+                          child: TextButton(
+                              onPressed: () {
+                                controller.showPicker(Get.context);
+                              },
+                              child: CustomText(
+                                text: "update".tr,
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                              )),
+                        )
+                      : Container())
                 ],
               ),
               Container(

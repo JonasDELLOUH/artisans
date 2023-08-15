@@ -5,14 +5,14 @@ import 'package:flutter/material.dart';
 import '../core/colors/colors.dart';
 
 class CustomPictureView extends StatelessWidget {
-  final File file;
+  File file;
   final double width;
   final double height;
   final BorderRadius? borderRadius;
   final BoxShape shape;
   final bool isVideo;
 
-  const CustomPictureView({
+  CustomPictureView({
     Key? key,
     required this.file,
     this.width = 100.0,
@@ -36,7 +36,7 @@ class CustomPictureView extends StatelessWidget {
           width: width,
           height: height,
           child: isVideo
-              ? VideoPlayerWidget(file: file)
+              ? VideoPlayerWidget(file: file, height: height, width: width,)
               : Image.file(
                   file,
                   fit: BoxFit.cover,

@@ -29,15 +29,14 @@ class SignInController extends GetxController {
       UserData userData = (await ApiServices.loginUser(
           username: usernameController.value.text,
           password: passwordController.value.text));
-      appServices.setCurrentUser();
+      appServices.setCurrentUser(userData.userModel!, userData.token);
       btnController.stop();
       Get.offAllNamed(AppRoutes.menuRoute);
     } catch (e) {
       print(e);
       if (e is DioException) {
-        print(e.response?.data);
         appSnackBar("error", "Connection échouée",
-            "${(e.response?.data["message"] is List) ? e.response?.data["message"][0]["error"] : e.response?.data["message"]}");
+            "${e.response?.data}");
       }
       btnController.stop();
     }

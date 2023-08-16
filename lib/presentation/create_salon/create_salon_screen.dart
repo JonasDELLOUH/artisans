@@ -6,8 +6,10 @@ import 'package:drop_down_list/drop_down_list.dart';
 import 'package:drop_down_list/model/selected_list_item.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:rounded_loading_button/rounded_loading_button.dart';
 import '../../core/colors/colors.dart';
 import '../../core/functions/basics_functions.dart';
+import '../../data/functions/functions.dart';
 import '../../widgets/custom_button.dart';
 import '../../widgets/custom_text.dart';
 import '../../widgets/text_field.dart';
@@ -47,27 +49,39 @@ class CreateSalonScreen extends GetView<CreateSalonController> {
               const SizedBox(
                 height: 20,
               ),
-              Obx(() {
-                return Center(
-                  child: CustomTextButton(
-                    padding: const EdgeInsets.symmetric(horizontal: 15),
-                    borderRadius: 15,
-                    onPressed: () {
-                      if (controller.stepIndex.value == 1 &&
-                          (controller.step1IsOk() ?? false)) {
-                        controller.stepIndex.value = 2;
-                      } else if (controller.stepIndex.value == 2) {
-                        controller.stepIndex.value = 3;
-                      } else {
-                        controller.stepIndex.value = 1;
-                      }
-                    },
-                    backgroundColor: blueColor,
-                    text:
-                        controller.stepIndex.value == 3 ? "pay".tr : "next".tr,
-                  ),
-                );
-              }),
+              Center(
+                child: Obx(() => controller.stepIndex.value == 3
+                    ? RoundedLoadingButton(
+                        width: Get.width * 0.82,
+                        height: 50,
+                        controller: controller.btnController,
+                        onPressed: () {
+                          if (controller.step3IsOk()) {
+                            controller.createSalon();
+                          } else {
+                            appSnackBar("error", "take_salon_image".tr, "");
+                            controller.btnController.stop();
+                          }
+                        },
+                        color: blueColor,
+                        borderRadius: 10,
+                        child: CustomText(text: "create".tr, color: whiteColor),
+                      )
+                    : CustomTextButton(
+                        padding: const EdgeInsets.symmetric(horizontal: 15),
+                        borderRadius: 15,
+                        onPressed: () {
+                          if (controller.stepIndex.value == 1 &&
+                              (controller.step1IsOk() ?? false)) {
+                            controller.stepIndex.value = 2;
+                          } else if (controller.stepIndex.value == 2) {
+                            controller.stepIndex.value = 3;
+                          }
+                        },
+                        backgroundColor: blueColor,
+                        text: "next".tr,
+                      )),
+              ),
               const SizedBox(
                 height: 20,
               ),
@@ -302,9 +316,7 @@ class CreateSalonScreen extends GetView<CreateSalonController> {
           return stepTile(
               stepNumber: "3",
               onTap: () {
-                if (controller.step3IsOk()) {
-                  controller.stepIndex.value = 3;
-                }
+                controller.stepIndex.value = 3;
               },
               isOn: controller.stepIndex.value > 2 ? true : false);
         }),

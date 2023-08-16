@@ -53,5 +53,6 @@ Map<String, String> frFr = {
   "pwd_m_h_8_car": "Le mot de passe doit avoir au moins 8 caractères",
   "pwd_m_h_1_l_min": "Le mot de passe doit contenir au moins une lettre minuscule",
   "pwd_m_h_1_l_maj": "Le mot de passe doit contenir au moins une lettre majuscule",
-  "pwd_m_h_1_f": "Le mot de passe doit contenir au moins un chiffre"
+  "pwd_m_h_1_f": "Le mot de passe doit contenir au moins un chiffre",
+  "create": "Créer"
 };

@@ -1,55 +1,37 @@
 import 'package:artisans/core/models/salon_model.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import '../../core/constants/constants.dart';
 import '../../core/models/job_model.dart';
 import '../../core/services/app_services.dart';
-import '../../data/api/api_client.dart';
 import '../../data/functions/functions.dart';
+import '../../data/services/api_services.dart';
 
-class HomeController extends GetxController{
+class HomeController extends GetxController {
   TextEditingController searchController = TextEditingController();
   Rx<List<JobModel>> jobs = Rx<List<JobModel>>([]);
   Rx<List<SalonModel>> nearestSalons = Rx<List<SalonModel>>([]);
   RxBool jobIsInLoading = true.obs;
+  final appServices = Get.find<AppServices>();
 
   @override
-  onInit(){
+  onInit() {
     super.onInit();
     getJob();
   }
 
   getJob() async {
-    final apiClient = ApiClient();
-    Map<String, dynamic> parameters = {
-
-    };
-
-    jobIsInLoading.value = true;
-    var response = await apiClient.getFromApi(Constants.jobUrl, parameters: parameters);
-    jobIsInLoading.value = false;
-    if (response["result"] != null) {
-      jobs.value = JobModel.fromJsonList(response["result"]);
-    } else {
-      appSnackBar("error", response["error"], "");
+    try {
+      jobIsInLoading.value = true;
+      jobs.value = (await ApiServices.getJobs()).jobs ?? [];
+      appServices.setJobs(jobs.value);
+      jobIsInLoading.value = false;
+    } catch (e) {
+      print(e);
+      if (e is DioException) {
+        appSnackBar("error", "Échoué", "${e.response?.data}");
+      }
+      jobIsInLoading.value = false;
     }
   }
-
-  getSalon() async {
-    final apiClient = ApiClient();
-    Map<String, dynamic> parameters = {
-
-    };
-
-    jobIsInLoading.value = true;
-    var response = await apiClient.getFromApi(Constants.jobUrl, parameters: parameters);
-    jobIsInLoading.value = false;
-    if (response["result"] != null) {
-      jobs.value = JobModel.fromJsonList(response["result"]);
-    } else {
-      appSnackBar("error", response["error"], "");
-    }
-  }
-
 }

@@ -1,5 +1,8 @@
 import 'dart:io';
 import 'package:artisans/core/colors/colors.dart';
+import 'package:artisans/data/data_models/create_salon_data.dart';
+import 'package:artisans/secret.dart';
+import 'package:dio/dio.dart';
 import 'package:drop_down_list/model/selected_list_item.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
@@ -7,10 +10,11 @@ import 'package:get/get.dart';
 import 'package:google_static_maps_controller/google_static_maps_controller.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
-import '../../core/constants/constants.dart';
+import 'package:rounded_loading_button/rounded_loading_button.dart';
 import '../../core/models/job_model.dart';
-import '../../data/api/api_client.dart';
+import '../../core/services/app_services.dart';
 import '../../data/functions/functions.dart';
+import '../../data/services/api_services.dart';
 import '../../widgets/custom_text.dart';
 
 class CreateSalonController extends GetxController {
@@ -24,13 +28,17 @@ class CreateSalonController extends GetxController {
   RxBool jobIsInLoading = true.obs;
   RxDouble latitude = 0.0.obs;
   RxDouble longitude = 0.0.obs;
+  RxBool creatingSalon = false.obs;
   final formKey = GlobalKey<FormState>();
 
   Rxn<File> salonImage = Rxn<File>();
+  final appServices = Get.find<AppServices>();
+  final RoundedLoadingButtonController btnController =
+  RoundedLoadingButtonController();
 
   Rx<StaticMapController> locationController = Rx<StaticMapController>(
       const StaticMapController(
-          googleApiKey: "AIzaSyDxqb7_tC61JYB3YWv5MY9JlNECUIJIUDQ",
+          googleApiKey: Secret.googleApiKey,
           width: 300,
           height: 264,
           center: Location(0.0, 0.0),
@@ -44,14 +52,36 @@ class CreateSalonController extends GetxController {
     getJob();
   }
 
+  createSalon() async {
+    try {
+      creatingSalon.value = true;
+      CreateSalonData createSalonData = (await ApiServices.createSalon(
+        jobId: itemSelected.value?.value ?? "",
+        name: salonNameController.value.text,
+        lat: latitude.value,
+        long: longitude.value,
+        image: salonImage.value!,
+        address: "",
+        email: emailController.value.text,
+        phone: telController.value.text,
+      ));
+      creatingSalon.value = false;
+    } catch (e) {
+      print("e.response?.data : $e");
+      creatingSalon.value = false;
+      if (e is DioException) {
+        appSnackBar("error", "failed".tr, "${e.response?.data}");
+      }
+    }
+  }
+
   updateLocation() async {
     var permissionStatus = await Permission.location.request();
     Position position = await Geolocator.getCurrentPosition();
     latitude.value = position.latitude;
     longitude.value = position.longitude;
-    print("longitude : $longitude");
     locationController.value = StaticMapController(
-        googleApiKey: "AIzaSyDxqb7_tC61JYB3YWv5MY9JlNECUIJIUDQ",
+        googleApiKey: Secret.googleApiKey,
         width: (Get.width * 0.7).toInt(),
         height: 264,
         center: Location(latitude.value, longitude.value),
@@ -61,7 +91,7 @@ class CreateSalonController extends GetxController {
   imgFromCamera() async {
     final ImagePicker picker = ImagePicker();
     XFile? image =
-        await picker.pickImage(source: ImageSource.camera, imageQuality: 50);
+    await picker.pickImage(source: ImageSource.camera, imageQuality: 50);
     dynamic files = [];
     files.add(File(image!.path));
     salonImage.value = File(image.path);
@@ -114,30 +144,19 @@ class CreateSalonController extends GetxController {
   }
 
   bool step3IsOk() {
-    return step1IsOk() ?? false;
+    return salonImage.value != null;
   }
 
   getJobInItem() {
     for (JobModel jobModel in jobs.value) {
       SelectedListItem selectedListItem =
-          SelectedListItem(name: jobModel.jobName, value: jobModel.jobId);
+      SelectedListItem(name: jobModel.jobName, value: jobModel.jobId);
       selectedListItems.value.add(selectedListItem);
     }
   }
 
   getJob() async {
-    final apiClient = ApiClient();
-    Map<String, dynamic> parameters = {};
-
-    jobIsInLoading.value = true;
-    var response =
-        await apiClient.getFromApi(Constants.jobUrl, parameters: parameters);
-    jobIsInLoading.value = false;
-    if (response["result"] != null) {
-      jobs.value = JobModel.fromJsonList(response["result"]);
-    } else {
-      appSnackBar("error", response["error"], "");
-    }
+    jobs.value = appServices.jobs.value;
     getJobInItem();
   }
 }

@@ -4,6 +4,8 @@ class CreateSalonData {
   SalonModel? salonModel;
 
   CreateSalonData.fromJson(Map<String, dynamic> json) {
-    salonModel = SalonModel.fromJson(json);
+    if(json["salon"] != null){
+      salonModel = SalonModel.fromJson(json["salon"]);
+    }
   }
 }

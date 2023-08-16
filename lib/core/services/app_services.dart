@@ -1,25 +1,35 @@
 import 'package:artisans/core/constants/constants.dart';
-import 'package:artisans/core/functions/app_functions.dart';
 import 'package:artisans/core/models/user_model.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
+import '../models/job_model.dart';
+import 'my_get_storage.dart';
 
 class AppServices extends GetxService {
   Rxn<UserModel> currentUser = Rxn<UserModel>();
-
-  String _token = "";
-
-  String get token => _token;
+  RxString token = "".obs;
+  Rx<List<JobModel>> jobs = Rx<List<JobModel>>([]);
 
   @override
   void onInit() {
     super.onInit();
-    _token = getInGetStorage(key: token) ?? "";
   }
 
-  setCurrentUser(){
-    _token = getInGetStorage(key: Constants.token);
-    currentUser.value = UserModel.fromJson(getInGetStorage(key: Constants.currentUser));
+  setCurrentUser(UserModel userModel, String token1) {
+    MyGetStorage.instance.write(Constants.currentUser, userModel.toJson());
+    currentUser.value = userModel;
+    MyGetStorage.instance.write(Constants.token, token1);
+    token.value = token1;
+    print("setCurrentUser \t token : ${MyGetStorage.instance.read("token")}");
   }
 
+  getCurrentUser() {
+    currentUser.value =
+        UserModel.fromJson(MyGetStorage.instance.read("currentUser"));
+    // print("getCurrentUser \t : currentUser : ${currentUser.toJson()}");
+    token.value = MyGetStorage.instance.read("token") ?? "";
+  }
+
+  setJobs(List<JobModel> jobList){
+    jobs.value = jobList;
+  }
 }

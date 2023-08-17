@@ -27,6 +27,6 @@ class SalonModel {
         latitude: json["latitude"] ?? 0.0,
         longitude: json["longitude"] ?? 0.0,
         nbrStar: json["nbrStar"] ?? 1,
-        salonName: json["salonName"] ?? 1);
+        salonName: json["name"] ?? "");
   }
 }

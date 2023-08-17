@@ -73,7 +73,7 @@ class ApiServices {
     });
     var response = await ApiProvider.client.post("salon", data: formData);
     print("finish");
-    if (response.statusCode == HttpStatus.created) {
+    if (response.statusCode == HttpStatus.ok) {
       if (response.data is! Map) return CreateSalonData.fromJson({});
       return CreateSalonData.fromJson(response.data);
     } else {

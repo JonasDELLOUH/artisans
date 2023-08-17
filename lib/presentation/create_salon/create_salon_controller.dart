@@ -66,7 +66,11 @@ class CreateSalonController extends GetxController {
         phone: telController.value.text,
       ));
       creatingSalon.value = false;
+      Get.back();
+      appSnackBar("success", "salon_created".tr, "");
+      btnController.stop();
     } catch (e) {
+      btnController.stop();
       print("e.response?.data : $e");
       creatingSalon.value = false;
       if (e is DioException) {

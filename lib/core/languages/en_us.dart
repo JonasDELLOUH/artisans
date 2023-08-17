@@ -54,5 +54,6 @@ Map<String, String> enUS = {
   "pwd_m_h_1_l_min": "Password must contain at least one lowercase letter",
   "pwd_m_h_1_l_maj": "Password must contain at least one uppercase letter",
   "pwd_m_h_1_f": "Password must contain at least one number",
-  "create": "Create"
+  "create": "Create",
+  "salon_created": "Salon created!"
 };

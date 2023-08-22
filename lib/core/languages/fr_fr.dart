@@ -55,5 +55,6 @@ Map<String, String> frFr = {
   "pwd_m_h_1_l_maj": "Le mot de passe doit contenir au moins une lettre majuscule",
   "pwd_m_h_1_f": "Le mot de passe doit contenir au moins un chiffre",
   "create": "Créer",
-  "salon_created": "Salon créé!"
+  "salon_created": "Salon créé!",
+  "salon_desc": "Description du salon"
 };

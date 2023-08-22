@@ -122,6 +122,7 @@ class SalonScreen extends GetView<SalonController> {
                         "inoubliable.",
                     fontSize: 12,
                     color: greyColor,
+                    maxLines: 10,
                   ),
                   const SizedBox(
                     height: 10,

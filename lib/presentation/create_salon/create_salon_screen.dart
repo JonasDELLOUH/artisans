@@ -271,6 +271,26 @@ class CreateSalonScreen extends GetView<CreateSalonController> {
             hintText: "salon_phone".tr,
             borderRadius: const BorderRadius.all(Radius.circular(15)),
           ),
+          const SizedBox(
+            height: 10,
+          ),
+          CustomText(text: "salon_desc".tr),
+          const SizedBox(
+            height: 5,
+          ),
+          CustomTextFormField(
+            validator: (validator) {
+              if (validator!.isEmpty) {
+                return 'field_must_not_be_empty'.tr;
+              }
+              return null;
+            },
+            controller: controller.descController,
+            keyboardType: TextInputType.text,
+            hintText: "salon_desc".tr,
+            borderRadius: const BorderRadius.all(Radius.circular(15)),
+            maxLines: 5,
+          ),
         ],
       ),
     );

@@ -79,6 +79,11 @@ class HomeScreen extends StatelessWidget {
                           itemBuilder: (context, index) {
                             return JobTile(
                               jobModel: controller.jobs.value[index],
+                              onTap: () {
+                                Get.toNamed(AppRoutes.searchRoute, arguments: [
+                                  controller.jobs.value[index].jobId
+                                ]);
+                              },
                             );
                           })),
             ),
@@ -161,11 +166,14 @@ class HomeScreen extends StatelessWidget {
                             : ListView.builder(
                                 shrinkWrap: true,
                                 physics: const NeverScrollableScrollPhysics(),
-                                itemCount: controller.nearestSalons.value.length,
+                                itemCount:
+                                    controller.nearestSalons.value.length,
                                 itemBuilder: (context, index) {
                                   return SalonTile(
-                                    salonModel: controller.nearestSalons.value[index],
-
+                                    salonModel:
+                                        controller.nearestSalons.value[index],
+                                    latitude: controller.latitude.value,
+                                    longitude: controller.longitude.value,
                                   );
                                 })),
                   ],

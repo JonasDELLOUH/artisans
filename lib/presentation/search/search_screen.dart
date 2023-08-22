@@ -1,5 +1,6 @@
 import 'package:artisans/core/colors/colors.dart';
 import 'package:artisans/widgets/custom_text.dart';
+import 'package:artisans/widgets/no_salon_find_view.dart';
 import 'package:artisans/widgets/search_text_field.dart';
 import 'package:artisans/presentation/search/widgets/search_job_tile.dart';
 import 'package:flutter/material.dart';
@@ -33,11 +34,11 @@ class SearchScreen extends GetView<search_controller.SearchController> {
               children: [
                 Expanded(
                     child: SearchTextField(
-                        controller: controller.searchController,
-                      onEditingComplete: (){
-                          controller.getSalons();
-                      },
-                    )),
+                  controller: controller.searchController,
+                  onEditingComplete: () {
+                    controller.getSalons();
+                  },
+                )),
                 Padding(
                   padding: const EdgeInsets.all(15),
                   child: InkWell(
@@ -95,15 +96,17 @@ class SearchScreen extends GetView<search_controller.SearchController> {
             ),
             Expanded(
                 child: Obx(() => controller.getSalonsIsInLoading.value
-                    ? const CircularProgressIndicator()
+                    ? const Center(child: CircularProgressIndicator())
                     : controller.jobs.value.isEmpty
-                        ? Container()
+                        ? const NoSalonFindView()
                         : ListView.builder(
                             shrinkWrap: true,
                             itemCount: controller.salons.value.length,
                             itemBuilder: (context, index) {
                               return SalonTile(
                                 salonModel: controller.salons.value[index],
+                                latitude: controller.latitude.value,
+                                longitude: controller.longitude.value,
                               );
                             }))),
           ],

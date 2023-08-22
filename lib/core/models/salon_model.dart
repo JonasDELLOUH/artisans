@@ -24,8 +24,8 @@ class SalonModel {
         salonId: json["_id"] ?? "",
         address: json["address"] ?? "",
         imageUrl: json["imageUrl"] ?? "",
-        latitude: json["latitude"] ?? 0.0,
-        longitude: json["longitude"] ?? 0.0,
+        latitude: json["lat"] ?? 0.0,
+        longitude: json["long"] ?? 0.0,
         nbrStar: json["nbrStar"] ?? 1,
         salonName: json["name"] ?? "");
   }

@@ -1,6 +1,7 @@
 import 'package:artisans/core/models/salon_model.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import '../../core/models/job_model.dart';
 import '../../core/services/app_services.dart';
@@ -16,11 +17,20 @@ class HomeController extends GetxController {
   RxBool getSalonsIsInLoading = false.obs;
   final appServices = Get.find<AppServices>();
 
+  RxDouble latitude = 0.0.obs;
+  RxDouble longitude = 0.0.obs;
+
   @override
   onInit() {
     super.onInit();
     getJob();
     getNearestSalons();
+  }
+
+  updateLocation() async {
+    Position position = await Geolocator.getCurrentPosition();
+    latitude.value = position.latitude;
+    longitude.value = position.longitude;
   }
 
   getJob() async {
@@ -41,7 +51,8 @@ class HomeController extends GetxController {
   getNearestSalons() async {
     try {
       getSalonsIsInLoading.value = true;
-      GetSalonsData getSalonsData = await ApiServices.getSalons();
+      await updateLocation();
+      GetSalonsData getSalonsData = await ApiServices.getSalons(lat: latitude.value, long: longitude.value);
       nearestSalons.value = getSalonsData.salons ?? [];
       getSalonsIsInLoading.value = false;
     } catch (e) {

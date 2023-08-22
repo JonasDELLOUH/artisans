@@ -6,25 +6,28 @@ import '../../../core/models/job_model.dart';
 import '../../../widgets/custom_image_network.dart';
 
 class JobTile extends StatelessWidget {
-  const JobTile({Key? key, required this.jobModel}) : super(key: key);
+  JobTile({Key? key, required this.jobModel, this.onTap}) : super(key: key);
   final JobModel jobModel;
+  void Function()? onTap;
 
   @override
   Widget build(BuildContext context) {
-    print("url image job : ${Constants.imageOriginUrl + jobModel.jobImageUrl}");
-    return Container(
-      width: 40,
-      height: 50,
-      margin: const EdgeInsets.symmetric(horizontal: 5),
-      child: Column(
-        children: [
-          CustomImageNetwork(
-            imageUrl: Constants.imageOriginUrl + jobModel.jobImageUrl,
-             borderRadius: BorderRadius.circular(10), height: 35,
-          ),
-          const SizedBox(height: 5,),
-          CustomText(text: jobModel.jobName, fontSize: 9, textAlign: TextAlign.center, overflow: TextOverflow.ellipsis, maxLines: 2,)
-        ],
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        width: 40,
+        height: 50,
+        margin: const EdgeInsets.symmetric(horizontal: 5),
+        child: Column(
+          children: [
+            CustomImageNetwork(
+              imageUrl: Constants.imageOriginUrl + jobModel.jobImageUrl,
+               borderRadius: BorderRadius.circular(10), height: 35,
+            ),
+            const SizedBox(height: 5,),
+            CustomText(text: jobModel.jobName, fontSize: 9, textAlign: TextAlign.center, overflow: TextOverflow.ellipsis, maxLines: 2,)
+          ],
+        ),
       ),
     );
   }

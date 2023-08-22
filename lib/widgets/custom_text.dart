@@ -43,7 +43,8 @@ class CustomText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(
-      maxLength != null ? truncateText() : text,
+      text,
+      // maxLength != null ? truncateText() : text,
       style: GoogleFonts.robotoSlab(
         textStyle: TextStyle(
           fontSize: fontSize,
@@ -57,7 +58,7 @@ class CustomText extends StatelessWidget {
       textAlign: textAlign,
       textDirection: textDirection,
       softWrap: softWrap ?? true,
-      overflow: overflow ?? TextOverflow.clip,
+      overflow: overflow ?? TextOverflow.ellipsis,
       maxLines: maxLines,
     );
   }

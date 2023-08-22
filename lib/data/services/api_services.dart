@@ -59,6 +59,7 @@ class ApiServices {
     required String address,
     required String email,
     required String phone,
+    required String desc
   }) async {
     print("createSalon");
     dio.FormData formData = dio.FormData.fromMap({
@@ -69,7 +70,8 @@ class ApiServices {
       "imageUrl": await dio.MultipartFile.fromFile(image.path),
       "address": address,
       "email": email,
-      "phone": phone
+      "phone": phone,
+      "desc": desc
     });
     var response = await ApiProvider.client.post("salon", data: formData);
     print("finish");

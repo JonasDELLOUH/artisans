@@ -23,7 +23,7 @@ class CustomText extends StatelessWidget {
       this.textDirection,
       this.softWrap,
       this.overflow,
-      this.maxLines,
+      this.maxLines = 10,
       this.fontSize = 16.0,
       this.fontWeight = FontWeight.w400,
       this.fontStyle = FontStyle.normal,

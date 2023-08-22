@@ -14,6 +14,7 @@ class SearchScreen extends GetView<search_controller.SearchController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: Colors.transparent,
@@ -97,7 +98,7 @@ class SearchScreen extends GetView<search_controller.SearchController> {
             Expanded(
                 child: Obx(() => controller.getSalonsIsInLoading.value
                     ? const Center(child: CircularProgressIndicator())
-                    : controller.jobs.value.isEmpty
+                    : controller.salons.value.isEmpty
                         ? const NoSalonFindView()
                         : ListView.builder(
                             shrinkWrap: true,

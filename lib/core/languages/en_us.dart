@@ -56,5 +56,7 @@ Map<String, String> enUS = {
   "pwd_m_h_1_f": "Password must contain at least one number",
   "create": "Create",
   "salon_created": "Salon created!",
-  "salon_desc": "Salon description"
+  "salon_desc": "Salon description",
+  'no_results': "No Results",
+  "no_salon_find": "Sorry, there are no results for this search, please try another phase"
 };

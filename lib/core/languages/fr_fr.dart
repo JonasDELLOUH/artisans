@@ -56,5 +56,7 @@ Map<String, String> frFr = {
   "pwd_m_h_1_f": "Le mot de passe doit contenir au moins un chiffre",
   "create": "Créer",
   "salon_created": "Salon créé!",
-  "salon_desc": "Description du salon"
+  "salon_desc": "Description du salon",
+  'no_results': "Aucun Resultats",
+  "no_salon_find": "Désolé, il n'y a aucun résultat pour cette recherche, veuillez essayer une autre phase"
 };

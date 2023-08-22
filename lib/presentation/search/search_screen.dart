@@ -13,69 +13,100 @@ class SearchScreen extends GetView<search_controller.SearchController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.all(15),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(
-                height: 10,
-              ),
-              Row(
-                children: [
-                  Expanded(
-                      child: SearchTextField(
-                          controller: controller.searchController)),
-                  Padding(
-                    padding: const EdgeInsets.all(15),
-                    child: InkWell(
-                      onTap: (){
-                        controller.searchController.clear();
+      appBar: AppBar(
+        centerTitle: true,
+        backgroundColor: Colors.transparent,
+        elevation: 0.0,
+        title: CustomText(
+          text: "search".tr,
+        ),
+        leading: const BackButton(
+          color: blueColor,
+        ),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 15),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Expanded(
+                    child: SearchTextField(
+                        controller: controller.searchController,
+                      onEditingComplete: (){
+                          controller.getSalons();
                       },
-                      child: const Icon(
-                        Icons.clear,
-                        size: 30,
-                        color: greyColor,
-                      ),
+                    )),
+                Padding(
+                  padding: const EdgeInsets.all(15),
+                  child: InkWell(
+                    onTap: () {
+                      controller.searchController.clear();
+                    },
+                    child: const Icon(
+                      Icons.clear,
+                      size: 30,
+                      color: greyColor,
                     ),
-                  )
-                ],
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: [
-                    SearchJobTile(jobName: "All",isSelected: true,),
-                    SearchJobTile(jobName: "Soudure"),
-                    SearchJobTile(jobName: "Coiffure"),
-                    SearchJobTile(jobName: "Couture"),
-                    SearchJobTile(jobName: "Vulganisateur"),
-                    SearchJobTile(jobName: "Mecanique"),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 10,),
-              CustomText(text: "${"result_found".tr}(10)", fontWeight: FontWeight.w700,),
-              const SizedBox(height: 10,),
-              Expanded(
-                child: ListView.builder(
-                  physics: ScrollPhysics(),
-                    itemCount: 10,
-                    itemBuilder: (context, index){
-                      return SalonTile(
-                        salonName: 'Jim Jax',
-                        location: '8591 Elgn St. Celina, Delaware',
-                        nbrStars: 5,
-                        distance: 50,
-                      );
-                    }),
-              ),
-            ],
-          ),
+                  ),
+                )
+              ],
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            SizedBox(
+                height: 30,
+                child: Obx(() => controller.jobIsInLoading.value
+                    ? LinearProgressIndicator(
+                        color: greyColor.withOpacity(0.4),
+                        backgroundColor: whiteColor,
+                      )
+                    : controller.jobs.value.isEmpty
+                        ? Container()
+                        : ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: controller.jobs.value.length,
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (context, index) {
+                              return Obx(() => SearchJobTile(
+                                    jobModel: controller.jobs.value[index],
+                                    isSelected:
+                                        controller.jobs.value[index].jobId ==
+                                            controller.jobId.value,
+                                    onTap: () {
+                                      controller.jobId.value =
+                                          controller.jobs.value[index].jobId;
+                                      controller.getSalons();
+                                    },
+                                  ));
+                            }))),
+            const SizedBox(
+              height: 10,
+            ),
+            Obx(() => CustomText(
+                  text:
+                      "${"result_found".tr}(${controller.salons.value.length.toString()})",
+                  fontWeight: FontWeight.w700,
+                )),
+            const SizedBox(
+              height: 10,
+            ),
+            Expanded(
+                child: Obx(() => controller.getSalonsIsInLoading.value
+                    ? const CircularProgressIndicator()
+                    : controller.jobs.value.isEmpty
+                        ? Container()
+                        : ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: controller.salons.value.length,
+                            itemBuilder: (context, index) {
+                              return SalonTile(
+                                salonModel: controller.salons.value[index],
+                              );
+                            }))),
+          ],
         ),
       ),
     );

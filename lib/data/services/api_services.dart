@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:artisans/data/data_models/create_salon_data.dart';
 import 'package:dio/dio.dart' as dio;
 import '../data_models/get_jobs_data.dart';
+import '../data_models/get_salons_data.dart';
 import '../data_models/user_data.dart';
 import '../providers/api_provider.dart';
 
@@ -18,12 +19,11 @@ class ApiServices {
     }
   }
 
-  static Future<UserData> registerUser(
-      {required String name,
-      required String email,
-      required String phoneNumber,
-      required String password,
-      required username}) async {
+  static Future<UserData> registerUser({required String name,
+    required String email,
+    required String phoneNumber,
+    required String password,
+    required username}) async {
     print("loginUser");
     var response = await ApiProvider.client.post("register", data: {
       "name": name,
@@ -76,6 +76,23 @@ class ApiServices {
     if (response.statusCode == HttpStatus.ok) {
       if (response.data is! Map) return CreateSalonData.fromJson({});
       return CreateSalonData.fromJson(response.data);
+    } else {
+      throw Exception();
+    }
+  }
+
+  static Future<GetSalonsData> getSalons({String? name, String? jobId, int limit = 10, int skip = 0, double? lat, double? long}) async {
+    var response = await ApiProvider.client.get("salon", data: {
+      "name": name,
+      "jobId": jobId,
+      "limit": limit,
+      "skip": skip,
+      "lat": lat,
+      "long": long
+    });
+    if (response.statusCode == HttpStatus.ok) {
+      // if (response.data is! List) return GetSalonsData.fromJson({});
+      return GetSalonsData.fromJson(response.data);
     } else {
       throw Exception();
     }

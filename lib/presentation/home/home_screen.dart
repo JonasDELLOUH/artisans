@@ -82,18 +82,6 @@ class HomeScreen extends StatelessWidget {
                             );
                           })),
             ),
-            // SingleChildScrollView(
-            //   scrollDirection: Axis.horizontal,
-            //   child: Row(
-            //     children: [
-            //
-            //       JobTile(jobName: "Coiffure"),
-            //       JobTile(jobName: "Couture"),
-            //       JobTile(jobName: "Soudure"),
-            //       JobTile(jobName: "Soudure"),
-            //     ],
-            //   ),
-            // ),
             Expanded(
               child: SingleChildScrollView(
                 child: Column(
@@ -111,18 +99,18 @@ class HomeScreen extends StatelessWidget {
                                 color: greyColor.withOpacity(0.1),
                                 borderRadius: BorderRadius.circular(8),
                               ),
-                              padding: EdgeInsets.all(5),
+                              padding: const EdgeInsets.all(5),
                               height: 130,
                               child: Column(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  CustomText(
+                                  const CustomText(
                                     text: "-40%",
                                     fontSize: 40,
                                     fontWeight: FontWeight.w700,
                                   ),
-                                  CustomText(
+                                  const CustomText(
                                     text: "Design Coiffure",
                                     fontSize: 15,
                                   ),
@@ -166,18 +154,20 @@ class HomeScreen extends StatelessWidget {
                     const SizedBox(
                       height: 10,
                     ),
-                    ListView.builder(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemCount: 4,
-                        itemBuilder: (context, index) {
-                          return SalonTile(
-                            salonName: 'Jim Jax',
-                            location: '8591 Elgn St. Celina, Delaware',
-                            nbrStars: 5,
-                            distance: 50,
-                          );
-                        }),
+                    Obx(() => controller.getSalonsIsInLoading.value
+                        ? const CircularProgressIndicator()
+                        : controller.jobs.value.isEmpty
+                            ? Container()
+                            : ListView.builder(
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemCount: controller.nearestSalons.value.length,
+                                itemBuilder: (context, index) {
+                                  return SalonTile(
+                                    salonModel: controller.nearestSalons.value[index],
+
+                                  );
+                                })),
                   ],
                 ),
               ),

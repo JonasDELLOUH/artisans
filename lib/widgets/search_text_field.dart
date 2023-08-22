@@ -6,9 +6,11 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class SearchTextField extends StatelessWidget {
-  SearchTextField({Key? key, required this.controller, this.enabled}) : super(key: key);
+  SearchTextField({Key? key, required this.controller, this.enabled, this.onEditingComplete}) : super(key: key);
   final TextEditingController controller;
   final bool? enabled;
+  void Function(String?)? onSaved;
+  void Function()? onEditingComplete;
 
   @override
   Widget build(BuildContext context) {
@@ -21,6 +23,8 @@ class SearchTextField extends StatelessWidget {
         borderRadius: const BorderRadius.all(Radius.circular(15)),
       ),
       child: CustomTextFormField(
+        onSaved: onSaved,
+        onEditingComplete: onEditingComplete,
         enabled: enabled,
         controller: controller,
         border: InputBorder.none,

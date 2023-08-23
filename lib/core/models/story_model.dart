@@ -1,14 +1,33 @@
-import 'package:artisans/core/models/user.dart';
-import 'package:artisans/core/models/user_model.dart';
+class StoryModel {
+  final String id;
+  final String salonId;
+  final String content;
+  final String videoUrl;
 
-class Story {
-  final User user;
-  final String imageUrl;
-  final bool isViewed;
+  StoryModel(
+      {required this.content,
+        required this.salonId,
+        required this.videoUrl,
+        required this.id});
 
-  const Story({
-    required this.user,
-    required this.imageUrl,
-    this.isViewed = false,
-  });
+  factory StoryModel.fromJson(Map<String, dynamic> json) {
+    return StoryModel(
+        id: json["id"] ?? "",
+        salonId: json["salonId"] ?? "",
+        content: json["content"] ?? "",
+        videoUrl: json["videoUrl"] ?? "");
+  }
+
+  Map<String, dynamic> toJson(){
+    return {
+      "id": id,
+      "salonId": salonId,
+      "content": content,
+      "videoUrl": videoUrl
+    };
+  }
+
+  static List<StoryModel> fromJsonList(List<dynamic> json) {
+    return json.map((storyModel) => StoryModel.fromJson(storyModel)).toList();
+  }
 }

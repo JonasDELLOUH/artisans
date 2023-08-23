@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 import '../../../core/config/palette.dart';
-import '../../../core/models/post_model.dart';
+import '../../../core/models/post.dart';
 
 class PostContainer extends StatelessWidget {
   final Post post;

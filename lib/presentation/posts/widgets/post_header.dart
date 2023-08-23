@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../core/colors/colors.dart';
-import '../../../core/models/post_model.dart';
+import '../../../core/models/post.dart';
 import '../../../widgets/custom_text.dart';
 import '../../../widgets/profile_avatar.dart';
 

@@ -1,22 +1,38 @@
-import 'package:artisans/core/models/user.dart';
-import 'package:artisans/core/models/user_model.dart';
+import 'package:artisans/core/models/salon_model.dart';
 
-class Post {
-  final User user;
-  final String caption;
-  final String timeAgo;
-  final String? imageUrl;
-  final int likes;
-  final int comments;
-  final int shares;
+class PostModel {
+  final String id;
+  final String salonId;
+  final String content;
+  final String imageUrl;
+  SalonModel? salonModel;
 
-  const Post({
-    required this.user,
-    required this.caption,
-    required this.timeAgo,
-    required this.imageUrl,
-    required this.likes,
-    required this.comments,
-    required this.shares,
-  });
+  PostModel(
+      {required this.content,
+      required this.salonId,
+      required this.imageUrl,
+      required this.id, this.salonModel});
+
+  factory PostModel.fromJson(Map<String, dynamic> json) {
+    return PostModel(
+        id: json["id"] ?? "",
+        salonId: json["salonId"] ?? "",
+        content: json["content"] ?? "",
+        imageUrl: json["imageUrl"] ?? "",
+        salonModel: SalonModel.fromJson(json["salon"])
+    );
+  }
+
+  Map<String, dynamic> toJson(){
+    return {
+      "id": id,
+      "salonId": salonId,
+      "content": content,
+      "imageUrl": imageUrl
+    };
+  }
+
+  static List<PostModel> fromJsonList(List<dynamic> json) {
+    return json.map((postModel) => PostModel.fromJson(postModel)).toList();
+  }
 }

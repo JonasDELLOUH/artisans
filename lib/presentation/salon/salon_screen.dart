@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../core/data/data.dart';
-import '../../core/models/post_model.dart';
+import '../../core/models/post.dart';
 import '../../widgets/custom_text.dart';
 import '../../widgets/stars_tile.dart';
 import '../posts/widgets/post_container.dart';

@@ -1,8 +1,10 @@
 import 'dart:io';
 import 'package:artisans/data/data_models/create_salon_data.dart';
+import 'package:artisans/data/data_models/get_posts_data.dart';
 import 'package:dio/dio.dart' as dio;
 import '../data_models/get_jobs_data.dart';
 import '../data_models/get_salons_data.dart';
+import '../data_models/get_stories_data.dart';
 import '../data_models/user_data.dart';
 import '../providers/api_provider.dart';
 
@@ -95,6 +97,36 @@ class ApiServices {
     if (response.statusCode == HttpStatus.ok) {
       // if (response.data is! List) return GetSalonsData.fromJson({});
       return GetSalonsData.fromJson(response.data);
+    } else {
+      throw Exception();
+    }
+  }
+
+  static Future<GetPostsData> getPosts({int limit = 10, int skip = 0, double? lat, double? long}) async {
+    var response = await ApiProvider.client.get("post", data: {
+      "limit": limit,
+      "skip": skip,
+      "lat": lat,
+      "long": long
+    });
+    if (response.statusCode == HttpStatus.ok) {
+      // if (response.data is! List) return GetSalonsData.fromJson({});
+      return GetPostsData.fromJson(response.data);
+    } else {
+      throw Exception();
+    }
+  }
+
+  static Future<GetStoriesData> getStories({int limit = 10, int skip = 0, double? lat, double? long}) async {
+    var response = await ApiProvider.client.get("story", data: {
+      "limit": limit,
+      "skip": skip,
+      "lat": lat,
+      "long": long
+    });
+    if (response.statusCode == HttpStatus.ok) {
+      // if (response.data is! List) return GetSalonsData.fromJson({});
+      return GetStoriesData.fromJson(response.data);
     } else {
       throw Exception();
     }

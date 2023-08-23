@@ -7,7 +7,7 @@ import '../../core/models/post.dart';
 import 'widgets/post_container.dart';
 import 'widgets/stories.dart';
 
-class PostsScreen extends GetView<PostsController> {
+class PostsScreen extends StatelessWidget {
   PostsScreen({Key? key, required this.controller}) : super(key: key);
   PostsController controller = Get.find<PostsController>();
 

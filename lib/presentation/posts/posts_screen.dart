@@ -1,7 +1,6 @@
 import 'package:artisans/presentation/posts/posts_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import '../../core/data/data.dart';
 import '../../core/models/post.dart';
 import 'widgets/post_container.dart';
@@ -14,6 +13,9 @@ class PostsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      bottomNavigationBar: TextButton(onPressed: () {
+        controller.getPosts();
+      }, child: Text("get posts"),),
       body: SafeArea(
           child: Padding(
         padding: const EdgeInsets.all(15),
@@ -28,15 +30,18 @@ class PostsScreen extends StatelessWidget {
                 ),
               ),
             ),
-            SliverList(
+            
+            Obx(() => controller.postIsInLoading.value ? const SliverPadding(
+                padding: EdgeInsets.zero,
+              sliver: SliverToBoxAdapter(child: Center(child: CircularProgressIndicator(),)),
+            ) : SliverList(
               delegate: SliverChildBuilderDelegate(
-                (context, index) {
-                  final Post post = posts[index];
-                  return PostContainer(post: post);
+                    (context, index) {
+                  return PostContainer(postModel: controller.posts.value[index]);
                 },
-                childCount: posts.length,
+                childCount: controller.posts.value.length,
               ),
-            ),
+            )),
           ],
         ),
       )),

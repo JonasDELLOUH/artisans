@@ -1,36 +1,38 @@
+import 'package:artisans/core/models/post_model.dart';
 import 'package:flutter/material.dart';
 
 import '../../../core/colors/colors.dart';
+import '../../../core/constants/constants.dart';
 import '../../../core/models/post.dart';
 import '../../../widgets/custom_text.dart';
 import '../../../widgets/profile_avatar.dart';
 
 class PostHeader extends StatelessWidget {
-  final Post post;
+  final PostModel postModel;
 
   const PostHeader({
     Key? key,
-    required this.post,
+    required this.postModel,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
-        ProfileAvatar(imageUrl: post.user.imageUrl),
+        ProfileAvatar(imageUrl: Constants.imageOriginUrl + postModel.salonModel!.imageUrl),
         const SizedBox(width: 8.0),
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               CustomText(
-                text: post.user.name,
+                text: postModel.salonModel!.salonName,
                 fontWeight: FontWeight.w600,
               ),
               Row(
                 children: [
                   CustomText(
-                    text: '${post.timeAgo} • ',
+                    text: '${"5h"} • ',
                     fontSize: 12.0,
                     color: greyColor.withOpacity(0.6),
                   ),

@@ -34,10 +34,11 @@ class PostsController extends GetxController {
       GetPostsData getPostsData = await ApiServices.getPosts(
           lat: latitude.value, long: longitude.value);
       posts.value = getPostsData.posts ?? [];
+      print("taille de posts : ${posts.value.length}");
       postIsInLoading.value = false;
     } catch (e) {
       postIsInLoading.value = false;
-      print(e);
+      print("getPosts error:  $e");
       if (e is DioException) {
         appSnackBar("error", "Échoué", "${e.response?.data}");
       }

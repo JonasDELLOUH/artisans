@@ -1,4 +1,5 @@
 import 'package:artisans/core/colors/colors.dart';
+import 'package:artisans/widgets/custom_image_network.dart';
 import 'package:artisans/widgets/custom_text.dart';
 import 'package:artisans/widgets/responsive.dart';
 import 'package:artisans/presentation/posts/widgets/post_header.dart';
@@ -7,14 +8,16 @@ import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 import '../../../core/config/palette.dart';
+import '../../../core/constants/constants.dart';
 import '../../../core/models/post.dart';
+import '../../../core/models/post_model.dart';
 
 class PostContainer extends StatelessWidget {
-  final Post post;
+  final PostModel postModel;
 
   const PostContainer({
     Key? key,
-    required this.post,
+    required this.postModel,
   }) : super(key: key);
 
   @override
@@ -39,22 +42,22 @@ class PostContainer extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  PostHeader(post: post),
+                  PostHeader(postModel: postModel),
                   const SizedBox(height: 4.0),
                   CustomText(
-                    text: post.caption,
+                    text: postModel.content,
                     fontSize: 12,
                   ),
-                  post.imageUrl != null
+                  (postModel.imageUrl.isNotEmpty)
                       ? const SizedBox.shrink()
                       : const SizedBox(height: 6.0),
                 ],
               ),
             ),
-            post.imageUrl != null
+            postModel.imageUrl.isNotEmpty
                 ? Padding(
                     padding: const EdgeInsets.symmetric(vertical: 8.0),
-                    child: CachedNetworkImage(imageUrl: post.imageUrl!),
+                    child: CustomImageNetwork(imageUrl: Constants.imageOriginUrl + postModel.imageUrl),
                   )
                 : const SizedBox.shrink(),
             // Padding(

@@ -26,7 +26,9 @@ class SearchController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    jobId.value = Get.arguments[0] ?? "";
+    jobId.value = Get.arguments != null && Get.arguments is List && Get.arguments.isNotEmpty
+        ? Get.arguments[0]
+        : "";
     getJob();
     getSalons();
   }

@@ -12,7 +12,7 @@ class GetPostsData{
     skip = json["skip"];
     limit = json["limit"];
     posts = <PostModel>[];
-    for (var element in json["salons"]) {
+    for (var element in json["posts"]) {
       posts!.add(PostModel.fromJson(element));
     }
   }

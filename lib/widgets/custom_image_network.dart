@@ -34,7 +34,7 @@ class CustomImageNetwork extends StatelessWidget {
       this.gaplessPlayback = false,
       this.loadingBuilder,
       this.errorBuilder,
-      this.borderRadius})
+      this.borderRadius = BorderRadius.zero})
       : super(key: key);
 
   @override
@@ -53,6 +53,7 @@ class CustomImageNetwork extends StatelessWidget {
         matchTextDirection: matchTextDirection,
         errorWidget:
             errorWidget ?? (context, url, error) => const Icon(Icons.error),
+        placeholder: (context, url) => Container(color: greyColor.withOpacity(0.1),),
       ),
     );
   }

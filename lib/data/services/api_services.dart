@@ -1,5 +1,7 @@
 import 'dart:io';
+import 'package:artisans/data/data_models/create_post_data.dart';
 import 'package:artisans/data/data_models/create_salon_data.dart';
+import 'package:artisans/data/data_models/create_story_data.dart';
 import 'package:artisans/data/data_models/get_posts_data.dart';
 import 'package:dio/dio.dart' as dio;
 import '../data_models/get_jobs_data.dart';
@@ -21,11 +23,12 @@ class ApiServices {
     }
   }
 
-  static Future<UserData> registerUser({required String name,
-    required String email,
-    required String phoneNumber,
-    required String password,
-    required username}) async {
+  static Future<UserData> registerUser(
+      {required String name,
+      required String email,
+      required String phoneNumber,
+      required String password,
+      required username}) async {
     print("loginUser");
     var response = await ApiProvider.client.post("register", data: {
       "name": name,
@@ -52,17 +55,16 @@ class ApiServices {
     }
   }
 
-  static Future<CreateSalonData> createSalon({
-    required String jobId,
-    required String name,
-    required double lat,
-    required double long,
-    required File image,
-    required String address,
-    required String email,
-    required String phone,
-    required String desc
-  }) async {
+  static Future<CreateSalonData> createSalon(
+      {required String jobId,
+      required String name,
+      required double lat,
+      required double long,
+      required File image,
+      required String address,
+      required String email,
+      required String phone,
+      required String desc}) async {
     print("createSalon");
     dio.FormData formData = dio.FormData.fromMap({
       "jobId": jobId,
@@ -85,7 +87,13 @@ class ApiServices {
     }
   }
 
-  static Future<GetSalonsData> getSalons({String? name, String? jobId, int limit = 10, int skip = 0, double? lat, double? long}) async {
+  static Future<GetSalonsData> getSalons(
+      {String? name,
+      String? jobId,
+      int limit = 10,
+      int skip = 0,
+      double? lat,
+      double? long}) async {
     var response = await ApiProvider.client.get("salon", data: {
       "name": name,
       "jobId": jobId,
@@ -102,12 +110,18 @@ class ApiServices {
     }
   }
 
-  static Future<GetPostsData> getPosts({int limit = 10, int skip = 0, double? lat, double? long}) async {
-    var response = await ApiProvider.client.get("post", data: {
+  static Future<GetPostsData> getPosts(
+      {int limit = 10,
+      int skip = 0,
+      double? lat,
+      double? long,
+      String? salonId}) async {
+    var response = await ApiProvider.client.get("post", queryParameters: {
       "limit": limit,
       "skip": skip,
       "lat": lat,
-      "long": long
+      "long": long,
+      "salonId": salonId
     });
     if (response.statusCode == HttpStatus.ok) {
       // if (response.data is! List) return GetSalonsData.fromJson({});
@@ -117,12 +131,62 @@ class ApiServices {
     }
   }
 
-  static Future<GetStoriesData> getStories({int limit = 10, int skip = 0, double? lat, double? long}) async {
-    var response = await ApiProvider.client.get("story", data: {
+  static Future<CreatePostData> createPost(
+      {required String salonId,
+        required String content,
+        File? image,
+
+      }) async {
+    print("createPost");
+    dio.FormData formData = dio.FormData.fromMap({
+      "salonId": salonId,
+      "content": content,
+      "imageUrl": image != null ?  await dio.MultipartFile.fromFile(image.path) : null,
+    });
+    var response = await ApiProvider.client.post("salon", data: formData);
+    print("finish");
+    if (response.statusCode == HttpStatus.ok) {
+      if (response.data is! Map) return CreatePostData.fromJson({});
+      return CreatePostData.fromJson(response.data);
+    } else {
+      throw Exception();
+    }
+  }
+
+  static Future<CreateStoryData> createStory(
+      {required String salonId,
+        required String content,
+        File? video,
+
+      }) async {
+    print("createStory");
+    dio.FormData formData = dio.FormData.fromMap({
+      "salonId": salonId,
+      "content": content,
+      "videoUrl": video != null ?  await dio.MultipartFile.fromFile(video.path) : null,
+    });
+    var response = await ApiProvider.client.post("salon", data: formData);
+    print("finish");
+    if (response.statusCode == HttpStatus.ok) {
+      if (response.data is! Map) return CreateStoryData.fromJson({});
+      return CreateStoryData.fromJson(response.data);
+    } else {
+      throw Exception();
+    }
+  }
+
+  static Future<GetStoriesData> getStories(
+      {int limit = 10,
+      int skip = 0,
+      double? lat,
+      double? long,
+      String? salonId}) async {
+    var response = await ApiProvider.client.get("story", queryParameters: {
       "limit": limit,
       "skip": skip,
       "lat": lat,
-      "long": long
+      "long": long,
+      "salonId": salonId
     });
     if (response.statusCode == HttpStatus.ok) {
       // if (response.data is! List) return GetSalonsData.fromJson({});

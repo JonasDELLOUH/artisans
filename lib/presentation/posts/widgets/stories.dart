@@ -1,17 +1,21 @@
+import 'package:artisans/core/models/salon_model.dart';
+import 'package:artisans/core/models/story_model.dart';
+import 'package:artisans/core/models/user_model.dart';
 import 'package:artisans/widgets/responsive.dart';
 import 'package:artisans/presentation/posts/widgets/story_card.dart';
 import 'package:flutter/material.dart';
 
+import '../../../core/data/data.dart';
 import '../../../core/models/story.dart';
 import '../../../core/models/user.dart';
 
 class Stories extends StatelessWidget {
-  final User currentUser;
-  final List<Story> stories;
+  final SalonModel currentSalon;
+  final List<StoryModel> stories;
 
   const Stories({
     Key? key,
-    required this.currentUser,
+    required this.currentSalon,
     required this.stories,
   }) : super(key: key);
 
@@ -33,17 +37,16 @@ class Stories extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 4.0),
               child: StoryCard(
                 isAddStory: true,
-                currentUser: currentUser,
-                story: stories[index],
+                story: stories[index], currentSalon: currentSalon,
               ),
             );
           }
-          final Story story = stories[index - 1];
+          final StoryModel story = stories[index - 1];
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 4.0),
             child: StoryCard(
               story: story,
-              currentUser: currentUser,
+               currentSalon: currentSalon,
             ),
           );
         },

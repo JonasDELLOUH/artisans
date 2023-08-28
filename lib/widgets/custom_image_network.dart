@@ -19,22 +19,21 @@ class CustomImageNetwork extends StatelessWidget {
   final Widget Function(BuildContext, Object, StackTrace?)? errorBuilder;
   Widget Function(BuildContext, String, dynamic)? errorWidget;
 
-  CustomImageNetwork(
-      {Key? key,
-      required this.imageUrl,
-      this.width,
-      this.height,
-      this.fit = BoxFit.cover,
-      this.alignment = Alignment.center,
-      this.repeat = ImageRepeat.noRepeat,
-      this.color,
-      this.colorBlendMode,
-      this.filterQuality = FilterQuality.low,
-      this.matchTextDirection = false,
-      this.gaplessPlayback = false,
-      this.loadingBuilder,
-      this.errorBuilder,
-      this.borderRadius = BorderRadius.zero})
+  CustomImageNetwork({Key? key,
+    required this.imageUrl,
+    this.width,
+    this.height,
+    this.fit = BoxFit.cover,
+    this.alignment = Alignment.center,
+    this.repeat = ImageRepeat.noRepeat,
+    this.color,
+    this.colorBlendMode,
+    this.filterQuality = FilterQuality.low,
+    this.matchTextDirection = false,
+    this.gaplessPlayback = false,
+    this.loadingBuilder,
+    this.errorBuilder,
+    this.borderRadius = BorderRadius.zero})
       : super(key: key);
 
   @override
@@ -52,8 +51,9 @@ class CustomImageNetwork extends StatelessWidget {
         filterQuality: filterQuality,
         matchTextDirection: matchTextDirection,
         errorWidget:
-            errorWidget ?? (context, url, error) => const Icon(Icons.error),
-        placeholder: (context, url) => Container(color: greyColor.withOpacity(0.1),),
+        errorWidget ?? (context, url, error) => const Icon(Icons.error),
+        placeholder: (context, url) =>
+            Container(color: greyColor.withOpacity(0.1),),
       ),
     );
   }

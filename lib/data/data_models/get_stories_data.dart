@@ -13,7 +13,7 @@ class GetStoriesData {
     skip = json["skip"];
     limit = json["limit"];
     stories = <StoryModel>[];
-    for (var element in json["salons"]) {
+    for (var element in json["stories"]) {
       stories!.add(StoryModel.fromJson(element));
     }
   }

@@ -29,4 +29,6 @@ class SalonModel {
         nbrStar: json["nbrStar"] ?? 1,
         salonName: json["name"] ?? "");
   }
+
+  static SalonModel currentSalon() =>  SalonModel(jobId: "", salonId: "", address: "Calavi-UAC", imageUrl: "", latitude: 1.1, longitude: 1.7, nbrStar: 4, salonName: "Jonas Coiffure");
 }

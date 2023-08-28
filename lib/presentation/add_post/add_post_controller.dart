@@ -1,15 +1,22 @@
 import 'dart:io';
+import 'package:artisans/data/data_models/create_post_data.dart';
+import 'package:artisans/data/data_models/create_story_data.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:images_picker/images_picker.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 import '../../core/colors/colors.dart';
+import '../../data/functions/functions.dart';
+import '../../data/services/api_services.dart';
 import '../../widgets/custom_text.dart';
 
 class AddPostController extends GetxController {
   final RoundedLoadingButtonController btnController =
       RoundedLoadingButtonController();
   RxBool isPost = true.obs;
+  RxBool creatingPostOrStory = false.obs;
+  final formKey = GlobalKey<FormState>();
 
   Rxn<File> postImg = Rxn<File>();
   Rxn<File> postVideo = Rxn<File>();
@@ -82,5 +89,30 @@ class AddPostController extends GetxController {
             ),
           );
         });
+  }
+
+  createSalon() async {
+    try {
+      creatingPostOrStory.value = true;
+      if (isPost.value) {
+        CreatePostData createPostData =
+            (await ApiServices.createPost(salonId: '', content: ''));
+      } else {
+        CreateStoryData createStoryData =
+            (await ApiServices.createStory(salonId: '', content: ''));
+      }
+
+      creatingPostOrStory.value = false;
+      Get.back();
+      // appSnackBar("success", "salon_created".tr, "");
+      btnController.stop();
+    } catch (e) {
+      btnController.stop();
+      print("e.response?.data : $e");
+      creatingPostOrStory.value = false;
+      if (e is DioException) {
+        appSnackBar("error", "failed".tr, "${e.response?.data}");
+      }
+    }
   }
 }

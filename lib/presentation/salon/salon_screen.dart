@@ -1,4 +1,5 @@
 import 'package:artisans/core/colors/colors.dart';
+import 'package:artisans/core/models/salon_model.dart';
 import 'package:artisans/widgets/custom_icon.dart';
 import 'package:artisans/widgets/custom_image_network.dart';
 import 'package:artisans/presentation/salon/salon_controller.dart';
@@ -146,8 +147,7 @@ class SalonScreen extends GetView<SalonController> {
                         padding: const EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 5.0),
                         sliver: SliverToBoxAdapter(
                           child: Stories(
-                            currentUser: currentUser,
-                            stories: stories,
+                            stories: [], currentSalon: SalonModel.currentSalon(),
                           ),
                         ),
                       ),

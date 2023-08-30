@@ -147,7 +147,7 @@ class SalonScreen extends GetView<SalonController> {
                         padding: const EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 5.0),
                         sliver: SliverToBoxAdapter(
                           child: Stories(
-                            stories: [], currentSalon: SalonModel.currentSalon(),
+                            stories: [],
                           ),
                         ),
                       ),

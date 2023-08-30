@@ -34,12 +34,13 @@ class AppRoutes {
   static const String createSalonRoute = "/create_salon";
   static const String personalDataRoute = "/personal_data";
   static const String changePasswordRoute = "/change_password";
+  static const String splashRoute = "/splash";
 
   static List<GetPage> pages = [
     GetPage(
-        name: initialRoute,
+        name: splashRoute,
         page: () => SplashScreen(),
-        binding: SplashBindings()),
+        binding: SplashBinding()),
     GetPage(
         name: signInRoute,
         page: () => const SignInScreen(),
@@ -61,7 +62,9 @@ class AppRoutes {
         page: () => StoriesScreen(),
         binding: StoriesBinding()),
     GetPage(
-        name: salonRoute, page: () => const SalonScreen(), binding: SalonBinding()),
+        name: salonRoute,
+        page: () => const SalonScreen(),
+        binding: SalonBinding()),
     GetPage(
         name: addPostRoute,
         page: () => const AddPostScreen(),
@@ -70,7 +73,13 @@ class AppRoutes {
         name: createSalonRoute,
         page: () => CreateSalonScreen(),
         binding: CreateSalonBinding()),
-    GetPage(name: personalDataRoute, page: () => const PersonalDataScreen(), binding: PersonalDataBinding()),
-    GetPage(name: changePasswordRoute, page: () => const ChangePasswordScreen(), binding: ChangePasswordBinding())
+    GetPage(
+        name: personalDataRoute,
+        page: () => const PersonalDataScreen(),
+        binding: PersonalDataBinding()),
+    GetPage(
+        name: changePasswordRoute,
+        page: () => const ChangePasswordScreen(),
+        binding: ChangePasswordBinding()),
   ];
 }

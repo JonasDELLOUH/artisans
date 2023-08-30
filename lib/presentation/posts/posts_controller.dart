@@ -60,7 +60,7 @@ class PostsController extends GetxController {
       GetStoriesData getStoriesData = await ApiServices.getStories(
           lat: latitude.value, long: longitude.value);
       stories.value = getStoriesData.stories ?? [];
-      print("taille de stories : ${posts.value.length}");
+      print("taille de stories : ${stories.value.length}");
       storyIsInLoading.value = false;
     } catch (e) {
       storyIsInLoading.value = false;

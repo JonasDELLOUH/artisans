@@ -73,7 +73,7 @@ class _StoryCardState extends State<StoryCard> {
         if (widget.isAddStory) {
           Get.toNamed(AppRoutes.addPostRoute);
         } else {
-          Get.to(const StoriesScreen());
+          Get.toNamed(AppRoutes.storiesRoute);
         }
       },
       child: Stack(

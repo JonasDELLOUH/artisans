@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:artisans/core/constants/constants.dart';
 import 'package:artisans/core/services/my_get_storage.dart';
 import 'package:get_storage/get_storage.dart';
  deleteGetStorageKey({required String key}){
@@ -35,6 +36,11 @@ double calculateDistance(double lat1, double lon1, double lat2, double lon2) {
   double distance = earthRadius * c; // Distance en mètres
   return distance;
 }
+
+bool isNotLogin(){
+  return !MyGetStorage.instance.hasData(Constants.token);
+}
+
 
 
 

@@ -25,6 +25,7 @@ class HomeController extends GetxController {
     super.onInit();
     getJob();
     getNearestSalons();
+    print("HomeController cuurent Salon : ${appServices.currentSalon.toJson()}");
   }
 
   updateLocation() async {

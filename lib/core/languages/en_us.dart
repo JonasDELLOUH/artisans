@@ -58,5 +58,8 @@ Map<String, String> enUS = {
   "salon_created": "Salon created!",
   "salon_desc": "Salon description",
   'no_results': "No Results",
-  "no_salon_find": "Sorry, there are no results for this search, please try another phase"
+  "no_salon_find": "Sorry, there are no results for this search, please try another phase",
+  "cancel": "Cancel",
+  "ok": "Ok",
+  "ask_logout": "Are you sure you want to log out?",
 };

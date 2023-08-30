@@ -30,5 +30,18 @@ class SalonModel {
         salonName: json["name"] ?? "");
   }
 
+  Map<String, dynamic> toJson(){
+    return {
+      "_id": salonId,
+      "jobId": jobId,
+      "address": address,
+      "imageUrl": imageUrl,
+      "latitude": latitude,
+      "longitude": longitude,
+      "nbrStar": nbrStar,
+      "salonName": salonName
+    };
+  }
+
   static SalonModel currentSalon() =>  SalonModel(jobId: "", salonId: "", address: "Calavi-UAC", imageUrl: "", latitude: 1.1, longitude: 1.7, nbrStar: 4, salonName: "Jonas Coiffure");
 }

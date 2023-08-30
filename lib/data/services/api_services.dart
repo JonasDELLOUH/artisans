@@ -3,6 +3,7 @@ import 'package:artisans/data/data_models/create_post_data.dart';
 import 'package:artisans/data/data_models/create_salon_data.dart';
 import 'package:artisans/data/data_models/create_story_data.dart';
 import 'package:artisans/data/data_models/get_posts_data.dart';
+import 'package:artisans/data/data_models/get_user_salon_data.dart';
 import 'package:dio/dio.dart' as dio;
 import '../data_models/get_jobs_data.dart';
 import '../data_models/get_salons_data.dart';
@@ -191,6 +192,18 @@ class ApiServices {
     if (response.statusCode == HttpStatus.ok) {
       // if (response.data is! List) return GetSalonsData.fromJson({});
       return GetStoriesData.fromJson(response.data);
+    } else {
+      throw Exception();
+    }
+  }
+
+  static Future<GetUserSalonData> getUserSalon() async {
+    print("getUserSalon");
+    var response = await ApiProvider.client.get("salon/userSalon/");
+    print("finish");
+    if (response.statusCode == HttpStatus.ok) {
+      if (response.data is! Map) return GetUserSalonData.fromJson({});
+      return GetUserSalonData.fromJson(response.data);
     } else {
       throw Exception();
     }

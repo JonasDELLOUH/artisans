@@ -12,5 +12,6 @@ class Constants{
 
   static const String token = "token";
   static const String currentUser = "currentUser";
+  static const String currentSalon = "currentSalon";
 
 }

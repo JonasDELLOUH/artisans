@@ -18,7 +18,7 @@ class ApiProvider {
     dio.interceptors.add(
       InterceptorsWrapper(
         onRequest: (requestOptions, requestInterceptorHandler) {
-          print("Mon token devient : ${MyGetStorage.instance.read("token")}");
+          print("Mon token devient : ${MyGetStorage.instance.read(Constants.token)}");
           String? authToken = MyGetStorage.instance.read("token") ?? "";
           print(
               "Url : ${requestOptions.uri} \n the data : ${requestOptions.data} \t the parameters : ${requestOptions.queryParameters}");

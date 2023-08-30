@@ -1,4 +1,3 @@
-import 'package:artisans/core/models/user_model.dart';
 import 'package:artisans/core/routes/app_routes.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
@@ -10,8 +9,8 @@ import '../../data/functions/functions.dart';
 import '../../data/services/api_services.dart';
 
 class SignInController extends GetxController {
-  TextEditingController usernameController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
+  TextEditingController usernameController = TextEditingController(text: "JonasDELLOUH");
+  TextEditingController passwordController = TextEditingController(text: "jonas1007");
   final RoundedLoadingButtonController btnController =
       RoundedLoadingButtonController();
   final appServices = Get.find<AppServices>();
@@ -30,6 +29,7 @@ class SignInController extends GetxController {
           username: usernameController.value.text,
           password: passwordController.value.text));
       appServices.setCurrentUser(userData.userModel!, userData.token);
+      await appServices.getUserSalon();
       btnController.stop();
       Get.offAllNamed(AppRoutes.menuRoute);
     } catch (e) {

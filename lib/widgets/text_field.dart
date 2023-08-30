@@ -22,6 +22,7 @@ class CustomTextFormField extends StatelessWidget {
   int? maxLines;
   void Function(String?)? onSaved;
   void Function()? onEditingComplete;
+  final String? initialValue;
 
    CustomTextFormField(
       {Key? key,
@@ -41,12 +42,13 @@ class CustomTextFormField extends StatelessWidget {
         this.labelStyle,
         this.maxLines = 1,
         this.borderRadius = BorderRadius.zero,
-        this.validator, this.focusedBorder, this.enabled, this.onSaved, this.onEditingComplete})
+        this.validator, this.focusedBorder, this.enabled, this.onSaved, this.onEditingComplete, this.initialValue})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      initialValue: initialValue,
       onSaved: onSaved,
       onEditingComplete: onEditingComplete,
       maxLines: maxLines,

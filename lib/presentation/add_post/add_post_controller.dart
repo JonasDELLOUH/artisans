@@ -91,7 +91,7 @@ class AddPostController extends GetxController {
         });
   }
 
-  createSalon() async {
+  addPostOrStorySalon() async {
     try {
       creatingPostOrStory.value = true;
       if (isPost.value) {

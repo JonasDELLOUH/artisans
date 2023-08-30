@@ -6,7 +6,7 @@ class SignInBindings extends Bindings{
   @override
   void dependencies() {
     Get.lazyPut(() => SignInController());
-    Get.lazyPut(() => AppServices());
+    // Get.lazyPut(() => AppServices());
   }
 
 }

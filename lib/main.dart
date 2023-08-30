@@ -1,5 +1,6 @@
 import 'package:artisans/core/languages/languages.dart';
 import 'package:artisans/core/routes/app_routes.dart';
+import 'package:artisans/core/services/app_services.dart';
 import 'package:artisans/core/themes/theme_services.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -26,6 +27,7 @@ class MyApp extends StatelessWidget {
       themeMode: ThemeService().getThemeMode(),
       theme: Themes().lightTheme,
       darkTheme: Themes().lightTheme,
+      initialBinding: AppServicesBinding(),
     );
   }
 }

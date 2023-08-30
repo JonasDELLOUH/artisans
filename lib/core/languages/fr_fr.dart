@@ -23,7 +23,7 @@ Map<String, String> frFr = {
   'settings': "Paramètres",
   "create_salon": "Créer un salon",
   "change_password": "Changer le mot de password",
-  'logout': "Se déconnecter",
+  'logout': "Déconnexion",
   'privacy_policy': "Politique de confidentialité",
   'content': "Contenue",
   'add_a_post': "Ajouter un post",
@@ -58,5 +58,8 @@ Map<String, String> frFr = {
   "salon_created": "Salon créé!",
   "salon_desc": "Description du salon",
   'no_results': "Aucun Resultats",
-  "no_salon_find": "Désolé, il n'y a aucun résultat pour cette recherche, veuillez essayer une autre phase"
+  "no_salon_find": "Désolé, il n'y a aucun résultat pour cette recherche, veuillez essayer une autre phase",
+  "cancel": "Annuler",
+  "ok": "Okay",
+  "ask_logout": "Êtes-vous sûr de vouloir vous déconnecter?",
 };

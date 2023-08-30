@@ -1,4 +1,5 @@
 import 'package:artisans/core/colors/colors.dart';
+import 'package:artisans/core/constants/constants.dart';
 import 'package:artisans/widgets/salon_tile.dart';
 import 'package:artisans/widgets/custom_button.dart';
 import 'package:artisans/widgets/custom_icon.dart';
@@ -26,13 +27,12 @@ class HomeScreen extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                CustomImageNetwork(
-                  imageUrl:
-                      "https://images.unsplash.com/photo-1507679799987-c73779587ccf?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1502&q=80",
+                Obx(() => controller.appServices.hasSalon.value ? CustomImageNetwork(
+                  imageUrl: Constants.imageOriginUrl + controller.appServices.currentSalon.value!.imageUrl,
                   height: 30,
                   width: 30,
                   borderRadius: BorderRadius.circular(10),
-                ),
+                ) : Container()),
                 const Row(
                   children: [
                     CustomIcon(

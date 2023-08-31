@@ -36,8 +36,7 @@ class ApiProvider {
         onError: (DioException dioException, ErrorInterceptorHandler onError) {
           print("the error : ${dioException.response?.data}");
           // Vérifiez si le statut de la réponse est 401 (Unauthorized) ou 403 (Forbidden)
-          if (dioException.response?.statusCode == 401 ||
-              dioException.response?.statusCode == 403) {
+          if (dioException.response?.statusCode == 401) {
             // Supprimez le token expiré ou invalide de GetStorage
             MyGetStorage.instance.remove('token');
             // Redirigez l'utilisateur vers la page de connexion

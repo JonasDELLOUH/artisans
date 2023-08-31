@@ -19,7 +19,7 @@ class PostModel {
         salonId: json["salonId"] ?? "",
         content: json["content"] ?? "",
         imageUrl: json["imageUrl"] ?? "",
-        salonModel: SalonModel.fromJson(json["salon"])
+        salonModel: json["salon"] != null ? SalonModel.fromJson(json["salon"]) : null
     );
   }
 

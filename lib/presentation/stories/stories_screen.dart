@@ -5,7 +5,6 @@ import 'package:artisans/presentation/stories/widgets/right_panel.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:video_player/video_player.dart';
-
 import '../../core/constants/data_json.dart';
 
 class StoriesScreen extends StatefulWidget {

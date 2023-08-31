@@ -19,7 +19,7 @@ class StoryModel {
         salonId: json["salonId"] ?? "",
         content: json["content"] ?? "",
         videoUrl: json["videoUrl"] ?? "",
-        salonModel: SalonModel.fromJson(json["salon"])
+        salonModel: json["salon"] != null ? SalonModel.fromJson(json["salon"]) : null
     );
   }
 

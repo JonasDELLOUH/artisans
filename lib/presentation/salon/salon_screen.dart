@@ -43,15 +43,15 @@ class SalonScreen extends GetView<SalonController> {
                           color: whiteColor,
                         ),
                         Obx(() => IconButton(
-                          icon: const Icon(Icons.star, size: 30),
-                          color: controller.isLiked.value
-                              ? goldenColor
-                              : whiteColor,
-                          onPressed: () {
-                            controller.isLiked.value =
-                            !controller.isLiked.value;
-                          },
-                        ))
+                              icon: const Icon(Icons.star, size: 30),
+                              color: controller.isLiked.value
+                                  ? goldenColor
+                                  : whiteColor,
+                              onPressed: () {
+                                controller.isLiked.value =
+                                    !controller.isLiked.value;
+                              },
+                            ))
                       ],
                     ))
               ],
@@ -143,23 +143,40 @@ class SalonScreen extends GetView<SalonController> {
                     physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
                     slivers: [
-                      SliverPadding(
-                        padding: const EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 5.0),
-                        sliver: SliverToBoxAdapter(
-                          child: Stories(
-                            stories: [],
-                          ),
-                        ),
-                      ),
-                      // SliverList(
-                      //   delegate: SliverChildBuilderDelegate(
-                      //     (context, index) {
-                      //       final Post post = posts[index];
-                      //       return PostContainer(post: post);
-                      //     },
-                      //     childCount: posts.length,
-                      //   ),
-                      // ),
+                      Obx(() => controller.storyIsInLoading.value
+                          ? const SliverPadding(
+                              padding: EdgeInsets.zero,
+                              sliver: SliverToBoxAdapter(
+                                  child: Center(
+                                child: CircularProgressIndicator(),
+                              )),
+                            )
+                          : SliverPadding(
+                              padding:
+                                  const EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 5.0),
+                              sliver: SliverToBoxAdapter(
+                                child: Stories(
+                                  stories: controller.stories.value,
+                                ),
+                              ),
+                            )),
+                      Obx(() => controller.postIsInLoading.value
+                          ? const SliverPadding(
+                              padding: EdgeInsets.zero,
+                              sliver: SliverToBoxAdapter(
+                                  child: Center(
+                                child: CircularProgressIndicator(),
+                              )),
+                            )
+                          : SliverList(
+                              delegate: SliverChildBuilderDelegate(
+                                (context, index) {
+                                  return PostContainer(
+                                      postModel: controller.posts.value[index]);
+                                },
+                                childCount: controller.posts.value.length,
+                              ),
+                            )),
                     ],
                   )
                 ],

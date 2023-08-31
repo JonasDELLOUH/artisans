@@ -14,10 +14,10 @@ import '../../data/functions/functions.dart';
 import '../../data/services/api_services.dart';
 
 class SignUpController extends GetxController {
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
-  TextEditingController nameController = TextEditingController();
-  TextEditingController phoneController = TextEditingController();
+  TextEditingController emailController = TextEditingController(text: "jdellouh2@gmail.com");
+  TextEditingController passwordController = TextEditingController(text: "Jonas1007");
+  TextEditingController nameController = TextEditingController(text: "JonasDELLOUH2");
+  TextEditingController phoneController = TextEditingController(text: "96133502");
   final RoundedLoadingButtonController btnController =
       RoundedLoadingButtonController();
   RxBool passwordIsVisible = false.obs;
@@ -35,16 +35,15 @@ class SignUpController extends GetxController {
       UserData userData = (await ApiServices.registerUser(
           username: nameController.value.text,
           password: passwordController.value.text,
-          name: '',
           email: emailController.value.text,
           phoneNumber: phoneController.value.text));
-      appServices.setCurrentUser(userData.userModel!, userData.token);
+      // appServices.setCurrentUser(userData.userModel!, userData.token);
       btnController.stop();
-      Get.offAllNamed(AppRoutes.menuRoute);
+      Get.offAllNamed(AppRoutes.signInRoute);
     } catch (e) {
       print(e);
       if (e is DioException) {
-        appSnackBar("error", "Connection échouée", "${e.response?.data}");
+        appSnackBar("error", "Enrégistrement échouée", "${e.response?.data}");
       }
       btnController.stop();
     }

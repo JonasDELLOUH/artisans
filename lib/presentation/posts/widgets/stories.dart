@@ -6,6 +6,7 @@ import 'package:artisans/widgets/responsive.dart';
 import 'package:artisans/presentation/posts/widgets/story_card.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 import '../../../core/data/data.dart';
 import '../../../core/models/story.dart';
@@ -14,10 +15,11 @@ import '../../../core/models/user.dart';
 class Stories extends StatelessWidget {
   final List<StoryModel> stories;
   final appServices = Get.find<AppServices>();
+  final bool isSingleSalon;
 
    Stories({
     Key? key,
-    required this.stories,
+    required this.stories, this.isSingleSalon = false,
   }) : super(key: key);
 
   @override
@@ -35,7 +37,7 @@ class Stories extends StatelessWidget {
         itemBuilder: (BuildContext context, int index) {
           if (index == 0) {
             return Obx(() =>
-            appServices.hasSalon.value
+            (appServices.hasSalon.value == true && isSingleSalon == false)
                 ? Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 4.0),
                     child: StoryCard(

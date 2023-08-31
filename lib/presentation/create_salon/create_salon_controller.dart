@@ -66,6 +66,7 @@ class CreateSalonController extends GetxController {
           email: emailController.value.text,
           phone: telController.value.text,
           desc: descController.value.text));
+      await appServices.getUserSalon();
       creatingSalon.value = false;
       Get.back();
       appSnackBar("success", "salon_created".tr, "");

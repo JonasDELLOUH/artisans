@@ -4,8 +4,6 @@ class CreateStoryData {
   StoryModel? storyModel;
 
   CreateStoryData.fromJson(Map<String, dynamic> json) {
-    if(json["post"] != null){
-      storyModel = StoryModel.fromJson(json["story"]);
-    }
+    storyModel = StoryModel.fromJson(json);
   }
 }

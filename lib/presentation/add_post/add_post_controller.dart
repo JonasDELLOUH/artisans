@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:images_picker/images_picker.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 import '../../core/colors/colors.dart';
+import '../../core/services/app_services.dart';
 import '../../data/functions/functions.dart';
 import '../../data/services/api_services.dart';
 import '../../widgets/custom_text.dart';
@@ -14,12 +15,14 @@ import '../../widgets/custom_text.dart';
 class AddPostController extends GetxController {
   final RoundedLoadingButtonController btnController =
       RoundedLoadingButtonController();
+  TextEditingController contentController = TextEditingController();
   RxBool isPost = true.obs;
   RxBool creatingPostOrStory = false.obs;
   final formKey = GlobalKey<FormState>();
+  final appServices = Get.find<AppServices>();
 
   Rxn<File> postImg = Rxn<File>();
-  Rxn<File> postVideo = Rxn<File>();
+  Rxn<File> storyVideo = Rxn<File>();
 
   Future getImage() async {
     ImagesPicker.pick(
@@ -37,7 +40,7 @@ class AddPostController extends GetxController {
       if (isPost.value) {
         postImg.value = File(selectedImage.path);
       } else {
-        postVideo.value = File(selectedImage.path);
+        storyVideo.value = File(selectedImage.path);
       }
     }
   }
@@ -53,7 +56,7 @@ class AddPostController extends GetxController {
       if (isPost.value) {
         postImg.value = File(selectedImage.path);
       } else {
-        postVideo.value = File(selectedImage.path);
+        storyVideo.value = File(selectedImage.path);
       }
     }
   }
@@ -95,11 +98,15 @@ class AddPostController extends GetxController {
     try {
       creatingPostOrStory.value = true;
       if (isPost.value) {
-        CreatePostData createPostData =
-            (await ApiServices.createPost(salonId: '', content: ''));
+        CreatePostData createPostData = (await ApiServices.createPost(
+            salonId: appServices.currentSalon.value?.salonId ?? "",
+            content: contentController.value.text,
+            image: postImg.value));
       } else {
-        CreateStoryData createStoryData =
-            (await ApiServices.createStory(salonId: '', content: ''));
+        CreateStoryData createStoryData = (await ApiServices.createStory(
+            salonId: appServices.currentSalon.value?.salonId ?? "",
+            content: contentController.value.text,
+            video: storyVideo.value));
       }
 
       creatingPostOrStory.value = false;

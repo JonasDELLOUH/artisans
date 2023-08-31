@@ -5,8 +5,6 @@ class CreatePostData {
   PostModel? postModel;
 
   CreatePostData.fromJson(Map<String, dynamic> json) {
-    if(json["post"] != null){
-      postModel = PostModel.fromJson(json["post"]);
-    }
+    postModel = PostModel.fromJson(json);
   }
 }

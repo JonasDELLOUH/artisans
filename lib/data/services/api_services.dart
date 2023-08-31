@@ -25,14 +25,14 @@ class ApiServices {
   }
 
   static Future<UserData> registerUser(
-      {required String name,
+      {
       required String email,
       required String phoneNumber,
       required String password,
       required username}) async {
     print("loginUser");
-    var response = await ApiProvider.client.post("register", data: {
-      "name": name,
+    var response = await ApiProvider.client.post("auth/register", data: {
+      "username": username,
       "email": email,
       "phone_number": phoneNumber,
       "password": password
@@ -144,9 +144,10 @@ class ApiServices {
       "content": content,
       "imageUrl": image != null ?  await dio.MultipartFile.fromFile(image.path) : null,
     });
-    var response = await ApiProvider.client.post("salon", data: formData);
+    var response = await ApiProvider.client.post("post", data: formData);
     print("finish");
-    if (response.statusCode == HttpStatus.ok) {
+    if (response.statusCode == HttpStatus.created) {
+      print("HttpStatus.created");
       if (response.data is! Map) return CreatePostData.fromJson({});
       return CreatePostData.fromJson(response.data);
     } else {
@@ -166,9 +167,9 @@ class ApiServices {
       "content": content,
       "videoUrl": video != null ?  await dio.MultipartFile.fromFile(video.path) : null,
     });
-    var response = await ApiProvider.client.post("salon", data: formData);
+    var response = await ApiProvider.client.post("story", data: formData);
     print("finish");
-    if (response.statusCode == HttpStatus.ok) {
+    if (response.statusCode == HttpStatus.created) {
       if (response.data is! Map) return CreateStoryData.fromJson({});
       return CreateStoryData.fromJson(response.data);
     } else {

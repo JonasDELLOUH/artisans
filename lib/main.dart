@@ -21,6 +21,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       getPages: AppRoutes.pages,
+      // initialRoute: AppRoutes.createSalonRoute,
       initialRoute: isNotLogin() ? AppRoutes.signInRoute : AppRoutes.menuRoute,
       debugShowCheckedModeBanner: false,
       translations: Languages(),

@@ -14,7 +14,7 @@ class CustomImageNetwork extends StatelessWidget {
   final FilterQuality filterQuality;
   final bool matchTextDirection;
   final bool gaplessPlayback;
-  final BorderRadiusGeometry? borderRadius;
+  final BorderRadiusGeometry borderRadius;
   final Widget Function(BuildContext, Widget, ImageChunkEvent?)? loadingBuilder;
   final Widget Function(BuildContext, Object, StackTrace?)? errorBuilder;
   Widget Function(BuildContext, String, dynamic)? errorWidget;

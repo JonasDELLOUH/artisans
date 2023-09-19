@@ -70,17 +70,17 @@ class SalonScreen extends GetView<SalonController> {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  const Row(
+                   Row(
                     children: [
-                      CustomIcon(
+                      const CustomIcon(
                         icon: Icons.location_on,
                         iconSize: 15,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 10,
                       ),
                       CustomText(
-                        text: "Calavi Zogbadje, ...",
+                        text: "${controller.salon.value?.address}",
                         fontSize: 10,
                       )
                     ],
@@ -88,8 +88,8 @@ class SalonScreen extends GetView<SalonController> {
                   const SizedBox(
                     height: 10,
                   ),
-                  const CustomText(
-                    text: "Jim Jax Coiffure",
+                   CustomText(
+                    text: "${controller.salon.value?.salonName}",
                     fontWeight: FontWeight.w700,
                     fontSize: 18,
                   ),
@@ -99,7 +99,7 @@ class SalonScreen extends GetView<SalonController> {
                   Row(
                     children: [
                       Row(
-                        children: stars(5),
+                        children: stars(controller.salon.value?.nbrStar ?? 0),
                       ),
                       const SizedBox(
                         width: 5,

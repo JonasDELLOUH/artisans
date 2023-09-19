@@ -1,17 +1,15 @@
 import 'package:artisans/core/constants/icons.dart';
 import 'package:artisans/core/routes/app_routes.dart';
 import 'package:artisans/widgets/custom_button.dart';
-import 'package:artisans/widgets/text_widgets.dart';
 import 'package:artisans/presentation/sign_in/sign_in_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
-
 import '../../core/colors/colors.dart';
 import '../../widgets/custom_text.dart';
 import '../../widgets/text_field.dart';
 
-class SignInScreen extends GetWidget<SignInController> {
+class SignInScreen extends GetView<SignInController> {
   const SignInScreen({Key? key}) : super(key: key);
 
   @override

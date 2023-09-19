@@ -7,20 +7,22 @@ import '../../data/data_models/get_stories_data.dart';
 import '../../data/functions/functions.dart';
 import '../../data/services/api_services.dart';
 
-class StoriesController extends GetxController{
+class StoriesController extends GetxController {
   Rx<List<StoryModel>> stories = Rx<List<StoryModel>>([]);
   RxBool storyIsInLoading = false.obs;
   RxString salonId = "".obs;
+  // Rx<TabController> tabController = Rx(TabController(length: 1, vsync: null));
 
   RxDouble latitude = 0.0.obs;
   RxDouble longitude = 0.0.obs;
-
 
   @override
   void onInit() {
     // TODO: implement onInit
     super.onInit();
-    salonId.value = Get.arguments != null && Get.arguments is List && Get.arguments.isNotEmpty
+    salonId.value = Get.arguments != null &&
+            Get.arguments is List &&
+            Get.arguments.isNotEmpty
         ? Get.arguments[0]
         : "";
     getStories();

@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:artisans/core/colors/colors.dart';
 import 'package:artisans/core/constants/constants.dart';
 import 'package:artisans/core/models/salon_model.dart';
@@ -5,19 +7,12 @@ import 'package:artisans/core/models/story_model.dart';
 import 'package:artisans/core/routes/app_routes.dart';
 import 'package:artisans/widgets/custom_image_network.dart';
 import 'package:artisans/widgets/custom_text.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:get/get.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
 import '../../../core/config/palette.dart';
-import '../../../core/models/story.dart';
-import '../../../core/models/user.dart';
-import '../../../core/models/user_model.dart';
-
 import 'package:flutter/material.dart';
-
 import '../../../widgets/profile_avatar.dart';
 import '../../../widgets/responsive.dart';
-import '../../stories/stories_screen.dart';
 
 class StoryCard extends StatefulWidget {
   final bool isAddStory;
@@ -36,34 +31,29 @@ class StoryCard extends StatefulWidget {
 }
 
 class _StoryCardState extends State<StoryCard> {
-  late PageController _pageController;
-  List<String> videoThumbnailUrls = [];
+  String? videoThumbnailUrl;
 
   @override
   void initState() {
     super.initState();
-    _loadVideoThumbnails();
-    _pageController = PageController();
+    if (!widget.isAddStory) {
+      getVideoThumbnail();
+    }
+  }
+
+  Future<Uint8List?> getVideoThumbnail() async {
+    final thumbnail = await VideoThumbnail.thumbnailData(
+      video: Constants.imageOriginUrl + widget.story.videoUrl,
+      imageFormat: ImageFormat.PNG, // Format de l'image (JPEG ou PNG)
+      maxWidth: 200, // Largeur maximale de la miniature
+      quality: 75, // Qualité de la miniature (0-100)
+    );
+    return thumbnail;
   }
 
   @override
   void dispose() {
-    _pageController.dispose();
     super.dispose();
-  }
-
-  Future<void> _loadVideoThumbnails() async {
-    final thumbnails = await VideoThumbnail.thumbnailFile(
-      video: Constants.imageOriginUrl + widget.story.videoUrl,
-      imageFormat: ImageFormat.JPEG,
-      maxHeight: 200,
-      quality: 25,
-    );
-
-    setState(() {
-      videoThumbnailUrls
-          .add(thumbnails!); // Ajouter l'URL de la miniature à la liste
-    });
   }
 
   @override
@@ -79,31 +69,30 @@ class _StoryCardState extends State<StoryCard> {
       child: Stack(
         children: [
           ClipRRect(
-            borderRadius: BorderRadius.circular(12.0),
-            child: widget.isAddStory
-                ? CustomImageNetwork(
-                    imageUrl: Constants.imageOriginUrl + widget.currentSalon.imageUrl,
-                    height: double.infinity,
-                    width: 110.0,
-                    fit: BoxFit.cover,
-                  )
-                : Container()
-            // PageView.builder(
-            //         controller: _pageController,
-            //         itemCount: videoThumbnailUrls.length,
-            //         itemBuilder: (context, index) {
-            //           return ClipRRect(
-            //             borderRadius: BorderRadius.circular(12.0),
-            //             child: CachedNetworkImage(
-            //               imageUrl: videoThumbnailUrls[index],
-            //               height: double.infinity,
-            //               width: 110.0,
-            //               fit: BoxFit.cover,
-            //             ),
-            //           );
-            //         },
-            //       ),
-          ),
+              borderRadius: BorderRadius.circular(12.0),
+              child: widget.isAddStory
+                  ? CustomImageNetwork(
+                      imageUrl: Constants.imageOriginUrl +
+                          widget.currentSalon.imageUrl,
+                      height: double.infinity,
+                      width: 110.0,
+                      fit: BoxFit.cover,
+                    )
+                  : FutureBuilder<Uint8List?>(
+                      future: getVideoThumbnail(),
+                      builder: (context, snapshot) {
+                        debugPrint("Voici le snapshot.data : ${snapshot.data}");
+                        if (snapshot.connectionState == ConnectionState.done &&
+                            snapshot.hasData) {
+                          return snapshot.data == null
+                              ? Container()
+                              : Image.memory(snapshot.data!, height: double.infinity,
+                            width: 110.0, fit: BoxFit.cover,);
+                        } else {
+                          return Container(); // Affichez un indicateur de chargement en attendant.
+                        }
+                      },
+                    )),
           Container(
             height: double.infinity,
             width: 110.0,
@@ -137,11 +126,12 @@ class _StoryCardState extends State<StoryCard> {
                       icon: const Icon(Icons.add),
                       iconSize: 30.0,
                       color: blueColor,
-                      onPressed: () => print('Add to Story'),
+                      onPressed: () => debugPrint('Add to Story'),
                     ),
                   )
                 : ProfileAvatar(
-                    imageUrl: Constants.imageOriginUrl + widget.story.salonModel!.imageUrl ,
+                    imageUrl: Constants.imageOriginUrl +
+                        widget.story.salonModel!.imageUrl,
                     hasBorder: true,
                   ),
           ),

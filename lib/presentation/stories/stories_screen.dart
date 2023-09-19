@@ -5,33 +5,9 @@ import 'package:artisans/presentation/stories/widgets/right_panel.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:video_player/video_player.dart';
-import '../../core/constants/data_json.dart';
 
-class StoriesScreen extends StatefulWidget {
+class StoriesScreen extends GetView<StoriesController> {
   const StoriesScreen({super.key});
-
-  @override
-  State<StoriesScreen> createState() => _StoriesScreenState();
-}
-
-class _StoriesScreenState extends State<StoriesScreen>
-    with SingleTickerProviderStateMixin {
-  late TabController _tabController;
-  final controller = Get.find<StoriesController>();
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    _tabController = TabController(length: items.length, vsync: this);
-  }
-
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    super.dispose();
-    _tabController.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,28 +18,28 @@ class _StoriesScreenState extends State<StoriesScreen>
   }
 
   Widget getBody() {
-    var size = MediaQuery.of(context).size;
     return RotatedBox(
       quarterTurns: 1,
-      child: TabBarView(
-        controller: _tabController,
-        children: List.generate(controller.stories.value.length, (index) {
-          return VideoPlayerItem(
-            videoUrl: Constants.imageOriginUrl +
-                controller.stories.value[index].videoUrl,
-            size: size,
-            name: controller.stories.value[index].salonModel?.salonName ?? "",
-            caption: items[index]['caption'],
-            songName: "",
-            profileImg:
-            Constants.imageOriginUrl + controller.stories.value[index].salonModel!.imageUrl,
-            likes: items[index]['likes'],
-            comments: items[index]['comments'],
-            shares: items[index]['shares'],
-            albumImg: "",
-          );
-        }),
-      ),
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+          itemCount: controller.stories.value.length,
+          itemBuilder: (context, index) {
+        return VideoPlayerItem(
+          videoUrl: Constants.imageOriginUrl +
+              controller.stories.value[index].videoUrl,
+          size: Get.size,
+          name: controller.stories.value[index].salonModel?.salonName ?? "",
+          caption: Constants.imageOriginUrl +
+              controller.stories.value[index].content,
+          songName: "",
+          profileImg: Constants.imageOriginUrl +
+              controller.stories.value[index].salonModel!.imageUrl,
+          likes: "items[index]['likes']",
+          comments: "items[index]['comments']",
+          shares: "items[index]['shares']",
+          albumImg: "",
+        );
+      }),
     );
   }
 }
@@ -109,13 +85,14 @@ class _VideoPlayerItemState extends State<VideoPlayerItem> {
     super.initState();
     print("Voici l'url de la video : ${widget.videoUrl}");
 
-    _videoController = VideoPlayerController.networkUrl(Uri.parse(widget.videoUrl))
-      ..initialize().then((value) {
-        _videoController.play();
-        setState(() {
-          isShowPlaying = false;
-        });
-      });
+    _videoController =
+        VideoPlayerController.networkUrl(Uri.parse(widget.videoUrl))
+          ..initialize().then((value) {
+            _videoController.play();
+            setState(() {
+              isShowPlaying = false;
+            });
+          });
   }
 
   @override
@@ -147,7 +124,7 @@ class _VideoPlayerItemState extends State<VideoPlayerItem> {
       },
       child: RotatedBox(
         quarterTurns: -1,
-        child: Container(
+        child: SizedBox(
             height: widget.size.height,
             width: widget.size.width,
             child: Stack(
@@ -168,7 +145,7 @@ class _VideoPlayerItemState extends State<VideoPlayerItem> {
                     ],
                   ),
                 ),
-                Container(
+                SizedBox(
                   height: widget.size.height,
                   width: widget.size.width,
                   child: Padding(
@@ -184,17 +161,17 @@ class _VideoPlayerItemState extends State<VideoPlayerItem> {
                             children: <Widget>[
                               LeftPanel(
                                 size: widget.size,
-                                name: "${widget.name}",
-                                caption: "${widget.caption}",
-                                songName: "${widget.songName}",
+                                name: widget.name,
+                                caption: widget.caption,
+                                songName: widget.songName,
                               ),
                               RightPanel(
                                 size: widget.size,
-                                likes: "${widget.likes}",
-                                comments: "${widget.comments}",
-                                shares: "${widget.shares}",
-                                profileImg: "${widget.profileImg}",
-                                albumImg: "${widget.albumImg}",
+                                likes: widget.likes,
+                                comments: widget.comments,
+                                shares: widget.shares,
+                                profileImg: widget.profileImg,
+                                albumImg: widget.albumImg,
                               )
                             ],
                           ))

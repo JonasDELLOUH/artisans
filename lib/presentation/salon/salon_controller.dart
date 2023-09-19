@@ -12,7 +12,7 @@ import '../../data/services/api_services.dart';
 class SalonController extends GetxController {
   RxBool isLiked = false.obs;
   RxString salonId = "".obs;
-  Rxn<SalonModel> currentSalon = Rxn<SalonModel>();
+  Rxn<SalonModel> salon = Rxn<SalonModel>();
   Rx<List<PostModel>> posts = Rx<List<PostModel>>([]);
   Rx<List<StoryModel>> stories = Rx<List<StoryModel>>([]);
   RxBool postIsInLoading = false.obs;
@@ -21,11 +21,12 @@ class SalonController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    salonId.value = Get.arguments != null &&
-            Get.arguments is List &&
-            Get.arguments.isNotEmpty
-        ? Get.arguments[0]
-        : "";
+    // salonId.value = Get.arguments != null &&
+    //         Get.arguments is List &&
+    //         Get.arguments.isNotEmpty
+    //     ? Get.arguments[0]
+    //     : "";
+    salon.value = Get.arguments[0];
     getPosts();
     getStories();
   }

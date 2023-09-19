@@ -1,6 +1,7 @@
 class SalonModel {
   final String salonId;
   final String jobId;
+  // final String desc;
   final String salonName;
   final double latitude;
   final double longitude;

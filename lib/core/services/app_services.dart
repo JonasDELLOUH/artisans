@@ -3,7 +3,9 @@ import 'package:artisans/core/models/salon_model.dart';
 import 'package:artisans/core/models/user_model.dart';
 import 'package:artisans/data/data_models/get_user_salon_data.dart';
 import 'package:dio/dio.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
+import 'package:permission_handler/permission_handler.dart';
 import '../../data/functions/functions.dart';
 import '../../data/services/api_services.dart';
 import '../models/job_model.dart';
@@ -15,6 +17,36 @@ class AppServices extends GetxService {
   RxString token = "".obs;
   RxBool hasSalon = false.obs;
   Rx<List<JobModel>> jobs = Rx<List<JobModel>>([]);
+
+  RxDouble latitude = 0.0.obs;
+  RxDouble longitude = 0.0.obs;
+
+
+  Future<void> checkLocationPermissionAndFetchLocation() async {
+    var status = await Permission.location.status;
+    if (status.isGranted) {
+      // La permission est déjà accordée, obtenez la localisation.
+      await updateLocation();
+    } else if (status.isDenied) {
+      // La permission est refusée, demandez-la à l'utilisateur.
+      var result = await Permission.location.request();
+      if (result.isGranted) {
+        // Permission accordée, obtenez la localisation.
+        await updateLocation();
+      }
+    }
+  }
+
+  Future<void> updateLocation() async {
+    print("updateLocation");
+    try {
+      Position position = await Geolocator.getCurrentPosition();
+      latitude.value = position.latitude;
+      longitude.value = position.longitude;
+    } catch (e) {
+      print(e);
+    }
+  }
 
   setCurrentUser(UserModel userModel, String token1) {
     MyGetStorage.instance.write(Constants.currentUser, userModel.toJson());

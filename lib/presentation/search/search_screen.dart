@@ -6,6 +6,7 @@ import 'package:artisans/presentation/search/widgets/search_job_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../widgets/salon_tile.dart';
+import '../../widgets/salon_tile_shimer.dart';
 import '../search/search_controller.dart' as search_controller;
 
 class SearchScreen extends GetView<search_controller.SearchController> {
@@ -97,7 +98,19 @@ class SearchScreen extends GetView<search_controller.SearchController> {
             ),
             Expanded(
                 child: Obx(() => controller.getSalonsIsInLoading.value
-                    ? const Center(child: CircularProgressIndicator())
+                    ?  const SingleChildScrollView(
+                      child: Column(
+
+                  children: [
+                      SalonTileShimmer(),
+                      SalonTileShimmer(),
+                      SalonTileShimmer(),
+                      SalonTileShimmer(),
+                      SalonTileShimmer(),
+                      SalonTileShimmer(),
+                  ],
+                ),
+                    )
                     : controller.salons.value.isEmpty
                         ? const NoSalonFindView()
                         : ListView.builder(

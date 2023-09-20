@@ -1,15 +1,14 @@
 import 'package:artisans/core/colors/colors.dart';
-import 'package:artisans/core/models/salon_model.dart';
+import 'package:artisans/core/constants/constants.dart';
 import 'package:artisans/widgets/custom_icon.dart';
 import 'package:artisans/widgets/custom_image_network.dart';
 import 'package:artisans/presentation/salon/salon_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import '../../core/data/data.dart';
-import '../../core/models/post.dart';
 import '../../widgets/custom_text.dart';
+import '../../widgets/post_tile_shimmer.dart';
 import '../../widgets/stars_tile.dart';
+import '../../widgets/story_tile_shimmer.dart';
 import '../posts/widgets/post_container.dart';
 import '../posts/widgets/stories.dart';
 
@@ -28,7 +27,7 @@ class SalonScreen extends GetView<SalonController> {
               children: [
                 CustomImageNetwork(
                   imageUrl:
-                      "https://images.unsplash.com/photo-1525253086316-d0c936c814f8",
+                      Constants.imageOriginUrl + controller.salon.value!.imageUrl,
                   borderRadius: BorderRadius.zero,
                   width: Get.width,
                 ),
@@ -79,10 +78,12 @@ class SalonScreen extends GetView<SalonController> {
                       const SizedBox(
                         width: 10,
                       ),
-                      CustomText(
-                        text: "${controller.salon.value?.address}",
+                      Obx(() => CustomText(
+                        text: "${controller.salon.value?.address} ${"at".tr} ${(controller.betweenDistance.value >= 1000)
+                            ? "${(controller.betweenDistance.value / 1000).toStringAsFixed(2)} km"
+                            : "${controller.betweenDistance.value.toStringAsFixed(2)} m"}",
                         fontSize: 10,
-                      )
+                      ))
                     ],
                   ),
                   const SizedBox(
@@ -113,14 +114,8 @@ class SalonScreen extends GetView<SalonController> {
                   const SizedBox(
                     height: 10,
                   ),
-                  const CustomText(
-                    text: "Bienvenue dans notre salon de coiffure"
-                        " haut de gamme et tendance, où l'art "
-                        "et la créativité se marient pour sublimer"
-                        " votre beauté. Chez nous, nous mettons l'accent "
-                        "sur l'excellence et l'innovation, en vous "
-                        "offrant une expérience de coiffure unique et "
-                        "inoubliable.",
+                   CustomText(
+                    text: "${controller.salon.value?.desc}",
                     fontSize: 12,
                     color: greyColor,
                     maxLines: 10,
@@ -130,11 +125,11 @@ class SalonScreen extends GetView<SalonController> {
                   ),
                   contactWidget(
                       contactType: 'E-MAIL',
-                      contactValue: "jdellouh1@gmail.com",
+                      contactValue: "${controller.salon.value?.email}",
                       contactIcon: Icons.email),
                   contactWidget(
                       contactType: 'phone'.tr,
-                      contactValue: "+229 96133525",
+                      contactValue: "${controller.salon.value?.phone}",
                       contactIcon: Icons.phone),
                   const SizedBox(
                     height: 10,
@@ -144,30 +139,53 @@ class SalonScreen extends GetView<SalonController> {
                     shrinkWrap: true,
                     slivers: [
                       Obx(() => controller.storyIsInLoading.value
-                          ? const SliverPadding(
-                              padding: EdgeInsets.zero,
-                              sliver: SliverToBoxAdapter(
-                                  child: Center(
-                                child: CircularProgressIndicator(),
-                              )),
+                          ?  const SliverPadding(
+                        padding: EdgeInsets.zero,
+                        sliver: SliverToBoxAdapter(
+                            child: SizedBox(
+                              child: SingleChildScrollView(
+                                scrollDirection: Axis.horizontal,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    StoryTileShimmer(),
+                                    StoryTileShimmer(),
+                                    StoryTileShimmer(),
+                                    StoryTileShimmer(),
+                                  ],
+                                ),
+                              ),
                             )
+                        ),
+                      )
                           : SliverPadding(
                               padding:
                                   const EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 5.0),
                               sliver: SliverToBoxAdapter(
                                 child: Stories(
                                   stories: controller.stories.value,
+                                    isSingleSalon: true
                                 ),
                               ),
                             )),
                       Obx(() => controller.postIsInLoading.value
                           ? const SliverPadding(
-                              padding: EdgeInsets.zero,
-                              sliver: SliverToBoxAdapter(
-                                  child: Center(
-                                child: CircularProgressIndicator(),
-                              )),
+                        padding: EdgeInsets.zero,
+                        sliver: SliverToBoxAdapter(
+                            child: SizedBox(
+                              child: SingleChildScrollView(
+                                child: Column(
+                                  children: [
+                                    PostTileShimmer(),
+                                    PostTileShimmer(),
+                                    PostTileShimmer(),
+                                    PostTileShimmer(),
+                                  ],
+                                ),
+                              ),
                             )
+                        ),
+                      )
                           : SliverList(
                               delegate: SliverChildBuilderDelegate(
                                 (context, index) {

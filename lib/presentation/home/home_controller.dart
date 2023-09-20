@@ -17,21 +17,12 @@ class HomeController extends GetxController {
   RxBool getSalonsIsInLoading = false.obs;
   final appServices = Get.find<AppServices>();
 
-  RxDouble latitude = 0.0.obs;
-  RxDouble longitude = 0.0.obs;
-
   @override
   onInit() {
     super.onInit();
     getJob();
     getNearestSalons();
     print("HomeController cuurent Salon : ${appServices.currentSalon.toJson()}");
-  }
-
-  updateLocation() async {
-    Position position = await Geolocator.getCurrentPosition();
-    latitude.value = position.latitude;
-    longitude.value = position.longitude;
   }
 
   getJob() async {
@@ -52,8 +43,8 @@ class HomeController extends GetxController {
   getNearestSalons() async {
     try {
       getSalonsIsInLoading.value = true;
-      await updateLocation();
-      GetSalonsData getSalonsData = await ApiServices.getSalons(lat: latitude.value, long: longitude.value);
+      await appServices.checkLocationPermissionAndFetchLocation();
+      GetSalonsData getSalonsData = await ApiServices.getSalons(lat: appServices.latitude.value, long: appServices.longitude.value);
       nearestSalons.value = getSalonsData.salons ?? [];
       getSalonsIsInLoading.value = false;
     } catch (e) {

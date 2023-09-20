@@ -1,10 +1,12 @@
 import 'package:artisans/core/colors/colors.dart';
 import 'package:artisans/core/constants/constants.dart';
+import 'package:artisans/widgets/job_tile_shimmer.dart';
 import 'package:artisans/widgets/salon_tile.dart';
 import 'package:artisans/widgets/custom_button.dart';
 import 'package:artisans/widgets/custom_icon.dart';
 import 'package:artisans/widgets/custom_image_network.dart';
 import 'package:artisans/widgets/custom_text.dart';
+import 'package:artisans/widgets/salon_tile_shimer.dart';
 import 'package:artisans/widgets/search_text_field.dart';
 import 'package:artisans/presentation/home/home_controller.dart';
 import 'package:artisans/presentation/home/widgets/job_tile.dart';
@@ -27,12 +29,15 @@ class HomeScreen extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Obx(() => controller.appServices.hasSalon.value ? CustomImageNetwork(
-                  imageUrl: Constants.imageOriginUrl + controller.appServices.currentSalon.value!.imageUrl,
-                  height: 30,
-                  width: 30,
-                  borderRadius: BorderRadius.circular(10),
-                ) : Container()),
+                Obx(() => controller.appServices.hasSalon.value
+                    ? CustomImageNetwork(
+                        imageUrl: Constants.imageOriginUrl +
+                            controller.appServices.currentSalon.value!.imageUrl,
+                        height: 30,
+                        width: 30,
+                        borderRadius: BorderRadius.circular(10),
+                      )
+                    : Container()),
                 const Row(
                   children: [
                     CustomIcon(
@@ -66,10 +71,20 @@ class HomeScreen extends StatelessWidget {
             SizedBox(
               height: 70,
               child: Obx(() => controller.jobIsInLoading.value
-                  ? LinearProgressIndicator(
-                      color: greyColor.withOpacity(0.4),
-                      backgroundColor: whiteColor,
-                    )
+                  ? const SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                    child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          JobTileShimmer(),
+                          JobTileShimmer(),
+                          JobTileShimmer(),
+                          JobTileShimmer(),
+                          JobTileShimmer(),
+                          JobTileShimmer(),
+                        ],
+                      ),
+                  )
                   : controller.jobs.value.isEmpty
                       ? Container()
                       : ListView.builder(
@@ -149,10 +164,15 @@ class HomeScreen extends StatelessWidget {
                           text: "nearest".tr,
                           fontWeight: FontWeight.w600,
                         ),
-                        CustomText(
-                          text: "view_all".tr,
-                          fontSize: 12,
-                          color: greyColor,
+                        InkWell(
+                          onTap: (){
+                            Get.toNamed(AppRoutes.searchRoute);
+                          },
+                          child: CustomText(
+                            text: "view_all".tr,
+                            fontSize: 12,
+                            color: greyColor,
+                          ),
                         )
                       ],
                     ),
@@ -160,7 +180,13 @@ class HomeScreen extends StatelessWidget {
                       height: 10,
                     ),
                     Obx(() => controller.getSalonsIsInLoading.value
-                        ? const CircularProgressIndicator()
+                        ? const Column(
+                            children: [
+                              SalonTileShimmer(),
+                              SalonTileShimmer(),
+                              SalonTileShimmer(),
+                            ],
+                          )
                         : controller.jobs.value.isEmpty
                             ? Container()
                             : ListView.builder(
@@ -172,8 +198,10 @@ class HomeScreen extends StatelessWidget {
                                   return SalonTile(
                                     salonModel:
                                         controller.nearestSalons.value[index],
-                                    latitude: controller.latitude.value,
-                                    longitude: controller.longitude.value,
+                                    latitude:
+                                        controller.appServices.latitude.value,
+                                    longitude:
+                                        controller.appServices.longitude.value,
                                   );
                                 })),
                   ],

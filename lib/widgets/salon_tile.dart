@@ -30,9 +30,9 @@ class SalonTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     updateDistance();
-    debugPrint(
-        "salonModel lat : ${salonModel.latitude}, salonModel long : "
-            "${salonModel.longitude} \t lat : $latitude, long ${longitude}");
+    // debugPrint(
+    //     "salonModel lat : ${salonModel.latitude}, salonModel long : "
+    //         "${salonModel.longitude} \t lat : $latitude, long ${longitude}");
     return InkWell(
       onTap: () {
         Get.toNamed(AppRoutes.salonRoute, arguments: [salonModel]);
@@ -73,7 +73,7 @@ class SalonTile extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Row(
-                            children: stars(5),
+                            children: stars(salonModel.nbrStar),
                           ),
                           Row(
                             children: [

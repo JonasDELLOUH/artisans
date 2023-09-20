@@ -20,6 +20,8 @@ import 'package:artisans/presentation/splash/splash_bindings.dart';
 import 'package:artisans/presentation/splash/splash_screen.dart';
 import 'package:artisans/presentation/stories/stories_binding.dart';
 import 'package:artisans/presentation/stories/stories_screen.dart';
+import 'package:artisans/presentation/update_salon/update_salon_binding.dart';
+import 'package:artisans/presentation/update_salon/update_salon_screen.dart';
 import 'package:get/get.dart';
 
 class AppRoutes {
@@ -35,6 +37,7 @@ class AppRoutes {
   static const String personalDataRoute = "/personal_data";
   static const String changePasswordRoute = "/change_password";
   static const String splashRoute = "/splash";
+  static const String updateSalonRoute = "/update_salon";
 
   static List<GetPage> pages = [
     GetPage(
@@ -81,5 +84,9 @@ class AppRoutes {
         name: changePasswordRoute,
         page: () => const ChangePasswordScreen(),
         binding: ChangePasswordBinding()),
+    GetPage(
+        name: updateSalonRoute,
+        page: () => const UpdateSalonScreen(),
+        binding: UpdateSalonBinding()),
   ];
 }

@@ -62,7 +62,7 @@ class AppRoutes {
         binding: SearchBinding()),
     GetPage(
         name: storiesRoute,
-        page: () => StoriesScreen(),
+        page: () => const StoriesScreen(),
         binding: StoriesBinding()),
     GetPage(
         name: salonRoute,
@@ -74,7 +74,7 @@ class AppRoutes {
         binding: AddPostBinding()),
     GetPage(
         name: createSalonRoute,
-        page: () => CreateSalonScreen(),
+        page: () => const CreateSalonScreen(),
         binding: CreateSalonBinding()),
     GetPage(
         name: personalDataRoute,

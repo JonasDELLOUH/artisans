@@ -1,4 +1,5 @@
 import 'package:artisans/core/colors/colors.dart';
+import 'package:artisans/core/constants/constants.dart';
 import 'package:artisans/core/routes/app_routes.dart';
 import 'package:artisans/core/utils/custom_show_dialog.dart';
 import 'package:artisans/presentation/profil/profil_controller.dart';
@@ -21,31 +22,52 @@ class ProfileScreen extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              const Padding(
-                padding: EdgeInsets.symmetric(vertical: 5),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 5),
                 child: Row(
                   children: [
-                    ProfileAvatar(
-                        imageUrl: "https://images.unsplash.com/reserve"
-                            "/OlxPGKgRUaX0E1hg3b3X_Dumbo.JPG?ixlib=rb-1.2.1&ixid=eyJhcHB"
-                            "faWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80"),
-                    SizedBox(
+                    Obx(() => controller.appServices.hasSalon.value
+                        ? ProfileAvatar(
+                            imageUrl: Constants.imageOriginUrl +
+                                (controller.appServices.currentSalon.value
+                                        ?.imageUrl ??
+                                    ""),
+                          )
+                        : CircleAvatar(
+                            radius: 20.0,
+                            backgroundColor: blueColor,
+                            child: CustomText(
+                              text: (controller
+                                      .appServices.currentUser.value?.username
+                                      .substring(0, 1)
+                                      .toUpperCase()) ??
+                                  "",
+                              color: whiteColor,
+                            ),
+                          )),
+                    const SizedBox(
                       width: 7,
                     ),
                     Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        CustomText(
-                          text: "DELLOUH Jonas",
-                          fontSize: 12,
-                          fontWeight: FontWeight.w700,
-                        ),
-                        CustomText(
-                          text: "Design Coiffure",
-                          fontSize: 10,
-                          color: greyColor,
-                        )
+                        Obx(() => CustomText(
+                              text: controller.appServices.currentUser.value
+                                      ?.username ??
+                                  "",
+                              fontSize: 12,
+                              fontWeight: FontWeight.w700,
+                            )),
+                        Obx(() => controller.appServices.hasSalon.value
+                            ? CustomText(
+                                text: controller.appServices.currentSalon.value
+                                        ?.salonName ??
+                                    "",
+                                fontSize: 10,
+                                color: greyColor,
+                              )
+                            : Container())
                       ],
                     )
                   ],
@@ -73,24 +95,27 @@ class ProfileScreen extends StatelessWidget {
                         Get.toNamed(AppRoutes.createSalonRoute);
                       })
                   : Container()),
-              InkWell(
-                onTap: () {
-                  customShowDialog(
-                      context: context,
-                      dialogTitle: "logout".tr,
-                      dialogDesc: 'ask_logout'.tr,
-                      onOkay: () {
-                        controller.logout();
-                      });
-                },
-                child: profileTile(
-                    iconData: Icons.logout_outlined, tileName: "logout".tr),
-              ),
+
               Obx(() => controller.appServices.hasSalon.value
                   ? profileTile(
+                      onTap: () {
+                        Get.toNamed(AppRoutes.updateSalonRoute);
+                      },
                       iconData: Icons.work_outline_rounded,
                       tileName: "salon_info".tr)
                   : Container()),
+              profileTile(
+                  onTap: () {
+                    customShowDialog(
+                        context: context,
+                        dialogTitle: "logout".tr,
+                        dialogDesc: 'ask_logout'.tr,
+                        onOkay: () {
+                          controller.logout();
+                        });
+                  },
+                  iconData: Icons.logout_outlined,
+                  tileName: "logout".tr),
               const Divider(),
               profileTile(
                   iconData: Icons.privacy_tip_outlined,

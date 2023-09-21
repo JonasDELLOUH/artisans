@@ -104,9 +104,9 @@ class CreateSalonController extends GetxController {
   }
 
   imgFromGallery() async {
-    final ImagePicker _picker = ImagePicker();
+    final ImagePicker picker = ImagePicker();
 
-    XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+    XFile? image = await picker.pickImage(source: ImageSource.gallery);
     dynamic files = [];
     files.add(File(image!.path));
     salonImage.value = File(image.path);

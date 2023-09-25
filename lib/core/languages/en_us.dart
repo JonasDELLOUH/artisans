@@ -63,5 +63,8 @@ Map<String, String> enUS = {
   "ok": "Ok",
   "ask_logout": "Are you sure you want to log out?",
   "at": "at",
-  "my_salon": "My Salon"
+  "my_salon": "My Salon",
+  "salon_image": "Salon image",
+  "salon_address": 'Salon Address',
+  'not_changed_info': "You have not changed any information"
 };

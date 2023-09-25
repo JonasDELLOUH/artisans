@@ -1,10 +1,12 @@
+import 'package:artisans/core/constants/constants.dart';
 import 'package:artisans/presentation/update_salon/update_salon_controller.dart';
+import 'package:artisans/widgets/custom_image_network.dart';
 import 'package:drop_down_list/drop_down_list.dart';
 import 'package:drop_down_list/model/selected_list_item.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
-
+import 'package:shimmer/shimmer.dart';
 import '../../core/colors/colors.dart';
 import '../../core/functions/basics_functions.dart';
 import '../../widgets/custom_picture_view.dart';
@@ -27,7 +29,13 @@ class UpdateSalonScreen extends GetWidget<UpdateSalonController> {
             width: Get.width * 0.7,
             height: 50,
             controller: controller.btnController,
-            onPressed: () {},
+            onPressed: () {
+              if(controller.canUpdate()){
+
+              } else{
+                controller.btnController.stop();
+              }
+            },
             color: blueColor,
             borderRadius: 10,
             child: CustomText(text: "update".tr, color: whiteColor),
@@ -45,25 +53,27 @@ class UpdateSalonScreen extends GetWidget<UpdateSalonController> {
           color: blueColor,
         ),
       ),
-      body:  Padding(
-        padding: EdgeInsets.all(15),
+      body: Padding(
+        padding: const EdgeInsets.all(15),
         child: SingleChildScrollView(
-          child: Column(
-            children: [
-              infoStepWidget(),
-              const SizedBox(
-                height: 20,
-              ),
-              imageView(),
-              const SizedBox(
-                height: 20,
-              ),
-              addressWidget(),
-
-              const SizedBox(
-                height: 70,
-              ),
-            ],
+          child: Form(
+            key: controller.formKey,
+            child: Column(
+              children: [
+                infoStepWidget(),
+                const SizedBox(
+                  height: 20,
+                ),
+                imageView(),
+                const SizedBox(
+                  height: 20,
+                ),
+                addressWidget(),
+                const SizedBox(
+                  height: 70,
+                )
+              ],
+            ),
           ),
         ),
       ),
@@ -74,52 +84,52 @@ class UpdateSalonScreen extends GetWidget<UpdateSalonController> {
     return Column(
       children: [
         CustomText(
-          text: "take_location".tr,
+          text: "salon_address".tr,
           textAlign: TextAlign.center,
         ),
         const SizedBox(
           height: 50,
         ),
         Obx(() => FutureBuilder(
-          future: precacheImage(
-              controller.locationController.value.image, Get.context!),
-          builder: (context, snapshot) {
-            debugPrint("${snapshot.hasData}");
-            debugPrint("${snapshot.hasError}");
-            debugPrint("${snapshot.connectionState}");
+              future: precacheImage(
+                  controller.locationController.value.image, Get.context!),
+              builder: (context, snapshot) {
+                debugPrint("${snapshot.hasData}");
+                debugPrint("${snapshot.hasError}");
+                debugPrint("${snapshot.connectionState}");
 
-            if (snapshot.connectionState == ConnectionState.done) {
-              return ClipRRect(
-                  borderRadius: const BorderRadius.all(Radius.circular(30)),
-                  child: Obx(() => Image(
-                      errorBuilder: (context, error, stackTrace) =>
-                          Container(
-                            decoration: BoxDecoration(
-                                borderRadius: const BorderRadius.all(
-                                    Radius.circular(30)),
-                                border: Border.all(
-                                    color: Colors.red, width: 3)),
-                            width: 300,
-                            height: 264,
-                            child: Center(
-                                child: CustomText(
-                                    text: "${"loading_error".tr}....")),
-                          ),
-                      image: controller.locationController.value.image)));
-            } else {
-              return Container(
-                decoration: BoxDecoration(
-                    borderRadius:
-                    const BorderRadius.all(Radius.circular(30)),
-                    border: Border.all(color: blueColor, width: 3)),
-                width: 300,
-                height: 264,
-                child:
-                Center(child: CustomText(text: "${"loading".tr}....")),
-              );
-            }
-          },
-        ))
+                if (snapshot.connectionState == ConnectionState.done) {
+                  return ClipRRect(
+                      borderRadius: const BorderRadius.all(Radius.circular(30)),
+                      child: Obx(() => Image(
+                          errorBuilder: (context, error, stackTrace) =>
+                              Container(
+                                decoration: BoxDecoration(
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(30)),
+                                    border: Border.all(
+                                        color: Colors.red, width: 3)),
+                                width: 300,
+                                height: 264,
+                                child: Center(
+                                    child: CustomText(
+                                        text: "${"loading_error".tr}....")),
+                              ),
+                          image: controller.locationController.value.image)));
+                } else {
+                  return Container(
+                    decoration: BoxDecoration(
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(30)),
+                        border: Border.all(color: blueColor, width: 3)),
+                    width: 300,
+                    height: 264,
+                    child:
+                        Center(child: CustomText(text: "${"loading".tr}....")),
+                  );
+                }
+              },
+            ))
       ],
     );
   }
@@ -127,7 +137,7 @@ class UpdateSalonScreen extends GetWidget<UpdateSalonController> {
   Widget imageView() {
     return Column(
       children: [
-        CustomText(text: "take_salon_image".tr),
+        CustomText(text: "salon_image".tr),
         const SizedBox(
           height: 10,
         ),
@@ -135,15 +145,30 @@ class UpdateSalonScreen extends GetWidget<UpdateSalonController> {
             onTap: () {
               controller.showPicker(Get.context);
             },
-            child: Obx(() => controller.salonImage.value == null
-                ? takeTofEmptyView(text: "take_salon_image1".tr)
-                : Center(
-              child: CustomPictureView(
-                file: controller.salonImage.value!,
-                width: Get.width * 0.8,
-                height: 200,
-              ),
-            )))
+            child: Obx(() => controller.salonImageIsInLoading.value
+                ?  Center(
+                    child: Shimmer.fromColors(
+                      baseColor: Colors.grey.withOpacity(0.2),
+                      highlightColor: Colors.grey.withOpacity(0.4),
+                      child: Container(
+                        margin: const EdgeInsets.symmetric(vertical: 4),
+                        height: 200,
+                        decoration: const BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.all(Radius.circular(12))
+                        ),
+                      ),
+                    ),
+                  )
+                : controller.salonImage.value == null
+                    ? takeTofEmptyView(text: "take_salon_image1".tr)
+                    : Center(
+                        child: CustomPictureView(
+                          file: controller.salonImage.value!,
+                          width: Get.width * 0.8,
+                          height: 200,
+                        ),
+                      )))
       ],
     );
   }
@@ -183,10 +208,10 @@ class UpdateSalonScreen extends GetWidget<UpdateSalonController> {
               ).showModal(Get.context);
             },
             child: Obx(() => CustomTextFormField(
-              enabled: false,
-              hintText: controller.itemSelected.value?.name,
-              borderRadius: const BorderRadius.all(Radius.circular(15)),
-            ))),
+                  enabled: false,
+                  hintText: controller.itemSelected.value?.name,
+                  borderRadius: const BorderRadius.all(Radius.circular(15)),
+                ))),
         const SizedBox(
           height: 10,
         ),

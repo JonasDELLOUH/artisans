@@ -63,5 +63,8 @@ Map<String, String> frFr = {
   "ok": "Okay",
   "ask_logout": "Êtes-vous sûr de vouloir vous déconnecter?",
   "at": "à",
-  "my_salon": "Mon Salon"
+  "my_salon": "Mon Salon",
+  "salon_image": "Image du salon",
+  "salon_address": 'Adresse du salon',
+  "not_changed_info": "Vous n'avez changé aucune information"
 };

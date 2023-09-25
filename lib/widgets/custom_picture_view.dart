@@ -32,7 +32,7 @@ class CustomPictureView extends StatelessWidget {
       child: ClipRRect(
         borderRadius:
             borderRadius ?? const BorderRadius.all(Radius.circular(12)),
-        child: Container(
+        child: SizedBox(
           width: width,
           height: height,
           child: isVideo

@@ -1,9 +1,9 @@
 import 'dart:io';
 import 'package:artisans/core/constants/constants.dart';
+import 'package:artisans/data/data_models/update_salon_data.dart';
 import 'package:artisans/data/functions/functions.dart';
-import 'package:dio/dio.dart' as dioo;
+import 'package:dio/dio.dart' as dio_;
 import 'package:dio/dio.dart';
-import 'package:drop_down_list/model/selected_list_item.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_static_maps_controller/google_static_maps_controller.dart';
@@ -13,6 +13,7 @@ import 'package:rounded_loading_button/rounded_loading_button.dart';
 import '../../core/colors/colors.dart';
 import '../../core/models/job_model.dart';
 import '../../core/services/app_services.dart';
+import '../../data/services/api_services.dart';
 import '../../secret.dart';
 import '../../widgets/custom_text.dart';
 
@@ -28,21 +29,18 @@ class UpdateSalonController extends GetxController {
   TextEditingController emailController = TextEditingController();
   TextEditingController telController = TextEditingController();
   TextEditingController descController = TextEditingController();
-  Rx<List<SelectedListItem>> selectedListItems = Rx<List<SelectedListItem>>([]);
-  Rxn<SelectedListItem> itemSelected = Rxn<SelectedListItem>();
   RxBool salonImageIsInLoading = true.obs;
   final formKey = GlobalKey<FormState>();
 
   RxDouble latitude = 0.0.obs;
   RxDouble longitude = 0.0.obs;
   final RoundedLoadingButtonController btnController =
-  RoundedLoadingButtonController();
+      RoundedLoadingButtonController();
   Rxn<File> salonImage = Rxn<File>();
   Rx<List<JobModel>> jobs = Rx<List<JobModel>>([]);
   final appServices = Get.find<AppServices>();
   RxBool updatingSalon = false.obs;
 
-  String initialJobId = "";
   String initialSalonName = "";
   String initialSalonEmail = "";
   String initialSalonNumber = "";
@@ -51,12 +49,10 @@ class UpdateSalonController extends GetxController {
   double initialLat = 0.0;
   double initialLong = 0.0;
 
-
   @override
   void onInit() {
     super.onInit();
     loadSalonData();
-    getJob();
     updateLocation();
   }
 
@@ -69,16 +65,15 @@ class UpdateSalonController extends GetxController {
 
   bool dateIsChanged() {
     bool dateIsChanged = false;
-    dateIsChanged = !(initialJobId == itemSelected.value?.value
-        && initialSalonName == initialSalonName &&
-        initialSalonEmail == telController.text &&
-        initialSalonNumber == initialSalonNumber &&
-        initialSalonDescription == initialSalonDescription &&
+    dateIsChanged = !(
+        initialSalonName == salonNameController.text &&
+        initialSalonEmail == emailController.text &&
+        initialSalonNumber == telController.text &&
+        initialSalonDescription == descController.text &&
         initialSalonImage?.path == salonImage.value?.path &&
         initialLat == latitude.value &&
-        initialLong == longitude.value
-    );
-    if(!dateIsChanged){
+        initialLong == longitude.value);
+    if (!dateIsChanged) {
       appSnackBar("error", "not_changed_info".tr, "");
     }
     return dateIsChanged;
@@ -89,7 +84,6 @@ class UpdateSalonController extends GetxController {
     initialSalonEmail = appServices.currentSalon.value?.email ?? "";
     initialSalonNumber = appServices.currentSalon.value?.phone ?? "";
     initialSalonDescription = appServices.currentSalon.value?.desc ?? "";
-
     salonNameController.text = initialSalonName;
     emailController.text = initialSalonEmail;
     telController.text = initialSalonNumber;
@@ -102,11 +96,11 @@ class UpdateSalonController extends GetxController {
   Future<void> downloadAndSetImage() async {
     salonImageIsInLoading.value = true;
     try {
-      final dioo.Dio dio = dioo.Dio();
-      final dioo.Response<List<int>> response = await dio.get<List<int>>(
+      final dio_.Dio dio = dio_.Dio();
+      final dio_.Response<List<int>> response = await dio.get<List<int>>(
           Constants.imageOriginUrl +
               (appServices.currentSalon.value?.imageUrl ?? ""),
-          options: dioo.Options(responseType: dioo.ResponseType.bytes));
+          options: dio_.Options(responseType: dio_.ResponseType.bytes));
 
       if (response.statusCode == 200) {
         final List<int> imageData = response.data!;
@@ -124,8 +118,7 @@ class UpdateSalonController extends GetxController {
         salonImageIsInLoading.value = false;
       } else {
         debugPrint(
-            'Échec du téléchargement de l\'image. Code de statut : ${response
-                .statusCode}');
+            'Échec du téléchargement de l\'image. Code de statut : ${response.statusCode}');
       }
     } catch (e) {
       debugPrint('Erreur lors du téléchargement de l\'image : $e');
@@ -133,11 +126,10 @@ class UpdateSalonController extends GetxController {
     }
   }
 
-
   imgFromCamera() async {
     final ImagePicker picker = ImagePicker();
     XFile? image =
-    await picker.pickImage(source: ImageSource.camera, imageQuality: 50);
+        await picker.pickImage(source: ImageSource.camera, imageQuality: 50);
     dynamic files = [];
     files.add(File(image!.path));
     salonImage.value = File(image.path);
@@ -199,41 +191,24 @@ class UpdateSalonController extends GetxController {
         });
   }
 
-  getJobInItem() {
-    for (JobModel jobModel in jobs.value) {
-      if (jobModel.jobId == appServices.currentSalon.value?.jobId) {
-        itemSelected.value =
-            SelectedListItem(name: jobModel.jobName, value: jobModel.jobId);
-        initialJobId = jobModel.jobId;
-      }
-      SelectedListItem selectedListItem =
-      SelectedListItem(name: jobModel.jobName, value: jobModel.jobId);
-      selectedListItems.value.add(selectedListItem);
-    }
-  }
-
-  getJob() async {
-    jobs.value = appServices.jobs.value;
-    getJobInItem();
-  }
 
   updateSalon() async {
     try {
       updatingSalon.value = true;
-      CreateSalonData createSalonData = (await ApiServices.createSalon(
-          jobId: itemSelected.value?.value ?? "",
+      UpdateSalonData updateSalonData = (await ApiServices.updateSalon(
           name: salonNameController.value.text,
           lat: latitude.value,
           long: longitude.value,
-          image: salonImage.value!,
+          image: (initialSalonImage?.path == salonImage.value?.path) ? null : salonImage.value!,
           address: "",
           email: emailController.value.text,
           phone: telController.value.text,
-          desc: descController.value.text));
-      await appServices.getUserSalon();
+          desc: descController.value.text,
+          salonId: appServices.currentSalon.value?.salonId ?? ""));
+      await appServices.setCurrentSalon(updateSalonData.salonModel!);
       updatingSalon.value = false;
       Get.back();
-      appSnackBar("success", "salon_created".tr, "");
+      appSnackBar("success", "salon_updated".tr, "");
       btnController.stop();
     } catch (e) {
       btnController.stop();

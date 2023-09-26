@@ -22,7 +22,7 @@ class UserModel {
         userId: json["_id"] ?? "",
         username: json["username"] ?? "",
         email: json["email"] ?? "",
-        tel: json["tel"] ?? "",
+        tel: json["phone"] ?? "",
         hasSalon: json["hasSalon"] ?? false,
         firstname: json["firstname"] ?? "",
         lastname: json["lastname"] ?? "");
@@ -33,7 +33,7 @@ class UserModel {
       "_id": userId,
       "username": username,
       "email": email,
-      "tel": tel,
+      "phone": tel,
       "hasSalon": hasSalon,
       "firstname": firstname,
       "lastname": lastname

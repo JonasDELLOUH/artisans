@@ -66,5 +66,9 @@ Map<String, String> enUS = {
   "my_salon": "My Salon",
   "salon_image": "Salon image",
   "salon_address": 'Salon Address',
-  'not_changed_info': "You have not changed any information"
+  'not_changed_info': "You have not changed any information",
+  "salon_updated": "Salon updated",
+  "profile_updated": "Profile updated",
+  "password_changed": "Password changed",
+  "failed": "Failed"
 };

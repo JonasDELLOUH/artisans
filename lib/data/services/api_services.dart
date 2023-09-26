@@ -1,10 +1,14 @@
 import 'dart:io';
+import 'package:artisans/data/data_models/change_password_data.dart';
 import 'package:artisans/data/data_models/create_post_data.dart';
 import 'package:artisans/data/data_models/create_salon_data.dart';
 import 'package:artisans/data/data_models/create_story_data.dart';
 import 'package:artisans/data/data_models/get_posts_data.dart';
 import 'package:artisans/data/data_models/get_user_salon_data.dart';
+import 'package:artisans/data/data_models/update_profile_data.dart';
+import 'package:artisans/data/data_models/update_salon_data.dart';
 import 'package:dio/dio.dart' as dio;
+import 'package:flutter/cupertino.dart';
 import '../data_models/get_jobs_data.dart';
 import '../data_models/get_salons_data.dart';
 import '../data_models/get_stories_data.dart';
@@ -30,17 +34,49 @@ class ApiServices {
       required String phoneNumber,
       required String password,
       required username}) async {
-    print("loginUser");
+    debugPrint("loginUser");
     var response = await ApiProvider.client.post("auth/register", data: {
       "username": username,
       "email": email,
       "phone_number": phoneNumber,
       "password": password
     });
-    print("finish");
+    debugPrint("finish");
     if (response.statusCode == HttpStatus.created) {
       if (response.data is! Map) return UserData.fromJson({});
       return UserData.fromJson(response.data);
+    } else {
+      throw Exception();
+    }
+  }
+
+  static Future<ChangePasswordData> changePassword(
+      {required String currentPassword, required String newPassword}) async {
+    var response = await ApiProvider.client
+        .post("user/change-password", data: {"currentPassword": currentPassword, "newPassword": newPassword});
+    if (response.statusCode == HttpStatus.ok) {
+      if (response.data is! Map) return ChangePasswordData.fromJson({});
+      return ChangePasswordData.fromJson(response.data);
+    } else {
+      throw Exception();
+    }
+  }
+
+  static Future<UpdateProfileData> updateUserProfile(
+      {
+        required String email,
+        required String phoneNumber,
+        required username}) async {
+    debugPrint("loginUser");
+    var response = await ApiProvider.client.put("user/update-profile", data: {
+      "username": username,
+      "email": email,
+      "phone": phoneNumber,
+    });
+    debugPrint("finish");
+    if (response.statusCode == HttpStatus.ok) {
+      if (response.data is! Map) return UpdateProfileData.fromJson({});
+      return UpdateProfileData.fromJson(response.data);
     } else {
       throw Exception();
     }
@@ -66,7 +102,7 @@ class ApiServices {
       required String email,
       required String phone,
       required String desc}) async {
-    print("createSalon");
+    debugPrint("createSalon");
     dio.FormData formData = dio.FormData.fromMap({
       "jobId": jobId,
       "name": name,
@@ -79,7 +115,7 @@ class ApiServices {
       "desc": desc
     });
     var response = await ApiProvider.client.post("salon", data: formData);
-    print("finish");
+    debugPrint("finish");
     if (response.statusCode == HttpStatus.ok) {
       if (response.data is! Map) return CreateSalonData.fromJson({});
       return CreateSalonData.fromJson(response.data);
@@ -87,6 +123,49 @@ class ApiServices {
       throw Exception();
     }
   }
+
+  static Future<UpdateSalonData> updateSalon({
+    required String name,
+    required double lat,
+    required double long,
+    File? image,
+    required String address,
+    required String email,
+    required String phone,
+    required String desc,
+    required String salonId,
+  }) async {
+    debugPrint("updateSalon: $salonId");
+
+    dio.FormData formData = dio.FormData.fromMap({
+      "name": name,
+      "lat": lat,
+      "long": long,
+      "address": address,
+      "email": email,
+      "phone": phone,
+      "desc": desc,
+    });
+
+    if (image != null) {
+      formData.files.add(MapEntry(
+        "imageUrl",
+        await dio.MultipartFile.fromFile(image.path),
+      ));
+    }
+
+    var response = await ApiProvider.client.put("salon/$salonId", data: formData);
+
+    debugPrint("finish");
+
+    if (response.statusCode == HttpStatus.ok) {
+      if (response.data is! Map) return UpdateSalonData.fromJson({});
+      return UpdateSalonData.fromJson(response.data);
+    } else {
+      throw Exception();
+    }
+  }
+
 
   static Future<GetSalonsData> getSalons(
       {String? name,
@@ -138,16 +217,16 @@ class ApiServices {
         File? image,
 
       }) async {
-    print("createPost");
+    debugPrint("createPost");
     dio.FormData formData = dio.FormData.fromMap({
       "salonId": salonId,
       "content": content,
       "imageUrl": image != null ?  await dio.MultipartFile.fromFile(image.path) : null,
     });
     var response = await ApiProvider.client.post("post", data: formData);
-    print("finish");
+    debugPrint("finish");
     if (response.statusCode == HttpStatus.created) {
-      print("HttpStatus.created");
+      debugPrint("HttpStatus.created");
       if (response.data is! Map) return CreatePostData.fromJson({});
       return CreatePostData.fromJson(response.data);
     } else {
@@ -161,14 +240,14 @@ class ApiServices {
         File? video,
 
       }) async {
-    print("createStory");
+    debugPrint("createStory");
     dio.FormData formData = dio.FormData.fromMap({
       "salonId": salonId,
       "content": content,
       "videoUrl": video != null ?  await dio.MultipartFile.fromFile(video.path) : null,
     });
     var response = await ApiProvider.client.post("story", data: formData);
-    print("finish");
+    debugPrint("finish");
     if (response.statusCode == HttpStatus.created) {
       if (response.data is! Map) return CreateStoryData.fromJson({});
       return CreateStoryData.fromJson(response.data);
@@ -199,9 +278,9 @@ class ApiServices {
   }
 
   static Future<GetUserSalonData> getUserSalon() async {
-    print("getUserSalon");
+    debugPrint("getUserSalon");
     var response = await ApiProvider.client.get("salon/userSalon/");
-    print("finish");
+    debugPrint("finish");
     if (response.statusCode == HttpStatus.ok) {
       if (response.data is! Map) return GetUserSalonData.fromJson({});
       return GetUserSalonData.fromJson(response.data);
@@ -209,4 +288,6 @@ class ApiServices {
       throw Exception();
     }
   }
+
+
 }

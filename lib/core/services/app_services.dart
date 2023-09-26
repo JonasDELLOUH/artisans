@@ -3,6 +3,7 @@ import 'package:artisans/core/models/salon_model.dart';
 import 'package:artisans/core/models/user_model.dart';
 import 'package:artisans/data/data_models/get_user_salon_data.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -53,7 +54,7 @@ class AppServices extends GetxService {
     currentUser.value = userModel;
     MyGetStorage.instance.write(Constants.token, token1);
     token.value = token1;
-    print("setCurrentUser \t token : ${MyGetStorage.instance.read("token")}");
+    debugPrint("setCurrentUser \t token : ${MyGetStorage.instance.read("token")}");
   }
   getCurrentUser() {
     currentUser.value =
@@ -82,13 +83,13 @@ class AppServices extends GetxService {
     try {
       GetUserSalonData getUserSalonData = (await ApiServices.getUserSalon());
       if(getUserSalonData.hasSalon){
-        print("hasSalonhasSalonhasSalonhasSalon");
+        debugPrint("hasSalonhasSalonhasSalonhasSalon");
         hasSalon.value = true;
         setCurrentSalon(getUserSalonData.salonModel!);
-        print("hasSalon : ${hasSalon.value}");
+        debugPrint("hasSalon : ${hasSalon.value}");
       }
     } catch (e) {
-      print(e);
+      debugPrint("$e");
       if (e is DioException) {
         appSnackBar("error", "${e.response?.data}",
             "}");

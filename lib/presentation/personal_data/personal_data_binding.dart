@@ -6,6 +6,7 @@ class PersonalDataBinding extends Bindings{
   @override
   void dependencies() {
     Get.lazyPut(() => PersonalDataController());
+    Get.lazyPut(() => AppServices());
   }
 
 }

@@ -1,6 +1,4 @@
-import 'package:artisans/core/constants/constants.dart';
 import 'package:artisans/presentation/update_salon/update_salon_controller.dart';
-import 'package:artisans/widgets/custom_image_network.dart';
 import 'package:drop_down_list/drop_down_list.dart';
 import 'package:drop_down_list/model/selected_list_item.dart';
 import 'package:flutter/material.dart';
@@ -31,7 +29,7 @@ class UpdateSalonScreen extends GetWidget<UpdateSalonController> {
             controller: controller.btnController,
             onPressed: () {
               if(controller.canUpdate()){
-
+                controller.updateSalon();
               } else{
                 controller.btnController.stop();
               }
@@ -177,44 +175,6 @@ class UpdateSalonScreen extends GetWidget<UpdateSalonController> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        CustomText(text: "choose_job".tr),
-        const SizedBox(
-          height: 5,
-        ),
-        InkWell(
-            onTap: () {
-              DropDownState(
-                DropDown(
-                  bottomSheetTitle: CustomText(
-                    text: "choose_job".tr,
-                    color: blueColor,
-                  ),
-                  submitButtonChild: const CustomText(
-                    text: 'Done',
-                    fontWeight: FontWeight.bold,
-                  ),
-                  searchHintText: "search".tr,
-                  data: controller.selectedListItems.value,
-                  selectedItems: (List<dynamic> selectedList) {
-                    List<String> list = [];
-                    for (var item in selectedList) {
-                      if (item is SelectedListItem) {
-                        controller.itemSelected.value = item;
-                      }
-                    }
-                  },
-                  enableMultipleSelection: false,
-                ),
-              ).showModal(Get.context);
-            },
-            child: Obx(() => CustomTextFormField(
-                  enabled: false,
-                  hintText: controller.itemSelected.value?.name,
-                  borderRadius: const BorderRadius.all(Radius.circular(15)),
-                ))),
-        const SizedBox(
-          height: 10,
-        ),
         CustomText(text: "salon_name".tr),
         const SizedBox(
           height: 5,

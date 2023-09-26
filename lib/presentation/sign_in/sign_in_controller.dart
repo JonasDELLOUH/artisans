@@ -33,7 +33,7 @@ class SignInController extends GetxController {
       btnController.stop();
       Get.offAllNamed(AppRoutes.menuRoute);
     } catch (e) {
-      print(e);
+      debugPrint("$e");
       if (e is DioException) {
         appSnackBar("error", "Connection échouée",
             "${e.response?.data}");

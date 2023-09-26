@@ -66,5 +66,9 @@ Map<String, String> frFr = {
   "my_salon": "Mon Salon",
   "salon_image": "Image du salon",
   "salon_address": 'Adresse du salon',
-  "not_changed_info": "Vous n'avez changé aucune information"
+  "not_changed_info": "Vous n'avez changé aucune information",
+  "salon_updated": "Salon mis à jour",
+  "profile_updated": "Profile Mis à jour",
+  "password_changed": "Mot de passe changé",
+  "failed": "Échoué"
 };

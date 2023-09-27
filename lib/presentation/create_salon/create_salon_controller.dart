@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 import 'package:artisans/core/colors/colors.dart';
 import 'package:artisans/data/data_models/create_salon_data.dart';
@@ -7,10 +8,14 @@ import 'package:drop_down_list/model/selected_list_item.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
+import 'package:google_api_availability/google_api_availability.dart';
 import 'package:google_static_maps_controller/google_static_maps_controller.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
+import 'package:uni_links/uni_links.dart';
+import 'package:url_launcher/url_launcher.dart';
+import '../../core/functions/map_functions.dart';
 import '../../core/models/job_model.dart';
 import '../../core/services/app_services.dart';
 import '../../data/functions/functions.dart';
@@ -55,6 +60,7 @@ class CreateSalonController extends GetxController {
 
   createSalon() async {
     try {
+      String? address = await getAddressFromCoordinates(latitude.value, longitude.value);
       creatingSalon.value = true;
       CreateSalonData createSalonData = (await ApiServices.createSalon(
           jobId: itemSelected.value?.value ?? "",
@@ -62,7 +68,7 @@ class CreateSalonController extends GetxController {
           lat: latitude.value,
           long: longitude.value,
           image: salonImage.value!,
-          address: "",
+          address: address,
           email: emailController.value.text,
           phone: telController.value.text,
           desc: descController.value.text));

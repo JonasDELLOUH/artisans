@@ -27,6 +27,7 @@ class HomeScreen extends StatelessWidget {
         child: Column(
           children: [
             Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Obx(() => controller.appServices.hasSalon.value
@@ -38,19 +39,42 @@ class HomeScreen extends StatelessWidget {
                         borderRadius: BorderRadius.circular(10),
                       )
                     : Container()),
-                const Row(
-                  children: [
-                    CustomIcon(
-                      icon: Icons.notifications_none,
+                InkWell(
+                  onTap: (){
+                    Get.toNamed(AppRoutes.salonsMapRoute, arguments: [controller.nearestSalons.value]);
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.all(3),
+                    decoration: BoxDecoration(
+                      color: blueColor.withOpacity(0.05),
+                      borderRadius: const BorderRadius.all(Radius.circular(5)),
+                      border: Border.all(color: blueColor),
                     ),
-                    SizedBox(
-                      width: 5,
+                    child: Row(
+                      children: [
+                        const Icon(Icons.location_on, color: blueColor),
+                        CustomText(
+                          text: "nearest".tr,
+                          fontSize: 13,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ],
                     ),
-                    CustomIcon(
-                      icon: Icons.message,
-                    )
-                  ],
+                  ),
                 )
+                // const Row(
+                //   children: [
+                //     CustomIcon(
+                //       icon: Icons.notifications_none,
+                //     ),
+                //     SizedBox(
+                //       width: 5,
+                //     ),
+                //     CustomIcon(
+                //       icon: Icons.message,
+                //     )
+                //   ],
+                // )
               ],
             ),
             const SizedBox(
@@ -72,9 +96,9 @@ class HomeScreen extends StatelessWidget {
               height: 70,
               child: Obx(() => controller.jobIsInLoading.value
                   ? const SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                    child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           JobTileShimmer(),
                           JobTileShimmer(),
@@ -84,7 +108,7 @@ class HomeScreen extends StatelessWidget {
                           JobTileShimmer(),
                         ],
                       ),
-                  )
+                    )
                   : controller.jobs.value.isEmpty
                       ? Container()
                       : ListView.builder(
@@ -165,7 +189,7 @@ class HomeScreen extends StatelessWidget {
                           fontWeight: FontWeight.w600,
                         ),
                         InkWell(
-                          onTap: (){
+                          onTap: () {
                             Get.toNamed(AppRoutes.searchRoute);
                           },
                           child: CustomText(

@@ -1,0 +1,68 @@
+import 'dart:async';
+import 'package:flutter/cupertino.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:google_api_availability/google_api_availability.dart';
+import 'package:uni_links/uni_links.dart';
+import 'package:url_launcher/url_launcher.dart';
+class Coordinates {
+  final double latitude;
+  final double longitude;
+
+  Coordinates({required this.latitude, required this.longitude});
+}
+Future<Coordinates?> openMapsAndGetCoordinates() async {
+  const String latitude = '48.858844';
+  final String longitude = '2.294351';
+  final String label = 'Emplacement du salon';
+
+  final String mapsUrl = 'geo:$latitude,$longitude?q=$latitude,$longitude($label)';
+
+  if (await launchUrl(Uri.parse(mapsUrl)))  {
+    final availability = await GoogleApiAvailability.instance.checkGooglePlayServicesAvailability();
+    if (availability == GooglePlayServicesAvailability.success) {
+      final completer = Completer<Coordinates?>();
+
+      uriLinkStream.listen((Uri? uri) {
+        if (uri != null && !completer.isCompleted) {
+          final queryParams = uri.queryParameters;
+          final lat = double.tryParse(queryParams['latitude'] ?? '');
+          final long = double.tryParse(queryParams['longitude'] ?? '');
+          if (lat != null && long != null) {
+            completer.complete(Coordinates(latitude: lat, longitude: long));
+          } else {
+            completer.complete(null);
+          }
+        }
+      });
+
+      await launchUrl(Uri.parse(mapsUrl));
+      await Future.delayed(const Duration(seconds: 60));
+
+      return completer.isCompleted ? completer.future : null;
+    } else {
+      debugPrint('Google Play Services ne sont pas disponibles.');
+      return null;
+    }
+  } else {
+    debugPrint("Impossible d'ouvrir l'application de cartographie.");
+    return null;
+  }
+}
+
+Future<String?> getAddressFromCoordinates(double latitude, double longitude) async {
+  try {
+    final List<Placemark> placemarks = await placemarkFromCoordinates(latitude, longitude);
+    if (placemarks.isNotEmpty) {
+      debugPrint("placemarks :$placemarks");
+      final Placemark placemark = placemarks[0];
+      final String address = "${placemark.administrativeArea ?? ''}, ${placemark.locality ?? ''}, ${placemark.subLocality ?? ''}";
+      return address;
+    } else {
+      return null;
+    }
+  } catch (e) {
+    debugPrint('Erreur lors de la récupération de l\'adresse : $e');
+    return null;
+  }
+}
+

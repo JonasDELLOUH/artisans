@@ -10,6 +10,8 @@ import 'package:artisans/presentation/personal_data/personal_data_binding.dart';
 import 'package:artisans/presentation/personal_data/personal_data_screen.dart';
 import 'package:artisans/presentation/salon/salon_binding.dart';
 import 'package:artisans/presentation/salon/salon_screen.dart';
+import 'package:artisans/presentation/salons_map/salons_map_binding.dart';
+import 'package:artisans/presentation/salons_map/salons_map_screen.dart';
 import 'package:artisans/presentation/search/search_binding.dart';
 import 'package:artisans/presentation/search/search_screen.dart';
 import 'package:artisans/presentation/sign_in/sign_in_bindings.dart';
@@ -38,6 +40,7 @@ class AppRoutes {
   static const String changePasswordRoute = "/change_password";
   static const String splashRoute = "/splash";
   static const String updateSalonRoute = "/update_salon";
+  static const String salonsMapRoute = "/salons_map_route";
 
   static List<GetPage> pages = [
     GetPage(
@@ -88,5 +91,9 @@ class AppRoutes {
         name: updateSalonRoute,
         page: () => const UpdateSalonScreen(),
         binding: UpdateSalonBinding()),
+    GetPage(
+        name: salonsMapRoute,
+        page: () => SalonsMapScreen(),
+        binding: SalonsMapBinding())
   ];
 }

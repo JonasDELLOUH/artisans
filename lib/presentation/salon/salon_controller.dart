@@ -39,7 +39,10 @@ class SalonController extends GetxController {
     super.onInit();
     salon.value = Get.arguments[0];
     betweenDistance.value = calculateDistance(
-        salon.value?.latitude ?? 0, salon.value?.longitude ?? 0, appServices.latitude.value, appServices.longitude.value);
+        salon.value?.latitude ?? 0,
+        salon.value?.longitude ?? 0,
+        appServices.latitude.value,
+        appServices.longitude.value);
     updateLocation();
     getPosts();
     getStories();
@@ -56,7 +59,6 @@ class SalonController extends GetxController {
       throw Exception('Could not launch $googleMapsUrl');
     }
   }
-
 
   updateLocation() async {
     latitude.value = salon.value?.latitude ?? 0;

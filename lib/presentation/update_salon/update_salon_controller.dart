@@ -11,6 +11,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 import '../../core/colors/colors.dart';
+import '../../core/functions/map_functions.dart';
 import '../../core/models/job_model.dart';
 import '../../core/services/app_services.dart';
 import '../../data/services/api_services.dart';
@@ -194,13 +195,14 @@ class UpdateSalonController extends GetxController {
 
   updateSalon() async {
     try {
+      String? address = await getAddressFromCoordinates(latitude.value, longitude.value);
       updatingSalon.value = true;
       UpdateSalonData updateSalonData = (await ApiServices.updateSalon(
           name: salonNameController.value.text,
           lat: latitude.value,
           long: longitude.value,
           image: (initialSalonImage?.path == salonImage.value?.path) ? null : salonImage.value!,
-          address: "",
+          address: address,
           email: emailController.value.text,
           phone: telController.value.text,
           desc: descController.value.text,
@@ -215,7 +217,7 @@ class UpdateSalonController extends GetxController {
       debugPrint("e.response?.data : $e");
       updatingSalon.value = false;
       if (e is DioException) {
-        appSnackBar("error", "failed".tr, "${e.response?.data}");
+        appSnackBar("error", "failed".tr, "${e.response?.data["message"] ?? e.response?.data}");
       }
     }
   }

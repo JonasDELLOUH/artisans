@@ -6,11 +6,12 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class SearchTextField extends StatelessWidget {
-  SearchTextField({Key? key, required this.controller, this.enabled, this.onEditingComplete}) : super(key: key);
-  final TextEditingController controller;
+  SearchTextField({Key? key, this.controller, this.enabled, this.onEditingComplete, this.suffixIconData = Icons.work}) : super(key: key);
+  final TextEditingController? controller;
   final bool? enabled;
   void Function(String?)? onSaved;
   void Function()? onEditingComplete;
+  IconData? suffixIconData;
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +30,7 @@ class SearchTextField extends StatelessWidget {
         controller: controller,
         border: InputBorder.none,
         focusedBorder: InputBorder.none,
-        suffixIcon: Icon(Icons.work, color: greyColor.withOpacity(0.5), size: 30,),
+        suffixIcon: Icon(suffixIconData, color: greyColor.withOpacity(0.5), size: 30,),
         prefixIcon: Icon(Icons.search_rounded, color: greyColor.withOpacity(0.5), size: 30,),
         hintText: "search".tr,
         hintStyle: GoogleFonts.robotoSlab(

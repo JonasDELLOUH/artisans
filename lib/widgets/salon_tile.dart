@@ -6,7 +6,6 @@ import 'package:artisans/widgets/custom_text.dart';
 import 'package:artisans/widgets/stars_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import '../core/constants/constants.dart';
 import 'custom_image_network.dart';
 
@@ -30,9 +29,6 @@ class SalonTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     updateDistance();
-    // debugPrint(
-    //     "salonModel lat : ${salonModel.latitude}, salonModel long : "
-    //         "${salonModel.longitude} \t lat : $latitude, long ${longitude}");
     return InkWell(
       onTap: () {
         Get.toNamed(AppRoutes.salonRoute, arguments: [salonModel]);
@@ -64,8 +60,8 @@ class SalonTile extends StatelessWidget {
                         fontWeight: FontWeight.w600,
                         fontSize: 12,
                       ),
-                      const CustomText(
-                        text: "8591 Elgn St. Celina, Delawares",
+                       CustomText(
+                        text: salonModel.address,
                         fontSize: 10,
                         color: greyColor,
                       ),

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "721641140486",
+    "project_id": "artisans-2e53d",
+    "storage_bucket": "artisans-2e53d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:721641140486:android:b1d6d861b020ce2b72ae87",
+        "android_client_info": {
+          "package_name": "com.example.artisans"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBioUSYYP0jHLTaecIoskGiM3UA6GbkiNo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -12,39 +12,40 @@ class PersonalDataScreen extends GetView<PersonalDataController> {
 
   @override
   Widget build(BuildContext context) {
-    return  SafeArea(
+    return SafeArea(
       child: Scaffold(
-          appBar: AppBar(
-            centerTitle: true,
-            backgroundColor: Colors.transparent,
-            elevation: 0.0,
-            leading: const BackButton(
-              color: blueColor,
-            ),
-           ),
+        appBar: AppBar(
+          centerTitle: true,
+          backgroundColor: Colors.transparent,
+          elevation: 0.0,
+          leading: const BackButton(
+            color: blueColor,
+          ),
+        ),
         body: Padding(
-            padding: const EdgeInsets.all(15),
+          padding: const EdgeInsets.all(15),
           child: SingleChildScrollView(
             child: Form(
               key: controller.formKey,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                Obx(() => Center(
-                  child: CircleAvatar(
-                    radius: 50.0,
-                    backgroundColor: blueColor,
-                    child: CustomText(
-                      fontSize: 30,
-                      text: (controller
-                          .appServices.currentUser.value?.username
-                          .substring(0, 1)
-                          .toUpperCase()) ??
-                          "",
-                      color: whiteColor,
-                    ),
-                  ),
-                )),
+                  Obx(() =>
+                      Center(
+                        child: CircleAvatar(
+                          radius: 50.0,
+                          backgroundColor: blueColor,
+                          child: CustomText(
+                            fontSize: 30,
+                            text: (controller
+                                .appServices.currentUser.value?.username
+                                .substring(0, 1)
+                                .toUpperCase()) ??
+                                "",
+                            color: whiteColor,
+                          ),
+                        ),
+                      )),
                   const SizedBox(height: 50,),
                   CustomText(text: "name".tr),
                   const SizedBox(height: 5,),
@@ -90,8 +91,8 @@ class PersonalDataScreen extends GetView<PersonalDataController> {
                         }
                         return null;
                       },
-                    hintText: "phone".tr,
-                    keyboardType: TextInputType.phone,
+                      hintText: "phone".tr,
+                      keyboardType: TextInputType.phone,
                       controller: controller.phoneController,
                       borderRadius: const BorderRadius.all(Radius.circular(15))
                   ),
@@ -102,9 +103,9 @@ class PersonalDataScreen extends GetView<PersonalDataController> {
                     height: 50,
                     controller: controller.btnController,
                     onPressed: () {
-                      if(controller.canUpdate()){
+                      if (controller.canUpdate()) {
                         controller.updateProfile();
-                      } else{
+                      } else {
                         controller.btnController.stop();
                       }
                     },
@@ -113,7 +114,7 @@ class PersonalDataScreen extends GetView<PersonalDataController> {
                     child: CustomText(text: "update".tr, color: whiteColor),
                   )
 
-      ],
+                ],
               ),
             ),
           ),

@@ -1,6 +1,6 @@
-import 'dart:async';
 import 'package:artisans/core/colors/colors.dart';
-import 'package:artisans/data/services/firebase_services.dart';
+import 'package:artisans/core/routes/app_routes.dart';
+import 'package:artisans/presentation/single_chat/single_chat_screen.dart';
 import 'package:artisans/widgets/custom_text.dart';
 import 'package:artisans/presentation/chats/chats_controller.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -9,7 +9,6 @@ import "package:get/get.dart";
 import '../../core/constants/firestore_constants.dart';
 import '../../core/constants/size_constants.dart';
 import '../../core/models/chat_user.dart';
-import '../../core/utils/debouncer.dart';
 import '../../core/utils/keyboard_utils.dart';
 import 'widgets/chat.dart';
 
@@ -17,31 +16,6 @@ class ChatsScreen extends StatelessWidget {
   ChatsScreen({Key? key, required this.controller}) : super(key: key);
 
   ChatsController controller = Get.find<ChatsController>();
-
-  final ScrollController scrollController = ScrollController();
-
-  int _limit = 20;
-  final int _limitIncrement = 20;
-  String _textSearch = "";
-  bool isLoading = false;
-
-  FirebaseServices firebaseServices =
-      FirebaseServices(firebaseFirestore: FirebaseFirestore.instance);
-
-  String currentUserId = "currentUserId";
-
-  Debouncer searchDebouncer = Debouncer(milliseconds: 300);
-  StreamController<bool> buttonClearController = StreamController<bool>();
-  TextEditingController searchTextEditingController = TextEditingController();
-
-  void scrollListener() {
-    if (scrollController.offset >= scrollController.position.maxScrollExtent &&
-        !scrollController.position.outOfRange) {
-      // setState(() {
-      _limit += _limitIncrement;
-      // });
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -86,11 +60,17 @@ class ChatsScreen extends StatelessWidget {
               ),
             ),
           ),
-          buildSearchBar(),
+          // buildSearchBar(),
           Expanded(
             child: StreamBuilder<QuerySnapshot>(
-              stream: firebaseServices.getFirestoreData(
-                  FirestoreConstants.pathUserCollection, _limit, _textSearch),
+              // stream: controller.firebaseServices.getFirestoreData(
+              //     FirestoreConstants.pathUserCollection,
+              //     controller.limit,
+              //     controller.textSearch.value),
+              stream: controller.firebaseServices.getChatContacts(
+                  controller.appServices.currentUser.value?.hasSalon ?? false
+                      ? controller.appServices.currentSalon.value?.salonId ?? ""
+                      : controller.appServices.currentUser.value?.userId ?? "", ),
               builder: (BuildContext context,
                   AsyncSnapshot<QuerySnapshot> snapshot) {
                 if (snapshot.hasData) {
@@ -100,7 +80,7 @@ class ChatsScreen extends StatelessWidget {
                       itemCount: snapshot.data!.docs.length,
                       itemBuilder: (context, index) =>
                           buildItem(context, snapshot.data?.docs[index]),
-                      controller: scrollController,
+                      controller: controller.scrollController,
                       separatorBuilder: (BuildContext context, int index) =>
                           const Divider(),
                     );
@@ -111,7 +91,7 @@ class ChatsScreen extends StatelessWidget {
                   }
                 } else {
                   return const Center(
-                    child: CircularProgressIndicator(),
+                    child: Text('No user found...'),
                   );
                 }
               },
@@ -147,18 +127,14 @@ class ChatsScreen extends StatelessWidget {
           Expanded(
             child: TextFormField(
               textInputAction: TextInputAction.search,
-              controller: searchTextEditingController,
+              controller: controller.searchTextEditingController,
               onChanged: (value) {
                 if (value.isNotEmpty) {
-                  buttonClearController.add(true);
-                  // setState(() {
-                  _textSearch = value;
-                  // });
+                  controller.buttonClearController.add(true);
+                  controller.textSearch.value = value;
                 } else {
-                  buttonClearController.add(false);
-                  // setState(() {
-                  _textSearch = "";
-                  // });
+                  controller.buttonClearController.add(false);
+                  controller.textSearch.value = "";
                 }
               },
               decoration: const InputDecoration.collapsed(
@@ -168,16 +144,14 @@ class ChatsScreen extends StatelessWidget {
             ),
           ),
           StreamBuilder(
-              stream: buttonClearController.stream,
+              stream: controller.buttonClearController.stream,
               builder: (context, snapshot) {
                 return snapshot.data == true
                     ? GestureDetector(
                         onTap: () {
-                          searchTextEditingController.clear();
-                          buttonClearController.add(false);
-                          // setState(() {
-                          _textSearch = '';
-                          // });
+                          controller.searchTextEditingController.clear();
+                          controller.buttonClearController.add(false);
+                          controller.textSearch.value = '';
                         },
                         child: const Icon(
                           Icons.clear_rounded,
@@ -196,7 +170,7 @@ class ChatsScreen extends StatelessWidget {
     // final firebaseAuth = FirebaseAuth.instance;
     if (documentSnapshot != null) {
       ChatUser userChat = ChatUser.fromDocument(documentSnapshot);
-      if (userChat.id == currentUserId) {
+      if (userChat.id == controller.appServices.currentUser.value?.userId) {
         return const SizedBox.shrink();
       } else {
         return TextButton(
@@ -204,15 +178,13 @@ class ChatsScreen extends StatelessWidget {
             if (KeyboardUtils.isKeyboardShowing()) {
               KeyboardUtils.closeKeyboard(context);
             }
-            // Navigator.push(
-            //     context,
-            //     MaterialPageRoute(
-            //         builder: (context) => ChatPage(
-            //           peerId: userChat.id,
-            //           peerAvatar: userChat.photoUrl,
-            //           peerNickname: userChat.displayName,
-            //           userAvatar: firebaseAuth.currentUser!.photoURL!,
-            //         )));
+            // Get.toNamed("${AppRoutes.singleChatRoute}/${userChat.id}",
+            //     arguments: [
+            //       userChat.id,
+            //       userChat.displayName,
+            //       userChat.photoUrl,
+            //       ""
+            //     ]);
           },
           child: ListTile(
             leading: userChat.photoUrl.isNotEmpty
@@ -246,19 +218,22 @@ class ChatsScreen extends StatelessWidget {
                       },
                     ),
                   )
-                : userChat.displayName.isNotEmpty ? CircleAvatar(
-                  radius: 22.0,
-                  backgroundColor: blueColor,
-                  child: CustomText(
-                    fontSize: 15,
-                    text: (userChat.displayName.substring(0, 1)
-                        .toUpperCase()),
-                    color: whiteColor,
-                  ),
-                ) : const Icon(
-              Icons.account_circle,
-              size: 50,
-            ),
+                : userChat.displayName.isNotEmpty
+                    ? CircleAvatar(
+                        radius: 22.0,
+                        backgroundColor: blueColor,
+                        child: CustomText(
+                          fontSize: 15,
+                          text: (userChat.displayName
+                              .substring(0, 1)
+                              .toUpperCase()),
+                          color: whiteColor,
+                        ),
+                      )
+                    : const Icon(
+                        Icons.account_circle,
+                        size: 50,
+                      ),
             title: Text(
               userChat.displayName,
               style: const TextStyle(color: Colors.black),

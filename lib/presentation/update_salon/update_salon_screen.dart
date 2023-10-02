@@ -235,6 +235,27 @@ class UpdateSalonScreen extends GetWidget<UpdateSalonController> {
         const SizedBox(
           height: 10,
         ),
+        CustomText(text: "salon_whatsapp_number".tr),
+        const SizedBox(
+          height: 5,
+        ),
+        CustomTextFormField(
+          validator: (validator) {
+            if (validator!.isEmpty) {
+              return null;
+            } else if (!isPhoneNumberValid(validator)) {
+              return 'invalid_phone_number'.tr;
+            }
+            return null;
+          },
+          controller: controller.whatsappNumberController,
+          keyboardType: TextInputType.phone,
+          hintText: "salon_whatsapp_number".tr,
+          borderRadius: const BorderRadius.all(Radius.circular(15)),
+        ),
+        const SizedBox(
+          height: 10,
+        ),
         CustomText(text: "salon_desc".tr),
         const SizedBox(
           height: 5,

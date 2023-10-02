@@ -1,155 +1,327 @@
+import 'dart:io';
+
+import 'package:artisans/core/colors/colors.dart';
+import 'package:artisans/core/models/message_model.dart';
+import 'package:artisans/presentation/single_chat/single_chat_controller.dart';
+import 'package:artisans/widgets/custom_text.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart';
+import '../../core/constants/firestore_constants.dart';
+import '../../core/constants/size_constants.dart';
+import '../../core/constants/text_field_constants.dart';
+import '../../data/providers/chat_provider.dart';
+import '../../widgets/chat_image.dart';
+import '../../widgets/message_bubble.dart';
 
-import '../../core/models/chat_message.dart';
-import '../../core/models/send_menu_items.dart';
-import 'widgets/chat_bubble.dart';
-import 'widgets/chat_detail_page_appbar.dart';
+class SingleChatScreen extends GetWidget<SingleChatController> {
+  SingleChatScreen({Key? key}) : super(key: key);
 
-enum MessageType{
-  Sender,
-  Receiver,
-}
-
-
-class SingleChatScreen extends StatelessWidget{
-  List<ChatMessage> chatMessage = [
-    ChatMessage(message: "Hi John", type: MessageType.Receiver),
-    ChatMessage(message: "Hope you are doin good", type: MessageType.Receiver),
-    ChatMessage(message: "Hello Jane, I'm good what about you", type: MessageType.Sender),
-    ChatMessage(message: "I'm fine, Working from home", type: MessageType.Receiver),
-    ChatMessage(message: "Oh! Nice. Same here man", type: MessageType.Sender),
-  ];
-
-  List<SendMenuItems> menuItems = [
-    SendMenuItems(text: "Photos & Videos", icons: Icons.image, color: Colors.amber),
-    SendMenuItems(text: "Document", icons: Icons.insert_drive_file, color: Colors.blue),
-    SendMenuItems(text: "Audio", icons: Icons.music_note, color: Colors.orange),
-    SendMenuItems(text: "Location", icons: Icons.location_on, color: Colors.green),
-    SendMenuItems(text: "Contact", icons: Icons.person, color: Colors.purple),
-  ];
-
-  void showModal(){
-    showModalBottomSheet(
-        context: Get.context!,
-        builder: (context){
-          return Container(
-            height: MediaQuery.of(context).size.height/2,
-            color: const Color(0xff737373),
-            child: Container(
-              decoration: const BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.only(topRight: Radius.circular(20),topLeft: Radius.circular(20)),
-              ),
-              child: Column(
-                children: <Widget>[
-                  const SizedBox(height: 16,),
-                  Center(
-                    child: Container(
-                      height: 4,
-                      width: 50,
-                      color: Colors.grey.shade200,
-                    ),
-                  ),
-                  const SizedBox(height: 10,),
-                  ListView.builder(
-                    itemCount: menuItems.length,
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemBuilder: (context, index){
-                      return Container(
-                        padding: const EdgeInsets.only(top: 10,bottom: 10),
-                        child: ListTile(
-                          leading: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(30),
-                              color: menuItems[index].color.shade50,
-                            ),
-                            height: 50,
-                            width: 50,
-                            child: Icon(menuItems[index].icons,size: 20,color: menuItems[index].color.shade400,),
-                          ),
-                          title: Text(menuItems[index].text),
-                        ),
-                      );
-                    },
-                  )
-                ],
-              ),
-            ),
-          );
-        }
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const ChatDetailPageAppBar(),
-      body: Stack(
-        children: <Widget>[
-          ListView.builder(
-            itemCount: chatMessage.length,
-            shrinkWrap: true,
-            padding: const EdgeInsets.only(top: 10,bottom: 10),
-            physics: const NeverScrollableScrollPhysics(),
-            itemBuilder: (context, index){
-              return ChatBubble(
-                chatMessage: chatMessage[index],
-              );
+      appBar: AppBar(
+        backgroundColor: blueColor,
+        centerTitle: true,
+        title: CustomText(text: 'Chatting with ${controller.peerNickname}'.trim(), color: whiteColor,),
+        actions: [
+          IconButton(
+            onPressed: () {
+              String callPhoneNumber =
+                  controller.appServices.currentUser.value?.tel ?? "";
+              controller.callPhoneNumber(callPhoneNumber);
             },
+            icon: const Icon(Icons.phone),
           ),
-          Align(
-            alignment: Alignment.bottomLeft,
-            child: Container(
-              padding: const EdgeInsets.only(left: 16,bottom: 10),
-              height: 80,
-              width: double.infinity,
-              color: Colors.white,
-              child: Row(
-                children: <Widget>[
-                  GestureDetector(
-                    onTap: (){
-                      showModal();
-                    },
-                    child: Container(
-                      height: 40,
-                      width: 40,
-                      decoration: BoxDecoration(
-                        color: Colors.blueGrey,
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                      child: const Icon(Icons.add,color: Colors.white,size: 21,),
-                    ),
-                  ),
-                  const SizedBox(width: 16,),
-                  Expanded(
-                    child: TextField(
-                      decoration: InputDecoration(
-                          hintText: "Type message...",
-                          hintStyle: TextStyle(color: Colors.grey.shade500),
-                          border: InputBorder.none
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Align(
-            alignment: Alignment.bottomRight,
-            child: Container(
-              padding: const EdgeInsets.only(right: 30,bottom: 50),
-              child: FloatingActionButton(
-                onPressed: (){},
-                backgroundColor: Colors.pink,
-                elevation: 0,
-                child: Icon(Icons.send,color: Colors.white,),
-              ),
-            ),
-          )
         ],
       ),
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: Sizes.dimen_8),
+          child: Column(
+            children: [
+              buildListMessage(),
+              buildMessageInput(),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget buildMessageInput() {
+    return SizedBox(
+      width: double.infinity,
+      height: 50,
+      child: Row(
+        children: [
+          Container(
+            margin: const EdgeInsets.only(right: Sizes.dimen_4),
+            decoration: BoxDecoration(
+              color: const Color(0xFF880d1e),
+              borderRadius: BorderRadius.circular(Sizes.dimen_30),
+            ),
+            child: IconButton(
+              onPressed: controller.getImage,
+              icon: const Icon(
+                Icons.camera_alt,
+                size: Sizes.dimen_28,
+              ),
+              color: const Color(0xFFf5f5f5),
+            ),
+          ),
+          Flexible(
+              child: TextField(
+            focusNode: controller.focusNode,
+            textInputAction: TextInputAction.send,
+            keyboardType: TextInputType.text,
+            textCapitalization: TextCapitalization.sentences,
+            controller: controller.textEditingController,
+            decoration:
+                kTextInputDecoration.copyWith(hintText: 'write here...'),
+            onSubmitted: (value) {
+              controller.onSendMessage(controller.textEditingController.text, MessageType.text);
+            },
+          )),
+          Container(
+            margin: const EdgeInsets.only(left: Sizes.dimen_4),
+            decoration: BoxDecoration(
+              color: const Color(0xFF880d1e),
+              borderRadius: BorderRadius.circular(Sizes.dimen_30),
+            ),
+            child: IconButton(
+              onPressed: () {
+                controller.onSendMessage(controller.textEditingController.text, MessageType.text);
+              },
+              icon: const Icon(Icons.send_rounded),
+              color: const Color(0xFFf5f5f5),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget buildItem(int index, DocumentSnapshot? documentSnapshot) {
+    if (documentSnapshot != null) {
+      MessageModel chatMessages = MessageModel.fromDocument(documentSnapshot);
+      if (chatMessages.idFrom == controller.currentUserId) {
+        // right side (my message)
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                chatMessages.type == MessageType.text
+                    ? messageBubble(
+                        chatContent: chatMessages.content,
+                        color: const Color(0xff2b3a67),
+                        textColor: const Color(0xFFf5f5f5),
+                        margin: const EdgeInsets.only(right: Sizes.dimen_10),
+                      )
+                    : chatMessages.type == MessageType.image
+                        ? Container(
+                            margin: const EdgeInsets.only(
+                                right: Sizes.dimen_10, top: Sizes.dimen_10),
+                            child: chatImage(
+                                imageSrc: chatMessages.content, onTap: () {}),
+                          )
+                        : const SizedBox.shrink(),
+                controller.isMessageSent(index)
+                    ? Container(
+                        clipBehavior: Clip.hardEdge,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(Sizes.dimen_20),
+                        ),
+                        child: Image.network(
+                          controller.userAvatar,
+                          width: Sizes.dimen_40,
+                          height: Sizes.dimen_40,
+                          fit: BoxFit.cover,
+                          loadingBuilder: (BuildContext ctx, Widget child,
+                              ImageChunkEvent? loadingProgress) {
+                            if (loadingProgress == null) return child;
+                            return Center(
+                              child: CircularProgressIndicator(
+                                color: const Color(0xFF880d1e),
+                                value: loadingProgress.expectedTotalBytes !=
+                                            null &&
+                                        loadingProgress.expectedTotalBytes !=
+                                            null
+                                    ? loadingProgress.cumulativeBytesLoaded /
+                                        loadingProgress.expectedTotalBytes!
+                                    : null,
+                              ),
+                            );
+                          },
+                          errorBuilder: (context, object, stackTrace) {
+                            return const Icon(
+                              Icons.account_circle,
+                              size: 35,
+                              color: Color(0xffE8E8E8),
+                            );
+                          },
+                        ),
+                      )
+                    : Container(
+                        width: 35,
+                      ),
+              ],
+            ),
+            controller.isMessageSent(index)
+                ? Container(
+                    margin: const EdgeInsets.only(
+                        right: Sizes.dimen_50,
+                        top: Sizes.dimen_6,
+                        bottom: Sizes.dimen_8),
+                    child: Text(
+                      DateFormat('dd MMM yyyy, hh:mm a').format(
+                        DateTime.fromMillisecondsSinceEpoch(
+                          int.parse(chatMessages.timestamp),
+                        ),
+                      ),
+                      style: const TextStyle(
+                          color: Color(0xff928a8a),
+                          fontSize: Sizes.dimen_12,
+                          fontStyle: FontStyle.italic),
+                    ),
+                  )
+                : const SizedBox.shrink(),
+          ],
+        );
+      } else {
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                controller.isMessageReceived(index)
+                    // left side (received message)
+                    ? Container(
+                        clipBehavior: Clip.hardEdge,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(Sizes.dimen_20),
+                        ),
+                        child: Image.network(
+                          controller.peerAvatar,
+                          width: Sizes.dimen_40,
+                          height: Sizes.dimen_40,
+                          fit: BoxFit.cover,
+                          loadingBuilder: (BuildContext ctx, Widget child,
+                              ImageChunkEvent? loadingProgress) {
+                            if (loadingProgress == null) return child;
+                            return Center(
+                              child: CircularProgressIndicator(
+                                color: const Color(0xFF880d1e),
+                                value: loadingProgress.expectedTotalBytes !=
+                                            null &&
+                                        loadingProgress.expectedTotalBytes !=
+                                            null
+                                    ? loadingProgress.cumulativeBytesLoaded /
+                                        loadingProgress.expectedTotalBytes!
+                                    : null,
+                              ),
+                            );
+                          },
+                          errorBuilder: (context, object, stackTrace) {
+                            return const Icon(
+                              Icons.account_circle,
+                              size: 35,
+                              color: Color(0xffE8E8E8),
+                            );
+                          },
+                        ),
+                      )
+                    : Container(
+                        width: 35,
+                      ),
+                chatMessages.type == MessageType.text
+                    ? messageBubble(
+                        color: const Color(0xFF880d1e),
+                        textColor: const Color(0xFFf5f5f5),
+                        chatContent: chatMessages.content,
+                        margin: const EdgeInsets.only(left: Sizes.dimen_10),
+                      )
+                    : chatMessages.type == MessageType.image
+                        ? Container(
+                            margin: const EdgeInsets.only(
+                                left: Sizes.dimen_10, top: Sizes.dimen_10),
+                            child: chatImage(
+                                imageSrc: chatMessages.content, onTap: () {}),
+                          )
+                        : const SizedBox.shrink(),
+              ],
+            ),
+            controller.isMessageReceived(index)
+                ? Container(
+                    margin: const EdgeInsets.only(
+                        left: Sizes.dimen_50,
+                        top: Sizes.dimen_6,
+                        bottom: Sizes.dimen_8),
+                    child: Text(
+                      DateFormat('dd MMM yyyy, hh:mm a').format(
+                        DateTime.fromMillisecondsSinceEpoch(
+                          int.parse(chatMessages.timestamp),
+                        ),
+                      ),
+                      style: const TextStyle(
+                          color: Color(0xff928a8a),
+                          fontSize: Sizes.dimen_12,
+                          fontStyle: FontStyle.italic),
+                    ),
+                  )
+                : const SizedBox.shrink(),
+          ],
+        );
+      }
+    } else {
+      return const SizedBox.shrink();
+    }
+  }
+
+  Widget buildListMessage() {
+    return Flexible(
+      child: controller.groupChatId.isNotEmpty
+          ? StreamBuilder<QuerySnapshot>(
+              stream: controller.chatProvider.getChatMessage(controller.groupChatId, controller.limit),
+              builder: (BuildContext context,
+                  AsyncSnapshot<QuerySnapshot> snapshot) {
+                if (snapshot.hasData) {
+                  controller.listMessages = snapshot.data!.docs;
+                  if (controller.listMessages.isNotEmpty) {
+                    return ListView.builder(
+                        padding: const EdgeInsets.all(10),
+                        itemCount: snapshot.data?.docs.length,
+                        reverse: true,
+                        controller: controller.scrollController,
+                        itemBuilder: (context, index) =>
+                            buildItem(index, snapshot.data?.docs[index]));
+                  } else {
+                    return const Center(
+                      child: Text('No messages...'),
+                    );
+                  }
+                } else {
+                  return const Center(
+                    child: CircularProgressIndicator(
+                      color: Color(0xFF880d1e),
+                    ),
+                  );
+                }
+              })
+          : const Center(
+              child: CircularProgressIndicator(
+                color: Color(0xFF880d1e),
+              ),
+            ),
     );
   }
 }

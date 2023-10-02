@@ -18,6 +18,7 @@ import 'package:artisans/presentation/sign_in/sign_in_bindings.dart';
 import 'package:artisans/presentation/sign_in/sign_in_screen.dart';
 import 'package:artisans/presentation/sign_up/sign_up_binding.dart';
 import 'package:artisans/presentation/sign_up/sign_up_screen.dart';
+import 'package:artisans/presentation/single_chat/single_chat_binding.dart';
 import 'package:artisans/presentation/splash/splash_bindings.dart';
 import 'package:artisans/presentation/splash/splash_screen.dart';
 import 'package:artisans/presentation/stories/stories_binding.dart';
@@ -25,6 +26,8 @@ import 'package:artisans/presentation/stories/stories_screen.dart';
 import 'package:artisans/presentation/update_salon/update_salon_binding.dart';
 import 'package:artisans/presentation/update_salon/update_salon_screen.dart';
 import 'package:get/get.dart';
+
+import '../../presentation/single_chat/single_chat_screen.dart';
 
 class AppRoutes {
   static const String initialRoute = '/initial';
@@ -41,6 +44,7 @@ class AppRoutes {
   static const String splashRoute = "/splash";
   static const String updateSalonRoute = "/update_salon";
   static const String salonsMapRoute = "/salons_map_route";
+  // static const String singleChatRoute = "/single_chat";
 
   static List<GetPage> pages = [
     GetPage(
@@ -94,6 +98,7 @@ class AppRoutes {
     GetPage(
         name: salonsMapRoute,
         page: () => SalonsMapScreen(),
-        binding: SalonsMapBinding())
+        binding: SalonsMapBinding()),
+    // GetPage(name: singleChatRoute, page: () => SingleChatScreen(), binding: SingleChatBinding())
   ];
 }

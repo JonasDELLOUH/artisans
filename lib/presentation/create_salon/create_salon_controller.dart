@@ -28,6 +28,7 @@ class CreateSalonController extends GetxController {
   TextEditingController salonNameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController telController = TextEditingController();
+  TextEditingController whatsappNumberController = TextEditingController();
   TextEditingController descController = TextEditingController();
   RxInt stepIndex = 1.obs;
   Rx<List<JobModel>> jobs = Rx<List<JobModel>>([]);
@@ -71,6 +72,7 @@ class CreateSalonController extends GetxController {
           address: address,
           email: emailController.value.text,
           phone: telController.value.text,
+          whatsappNumber: whatsappNumberController.value.text,
           desc: descController.value.text));
       await appServices.getUserSalon();
       creatingSalon.value = false;

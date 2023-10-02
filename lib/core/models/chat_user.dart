@@ -10,9 +10,11 @@ class ChatUser extends Equatable {
   final String displayName;
   final String phoneNumber;
   final String aboutMe;
+  final String email;
 
   const ChatUser(
       {required this.id,
+        required this.email,
       required this.photoUrl,
       required this.displayName,
       required this.phoneNumber,
@@ -26,6 +28,7 @@ class ChatUser extends Equatable {
     String? email,
   }) =>
       ChatUser(
+        email: "",
           id: id ?? this.id,
           photoUrl: photoUrl ?? this.photoUrl,
           displayName: nickname ?? displayName,
@@ -41,14 +44,15 @@ class ChatUser extends Equatable {
 
   factory ChatUser.fromDocument(DocumentSnapshot snapshot) {
     String photoUrl = "";
-    String nickname = "";
+    String displayName = "";
     String phoneNumber = "";
-    String aboutMe = "";
+    String email = "";
 
     try {
-      // photoUrl = snapshot.get(FirestoreConstants.photoUrl);
-      nickname = snapshot.get(FirestoreConstants.displayName);
-      // phoneNumber = snapshot.get(FirestoreConstants.phoneNumber);
+    email = snapshot.get(FirestoreConstants.email);
+      photoUrl = snapshot.get(FirestoreConstants.photoUrl);
+    displayName = snapshot.get(FirestoreConstants.displayName);
+      phoneNumber = snapshot.get(FirestoreConstants.phoneNumber);
       // aboutMe = snapshot.get(FirestoreConstants.aboutMe);
       // debugPrint("nickname : $nickname");
 
@@ -58,9 +62,10 @@ class ChatUser extends Equatable {
     return ChatUser(
         id: snapshot.id,
         photoUrl: photoUrl,
-        displayName: nickname,
+        displayName: displayName,
         phoneNumber: phoneNumber,
-        aboutMe: aboutMe);
+        email: email,
+        aboutMe: "aboutMe");
   }
 
   @override

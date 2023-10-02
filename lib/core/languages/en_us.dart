@@ -70,5 +70,7 @@ Map<String, String> enUS = {
   "salon_updated": "Salon updated",
   "profile_updated": "Profile updated",
   "password_changed": "Password changed",
-  "failed": "Failed"
+  "failed": "Failed",
+  "discuss": "Discuss",
+  "salon_whatsapp_number": "Salon Whatsapp number"
 };

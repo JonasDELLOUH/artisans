@@ -29,6 +29,7 @@ class UpdateSalonController extends GetxController {
   TextEditingController salonNameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController telController = TextEditingController();
+  TextEditingController whatsappNumberController = TextEditingController();
   TextEditingController descController = TextEditingController();
   RxBool salonImageIsInLoading = true.obs;
   final formKey = GlobalKey<FormState>();
@@ -41,10 +42,10 @@ class UpdateSalonController extends GetxController {
   Rx<List<JobModel>> jobs = Rx<List<JobModel>>([]);
   final appServices = Get.find<AppServices>();
   RxBool updatingSalon = false.obs;
-
   String initialSalonName = "";
   String initialSalonEmail = "";
   String initialSalonNumber = "";
+  String initialSalonWhatsappNumber = "";
   String initialSalonDescription = "";
   File? initialSalonImage;
   double initialLat = 0.0;
@@ -70,6 +71,7 @@ class UpdateSalonController extends GetxController {
         initialSalonName == salonNameController.text &&
         initialSalonEmail == emailController.text &&
         initialSalonNumber == telController.text &&
+            initialSalonWhatsappNumber == whatsappNumberController.text &&
         initialSalonDescription == descController.text &&
         initialSalonImage?.path == salonImage.value?.path &&
         initialLat == latitude.value &&
@@ -84,10 +86,12 @@ class UpdateSalonController extends GetxController {
     initialSalonName = appServices.currentSalon.value?.salonName ?? "";
     initialSalonEmail = appServices.currentSalon.value?.email ?? "";
     initialSalonNumber = appServices.currentSalon.value?.phone ?? "";
+    initialSalonWhatsappNumber = appServices.currentSalon.value?.whatsappNumber ?? "";
     initialSalonDescription = appServices.currentSalon.value?.desc ?? "";
     salonNameController.text = initialSalonName;
     emailController.text = initialSalonEmail;
     telController.text = initialSalonNumber;
+    whatsappNumberController.text = initialSalonNumber;
     descController.text = initialSalonDescription;
     if (appServices.currentSalon.value?.imageUrl.isNotEmpty ?? false) {
       downloadAndSetImage();
@@ -205,6 +209,7 @@ class UpdateSalonController extends GetxController {
           address: address,
           email: emailController.value.text,
           phone: telController.value.text,
+          whatsappNumber: whatsappNumberController.value.text,
           desc: descController.value.text,
           salonId: appServices.currentSalon.value?.salonId ?? ""));
       await appServices.setCurrentSalon(updateSalonData.salonModel!);

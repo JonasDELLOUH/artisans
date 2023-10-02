@@ -33,7 +33,7 @@ class MenuScreen extends GetWidget<menu_controller.MenuController> {
           children: [
             HomeScreen(controller: Get.put(HomeController())),
             PostsScreen(controller: Get.put(PostsController())),
-            ChatsScreen(controller: Get.put(ChatsController())),
+            // ChatsScreen(controller: Get.put(ChatsController())),
             ProfileScreen(controller: Get.put(ProfileController()))
           ],
         ),
@@ -42,26 +42,28 @@ class MenuScreen extends GetWidget<menu_controller.MenuController> {
             currentIndex: controller.currentIndex.value,
             onTap: controller.changePage,
             type: BottomNavigationBarType.fixed,
+            backgroundColor: Colors.transparent,
+            elevation: 0.0,
             items: [
               BottomNavigationBarItem(
-                  icon: ConstantIcons.homeIcon(),
+                  icon: ConstantIcons.homeIcon(size: 30),
                   label: "",
-                  activeIcon: ConstantIcons.homeIcon(color: violetColor)),
+                  activeIcon: ConstantIcons.homeIcon(color: violetColor, size: 30)),
               BottomNavigationBarItem(
-                icon: ConstantIcons.postIcon(),
+                icon: ConstantIcons.postIcon(size: 30),
                 label: "",
-                activeIcon: ConstantIcons.postIcon(color: violetColor),
+                activeIcon: ConstantIcons.postIcon(color: violetColor, size: 30),
               ),
+              // BottomNavigationBarItem(
+              //   icon: ConstantIcons.chatIcon(),
+              //   label: "",
+              //   activeIcon: ConstantIcons.chatIcon(color: violetColor),
+              // ),
               BottomNavigationBarItem(
-                icon: ConstantIcons.chatIcon(),
-                label: "",
-                activeIcon: ConstantIcons.chatIcon(color: violetColor),
-              ),
-              BottomNavigationBarItem(
-                  icon: ConstantIcons.profileIcon(),
+                  icon: ConstantIcons.profileIcon(size: 30),
                   label: "",
                   activeIcon:
-                      ConstantIcons.profileIcon(color: violetColor)),
+                      ConstantIcons.profileIcon(color: violetColor, size: 30)),
             ],
           );
         }),

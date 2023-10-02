@@ -3,6 +3,7 @@ class SalonModel {
   final String jobId;
   final String email;
   final String phone;
+  final String whatsappNumber;
   final String desc;
   final String salonName;
   final double latitude;
@@ -20,7 +21,7 @@ class SalonModel {
       required this.latitude,
       required this.longitude,
       required this.nbrStar,
-      required this.salonName, required this.phone, required this.email});
+      required this.salonName, required this.phone, required this.whatsappNumber, required this.email});
 
   factory SalonModel.fromJson(Map<String, dynamic> json) {
     return SalonModel(
@@ -34,6 +35,7 @@ class SalonModel {
         nbrStar: json["nbrStar"] ?? 1,
         salonName: json["name"] ?? "",
       phone: json["phone"] ?? "",
+        whatsappNumber: json["whatsappNumber"] ?? "",
       email: json["email"] ?? ""
     );
   }
@@ -47,9 +49,11 @@ class SalonModel {
       "latitude": latitude,
       "longitude": longitude,
       "nbrStar": nbrStar,
-      "salonName": salonName
+      "salonName": salonName,
+      "phone": phone,
+      "whatsappNumber": whatsappNumber
     };
   }
 
-  static SalonModel currentSalon() =>  SalonModel(jobId: "", salonId: "", desc: "this.desc,", address: "Calavi-UAC", imageUrl: "", latitude: 1.1, longitude: 1.7, nbrStar: 4, salonName: "Jonas Coiffure", phone: "", email: "");
+  static SalonModel currentSalon() =>  SalonModel(jobId: "", salonId: "", desc: "this.desc,", address: "Calavi-UAC", imageUrl: "", latitude: 1.1, longitude: 1.7, nbrStar: 4, salonName: "Jonas Coiffure", phone: "", email: "", whatsappNumber: '');
 }

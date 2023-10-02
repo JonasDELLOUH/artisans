@@ -1,22 +1,43 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+import '../constants/firestore_constants.dart';
+
 class MessageModel {
-  final String id;
-  final String content;
-  final String idFrom;
-  final String idTo;
-  final int timestamp;
-  final bool isImage; // Ajoutez un champ pour indiquer si c'est une image
+  String idFrom;
+  String idTo;
+  String timestamp;
+  String content;
+  int type;
 
-  MessageModel({
-    required this.id,
-    required this.content,
-    required this.idFrom,
-    required this.idTo,
-    required this.timestamp,
-    required this.isImage,
-  });
+  MessageModel(
+      {required this.idFrom,
+      required this.idTo,
+      required this.timestamp,
+      required this.content,
+      required this.type});
 
-  factory MessageModel.fromJson(Map<String, dynamic> json){
+  Map<String, dynamic> toJson() {
+    return {
+      FirestoreConstants.idFrom: idFrom,
+      FirestoreConstants.idTo: idTo,
+      FirestoreConstants.timestamp: timestamp,
+      FirestoreConstants.content: content,
+      FirestoreConstants.type: type,
+    };
+  }
+
+  factory MessageModel.fromDocument(DocumentSnapshot documentSnapshot) {
+    String idFrom = documentSnapshot.get(FirestoreConstants.idFrom);
+    String idTo = documentSnapshot.get(FirestoreConstants.idTo);
+    String timestamp = documentSnapshot.get(FirestoreConstants.timestamp);
+    String content = documentSnapshot.get(FirestoreConstants.content);
+    int type = documentSnapshot.get(FirestoreConstants.type);
+
     return MessageModel(
-        id: json["id"], content: json["content"], idFrom: json["idFrom"], idTo: json["idTo"], timestamp: json["timestamp"], isImage: json["isImage"]);
+        idFrom: idFrom,
+        idTo: idTo,
+        timestamp: timestamp,
+        content: content,
+        type: type);
   }
 }

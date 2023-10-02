@@ -54,6 +54,8 @@ class CustomImageNetwork extends StatelessWidget {
         errorWidget ?? (context, url, error) => const Icon(Icons.error),
         placeholder: (context, url) =>
             Container(color: greyColor.withOpacity(0.1),),
+        // progressIndicatorBuilder: (context, url, downloadProgress) =>
+        //     CircularProgressIndicator(value: downloadProgress.progress),
       ),
     );
   }

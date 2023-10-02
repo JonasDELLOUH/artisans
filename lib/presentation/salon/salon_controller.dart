@@ -1,3 +1,4 @@
+import 'package:artisans/core/functions/basics_functions.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
@@ -43,6 +44,7 @@ class SalonController extends GetxController {
         salon.value?.longitude ?? 0,
         appServices.latitude.value,
         appServices.longitude.value);
+    verifySalonLikeStatus();
     updateLocation();
     getPosts();
     getStories();
@@ -100,8 +102,46 @@ class SalonController extends GetxController {
       storyIsInLoading.value = false;
       debugPrint("getStories error:  $e");
       if (e is DioException) {
-        appSnackBar("error", "Échoué", "${e.response?.data}");
+        appSnackBar("error", "failed".tr, "${e.response?.data}");
       }
+    }
+  }
+
+  likeSalon() async {
+    try {
+      isLiked.value =
+      await ApiServices.likeSalon(salonId: salon.value?.salonId ?? "");
+    } catch (e) {
+      if (e is DioException) {
+        appSnackBar("error", "failed".tr, "${e.response?.data}");
+      }
+    }
+  }
+
+  verifySalonLikeStatus() async {
+    try {
+      isLiked.value =
+      await ApiServices.verifyLikeStatus(salonId: salon.value?.salonId ?? "");
+    } catch (e) {
+      if (e is DioException) {
+        appSnackBar("error", "failed".tr, "${e.response?.data}");
+      }
+    }
+  }
+
+  callPhone(){
+    try{
+      callPhoneNumber(salon.value?.phone ?? "");
+    } catch(e){
+      appSnackBar("error", "failed".tr, e);
+    }
+  }
+
+  openWhatsapp(){
+    try{
+      openWhatsAppChat(salon.value?.phone ?? "");
+    } catch(e){
+      appSnackBar("error", "failed".tr, e);
     }
   }
 }

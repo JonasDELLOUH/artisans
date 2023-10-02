@@ -6,9 +6,9 @@ class ConstantIcons {
     Icons.search,
     size: 30,
   );
-  static Widget homeIcon({Color color = blackColor}) => Icon(
+  static Widget homeIcon({Color color = blackColor, double? size = 20}) => Icon(
     Icons.home,
-    size: 20,
+    size: size,
     color: color,
   );
 

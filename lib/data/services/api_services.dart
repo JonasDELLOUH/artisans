@@ -101,6 +101,7 @@ class ApiServices {
      String? address,
       required String email,
       required String phone,
+        required String whatsappNumber,
       required String desc}) async {
     debugPrint("createSalon");
     dio.FormData formData = dio.FormData.fromMap({
@@ -112,6 +113,7 @@ class ApiServices {
       "address": address ?? "",
       "email": email,
       "phone": phone,
+      "whatsappNumber": whatsappNumber,
       "desc": desc
     });
     var response = await ApiProvider.client.post("salon", data: formData);
@@ -132,6 +134,7 @@ class ApiServices {
     String? address,
     required String email,
     required String phone,
+    required String whatsappNumber,
     required String desc,
     required String salonId,
   }) async {
@@ -144,6 +147,7 @@ class ApiServices {
       "address": address ?? "",
       "email": email,
       "phone": phone,
+      "whatsappNumber": whatsappNumber,
       "desc": desc,
     });
 
@@ -279,7 +283,7 @@ class ApiServices {
 
   static Future<GetUserSalonData> getUserSalon() async {
     debugPrint("getUserSalon");
-    var response = await ApiProvider.client.get("salon/userSalon/");
+    var response = await ApiProvider.client.get("salon/user_salon/");
     debugPrint("finish");
     if (response.statusCode == HttpStatus.ok) {
       if (response.data is! Map) return GetUserSalonData.fromJson({});
@@ -289,5 +293,26 @@ class ApiServices {
     }
   }
 
+  static Future<bool> verifyLikeStatus({required String salonId}) async{
+    debugPrint("verifyLikeStatus");
+    var response = await ApiProvider.client.post("salon/verify_like_status/$salonId");
+    debugPrint("finish");
+    if(response.statusCode == HttpStatus.ok){
+      return response.data["isLiked"];
+    } else{
+      throw Exception();
+    }
+  }
+
+  static Future<bool> likeSalon({required String salonId}) async{
+    debugPrint("likeSalon");
+    var response = await ApiProvider.client.post("salon/like/$salonId");
+    debugPrint("finish");
+    if(response.statusCode == HttpStatus.ok){
+      return response.data["isLiked"];
+    } else{
+      throw Exception();
+    }
+  }
 
 }

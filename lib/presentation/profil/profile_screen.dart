@@ -80,7 +80,14 @@ class ProfileScreen extends StatelessWidget {
                   onTap: () {
                     Get.toNamed(AppRoutes.personalDataRoute);
                   }),
-              profileTile(iconData: Icons.settings, tileName: "settings".tr),
+              profileTile(
+                  iconData: Icons.settings,
+                  tileName: "language".tr,
+                  tileSubName: "English",
+                onTap: (){
+                    controller.onTapChangeLanguage();
+                }
+              ),
               profileTile(
                   iconData: Icons.password,
                   tileName: "change_password".tr,
@@ -95,7 +102,6 @@ class ProfileScreen extends StatelessWidget {
                         Get.toNamed(AppRoutes.createSalonRoute);
                       })
                   : Container()),
-
               Obx(() => controller.appServices.hasSalon.value
                   ? profileTile(
                       onTap: () {

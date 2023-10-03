@@ -1,10 +1,8 @@
-import 'package:artisans/core/models/salon_model.dart';
 import 'package:artisans/presentation/posts/posts_controller.dart';
 import 'package:artisans/widgets/post_tile_shimmer.dart';
 import 'package:artisans/widgets/story_tile_shimmer.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../core/data/data.dart';
 import 'widgets/post_container.dart';
 import 'widgets/stories.dart';
 

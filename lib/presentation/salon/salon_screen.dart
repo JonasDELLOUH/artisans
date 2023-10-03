@@ -5,6 +5,7 @@ import 'package:artisans/widgets/custom_image_network.dart';
 import 'package:artisans/presentation/salon/salon_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:velocity_x/velocity_x.dart';
 import '../../widgets/custom_text.dart';
 import '../../widgets/post_tile_shimmer.dart';
 import '../../widgets/stars_tile.dart';
@@ -14,7 +15,6 @@ import '../posts/widgets/stories.dart';
 
 class SalonScreen extends GetView<SalonController> {
   const SalonScreen({super.key});
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -123,23 +123,23 @@ class SalonScreen extends GetView<SalonController> {
                   const SizedBox(
                     height: 10,
                   ),
-                  contactWidget(
+                  controller.salon.value?.email.isEmptyOrNull ?? false ? Container() :  contactWidget(
                       contactType: 'E-MAIL',
                       contactValue: "${controller.salon.value?.email}",
                       contactIcon: Icons.email),
-                  contactWidget(
+                  controller.salon.value?.phone.isEmptyOrNull ?? false ? Container() :  contactWidget(
                       onTap: () {
                         controller.callPhone();
                       },
                       contactType: 'phone'.tr,
                       contactValue: "${controller.salon.value?.phone}",
                       contactIcon: Icons.phone),
-                  contactWidget(
+                  controller.salon.value?.whatsappNumber.isEmptyOrNull ?? false ? Container() : contactWidget(
                       onTap: () {
                         controller.openWhatsapp();
                       },
                       contactType: "salon_whatsapp_number".tr,
-                      contactValue: "${controller.salon.value?.phone}",
+                      contactValue: "${controller.salon.value?.whatsappNumber}",
                       contactIcon: Icons.chat),
                   const SizedBox(
                     height: 10,

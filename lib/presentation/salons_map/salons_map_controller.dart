@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../../core/models/salon_model.dart';
-import '../../core/services/app_services.dart';
+import '../../data/services/app_services.dart';
 
 class SalonsMapController extends GetxController {
   Rx<Set<Marker>> markers = Rx<Set<Marker>>({});

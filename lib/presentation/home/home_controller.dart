@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import '../../core/models/job_model.dart';
-import '../../core/services/app_services.dart';
+import '../../data/services/app_services.dart';
 import '../../data/data_models/get_salons_data.dart';
 import '../../data/functions/functions.dart';
 import '../../data/services/api_services.dart';

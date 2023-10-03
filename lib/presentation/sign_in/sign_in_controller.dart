@@ -3,7 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
-import '../../core/services/app_services.dart';
+import '../../data/services/app_services.dart';
 import '../../data/data_models/user_data.dart';
 import '../../data/functions/functions.dart';
 import '../../data/services/api_services.dart';

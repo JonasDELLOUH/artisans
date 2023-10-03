@@ -1,7 +1,7 @@
 import "package:get/get.dart";
 import 'package:flutter/material.dart';
 
-import '../../core/services/app_services.dart';
+import '../../data/services/app_services.dart';
 class MenuController extends GetxController{
   RxInt currentIndex = 0.obs;
   late PageController pageController;

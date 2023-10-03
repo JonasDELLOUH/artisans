@@ -1,6 +1,6 @@
 import 'package:artisans/core/languages/languages.dart';
 import 'package:artisans/core/routes/app_routes.dart';
-import 'package:artisans/core/services/app_services.dart';
+import 'package:artisans/data/services/app_services.dart';
 import 'package:artisans/core/themes/theme_services.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';

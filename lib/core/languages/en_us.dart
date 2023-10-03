@@ -72,5 +72,6 @@ Map<String, String> enUS = {
   "password_changed": "Password changed",
   "failed": "Failed",
   "discuss": "Discuss",
-  "salon_whatsapp_number": "Salon Whatsapp number"
+  "salon_whatsapp_number": "Salon Whatsapp number",
+  "language": "Language"
 };

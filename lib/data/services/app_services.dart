@@ -6,10 +6,13 @@ import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:permission_handler/permission_handler.dart';
-import '../../data/functions/functions.dart';
-import '../../data/services/api_services.dart';
-import '../models/job_model.dart';
+import '../../core/routes/app_routes.dart';
+import '../data_models/user_data.dart';
+import '../functions/functions.dart';
+import 'api_services.dart';
+import '../../core/models/job_model.dart';
 import 'my_get_storage.dart';
 
 class AppServices extends GetxService {
@@ -21,7 +24,6 @@ class AppServices extends GetxService {
 
   RxDouble latitude = 0.0.obs;
   RxDouble longitude = 0.0.obs;
-
 
   Future<void> checkLocationPermissionAndFetchLocation() async {
     var status = await Permission.location.status;
@@ -54,8 +56,10 @@ class AppServices extends GetxService {
     currentUser.value = userModel;
     MyGetStorage.instance.write(Constants.token, token1);
     token.value = token1;
-    debugPrint("setCurrentUser \t token : ${MyGetStorage.instance.read("token")}");
+    debugPrint(
+        "setCurrentUser \t token : ${MyGetStorage.instance.read("token")}");
   }
+
   getCurrentUser() {
     currentUser.value =
         UserModel.fromJson(MyGetStorage.instance.read(Constants.currentUser));
@@ -63,26 +67,27 @@ class AppServices extends GetxService {
     token.value = MyGetStorage.instance.read("token") ?? "";
   }
 
-  setCurrentSalon(SalonModel salonModel){
+  setCurrentSalon(SalonModel salonModel) {
     MyGetStorage.instance.write(Constants.currentSalon, salonModel.toJson());
     currentSalon.value = salonModel;
   }
 
-  getCurrentSalon(){
-    currentSalon.value = SalonModel.fromJson(MyGetStorage.instance.read(Constants.currentSalon));
-    if(currentSalon.value != null){
+  getCurrentSalon() {
+    currentSalon.value =
+        SalonModel.fromJson(MyGetStorage.instance.read(Constants.currentSalon));
+    if (currentSalon.value != null) {
       hasSalon.value = true;
     }
   }
 
-  setJobs(List<JobModel> jobList){
+  setJobs(List<JobModel> jobList) {
     jobs.value = jobList;
   }
 
   getUserSalon() async {
     try {
       GetUserSalonData getUserSalonData = (await ApiServices.getUserSalon());
-      if(getUserSalonData.hasSalon){
+      if (getUserSalonData.hasSalon) {
         debugPrint("hasSalonhasSalonhasSalonhasSalon");
         hasSalon.value = true;
         setCurrentSalon(getUserSalonData.salonModel!);
@@ -91,8 +96,49 @@ class AppServices extends GetxService {
     } catch (e) {
       debugPrint("$e");
       if (e is DioException) {
-        appSnackBar("error", "${e.response?.data}",
-            "}");
+        appSnackBar("error", "${e.response?.data}", "}");
+      }
+    }
+  }
+
+  Future<void> handleGoogleSignIn() async {
+    GoogleSignIn googleSignIn = GoogleSignIn();
+    try {
+      final GoogleSignInAccount? googleSignInAccount =
+          await googleSignIn.signIn();
+
+      if (googleSignInAccount != null) {
+        debugPrint(
+            'Connexion réussie avec Google: ${googleSignInAccount.displayName}');
+        bool exist = await ApiServices.verifyUsernameExist(
+            username: googleSignInAccount.displayName ?? "");
+        if (exist) {
+          UserData userData = (await ApiServices.loginUser(
+              username: googleSignInAccount.displayName ?? "",
+              password: googleSignInAccount.id));
+          setCurrentUser(userData.userModel!, userData.token);
+          await getUserSalon();
+          Get.offAllNamed(AppRoutes.menuRoute);
+        } else {
+          UserData userData = (await ApiServices.registerUser(
+              username: googleSignInAccount.displayName ?? "",
+              password: googleSignInAccount.id,
+              email: googleSignInAccount.email,
+              phoneNumber: ""));
+          setCurrentUser(userData.userModel!, userData.token);
+          await getUserSalon();
+          Get.offAllNamed(AppRoutes.menuRoute);
+        }
+      } else {
+        // L'utilisateur a annulé la connexion.
+        debugPrint('Connexion Google annulée.');
+      }
+    } catch (error) {
+      debugPrint("$error");
+      if (error is DioException) {
+        appSnackBar("error", "failed", "${error.response?.data}");
+      }else{
+        appSnackBar("error", "failed", "$error");
       }
     }
   }
@@ -104,4 +150,3 @@ class AppServicesBinding extends Bindings {
     Get.lazyPut(() => AppServices());
   }
 }
-

@@ -2,7 +2,7 @@ import 'package:artisans/core/constants/constants.dart';
 import 'package:artisans/core/routes/app_routes.dart';
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
-import '../../core/services/my_get_storage.dart';
+import '../services/my_get_storage.dart';
 
 class ApiProvider {
   ApiProvider._();

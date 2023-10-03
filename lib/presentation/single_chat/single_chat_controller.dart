@@ -7,7 +7,7 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../core/constants/firestore_constants.dart';
-import '../../core/services/app_services.dart';
+import '../../data/services/app_services.dart';
 import '../../data/providers/chat_provider.dart';
 
 class SingleChatController extends GetxController {

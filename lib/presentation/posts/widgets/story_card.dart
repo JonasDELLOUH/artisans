@@ -81,7 +81,6 @@ class _StoryCardState extends State<StoryCard> {
                   : FutureBuilder<Uint8List?>(
                       future: getVideoThumbnail(),
                       builder: (context, snapshot) {
-                        debugPrint("Voici le snapshot.data : ${snapshot.data}");
                         if (snapshot.connectionState == ConnectionState.done &&
                             snapshot.hasData) {
                           return snapshot.data == null

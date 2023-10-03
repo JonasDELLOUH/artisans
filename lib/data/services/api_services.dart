@@ -50,6 +50,19 @@ class ApiServices {
     }
   }
 
+  static Future<bool> verifyUsernameExist({required String username}) async{
+    debugPrint("verifyUsernameExist");
+    var response = await ApiProvider.client.post("user/username-exist", data: {
+      "username": username,
+    });
+    debugPrint("finish");
+    if(response.statusCode == HttpStatus.ok){
+      return response.data["exist"];
+    } else{
+      throw Exception();
+    }
+  }
+
   static Future<ChangePasswordData> changePassword(
       {required String currentPassword, required String newPassword}) async {
     var response = await ApiProvider.client

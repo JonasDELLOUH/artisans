@@ -205,7 +205,9 @@ class SignInScreen extends GetView<SignInController> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               InkWell(
-                                onTap: () {},
+                                onTap: () {
+                                  controller.appServices.handleGoogleSignIn();
+                                },
                                 child: Container(
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 20),

@@ -250,7 +250,9 @@ class SignUpScreen extends GetWidget<SignUpController> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               InkWell(
-                                onTap: () {},
+                                onTap: () {
+                                  controller.appServices.handleGoogleSignIn();
+                                },
                                 child: Container(
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 20),

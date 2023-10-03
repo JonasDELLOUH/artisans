@@ -72,5 +72,6 @@ Map<String, String> frFr = {
   "password_changed": "Mot de passe changé",
   "failed": "Échoué",
   "discuss": "Discuter",
-  "salon_whatsapp_number": "Numéro Whatsapp du salon"
+  "salon_whatsapp_number": "Numéro Whatsapp du salon",
+  "language": "Langue"
 };

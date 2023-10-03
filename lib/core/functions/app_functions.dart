@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:artisans/core/constants/constants.dart';
-import 'package:artisans/core/services/my_get_storage.dart';
+import 'package:artisans/data/services/my_get_storage.dart';
 import 'package:get_storage/get_storage.dart';
  deleteGetStorageKey({required String key}){
   return MyGetStorage.instance.remove(key);

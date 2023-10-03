@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
-import '../../core/services/app_services.dart';
+import '../../data/services/app_services.dart';
 import '../../core/utils/debouncer.dart';
 import '../../data/services/firebase_services.dart';
 

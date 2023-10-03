@@ -7,7 +7,7 @@ import 'package:get/get.dart';
 import 'package:images_picker/images_picker.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 import '../../core/colors/colors.dart';
-import '../../core/services/app_services.dart';
+import '../../data/services/app_services.dart';
 import '../../data/functions/functions.dart';
 import '../../data/services/api_services.dart';
 import '../../widgets/custom_text.dart';

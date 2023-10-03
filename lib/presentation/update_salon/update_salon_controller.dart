@@ -13,7 +13,7 @@ import 'package:rounded_loading_button/rounded_loading_button.dart';
 import '../../core/colors/colors.dart';
 import '../../core/functions/map_functions.dart';
 import '../../core/models/job_model.dart';
-import '../../core/services/app_services.dart';
+import '../../data/services/app_services.dart';
 import '../../data/services/api_services.dart';
 import '../../secret.dart';
 import '../../widgets/custom_text.dart';

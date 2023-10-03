@@ -97,7 +97,7 @@ class AppRoutes {
         binding: UpdateSalonBinding()),
     GetPage(
         name: salonsMapRoute,
-        page: () => SalonsMapScreen(),
+        page: () => const SalonsMapScreen(),
         binding: SalonsMapBinding()),
     // GetPage(name: singleChatRoute, page: () => SingleChatScreen(), binding: SingleChatBinding())
   ];

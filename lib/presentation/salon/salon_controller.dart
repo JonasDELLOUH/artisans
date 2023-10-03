@@ -8,7 +8,7 @@ import '../../core/functions/app_functions.dart';
 import '../../core/models/post_model.dart';
 import '../../core/models/salon_model.dart';
 import '../../core/models/story_model.dart';
-import '../../core/services/app_services.dart';
+import '../../data/services/app_services.dart';
 import '../../data/data_models/get_posts_data.dart';
 import '../../data/data_models/get_stories_data.dart';
 import '../../data/functions/functions.dart';

@@ -17,7 +17,7 @@ import 'package:uni_links/uni_links.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../core/functions/map_functions.dart';
 import '../../core/models/job_model.dart';
-import '../../core/services/app_services.dart';
+import '../../data/services/app_services.dart';
 import '../../data/functions/functions.dart';
 import '../../data/services/api_services.dart';
 import '../../widgets/custom_text.dart';

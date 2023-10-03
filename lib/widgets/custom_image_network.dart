@@ -51,7 +51,10 @@ class CustomImageNetwork extends StatelessWidget {
         filterQuality: filterQuality,
         matchTextDirection: matchTextDirection,
         errorWidget:
-        errorWidget ?? (context, url, error) => const Icon(Icons.error),
+        errorWidget ?? (context, url, error){
+          debugPrint("cached netword image error : ${error.toString()} \n l'url : $url");
+          return const Icon(Icons.error);
+        },
         placeholder: (context, url) =>
             Container(color: greyColor.withOpacity(0.1),),
         // progressIndicatorBuilder: (context, url, downloadProgress) =>

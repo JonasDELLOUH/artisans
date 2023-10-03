@@ -1,4 +1,4 @@
-import 'package:artisans/core/services/app_services.dart';
+import 'package:artisans/data/services/app_services.dart';
 import 'package:artisans/presentation/salons_map/salons_map_controller.dart';
 import 'package:get/get.dart';
 

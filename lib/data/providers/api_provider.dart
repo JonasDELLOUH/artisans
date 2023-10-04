@@ -1,6 +1,7 @@
 import 'package:artisans/core/constants/constants.dart';
 import 'package:artisans/core/routes/app_routes.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import '../services/my_get_storage.dart';
 
@@ -18,23 +19,23 @@ class ApiProvider {
     dio.interceptors.add(
       InterceptorsWrapper(
         onRequest: (requestOptions, requestInterceptorHandler) {
-          print("Mon token devient : ${MyGetStorage.instance.read(Constants.token)}");
+          debugPrint("Mon token devient : ${MyGetStorage.instance.read(Constants.token)}");
           String? authToken = MyGetStorage.instance.read("token") ?? "";
-          print(
+          debugPrint(
               "Url : ${requestOptions.uri} \n the data : ${requestOptions.data} \t the parameters : ${requestOptions.queryParameters}");
           // Vérifiez si le token est disponible
-          print("le token : $authToken");
+          debugPrint("le token : $authToken");
           if (authToken.isNotEmpty) {
             requestOptions.headers['Authorization'] = 'Bearer $authToken';
           }
           requestInterceptorHandler.next(requestOptions);
         },
         onResponse: (response, onResponse) {
-          print("the response : ${response.data} ");
+          debugPrint("the response : ${response.data} ");
           onResponse.next(response);
         },
         onError: (DioException dioException, ErrorInterceptorHandler onError) {
-          print("the error : ${dioException.response?.data}");
+          debugPrint("the error : ${dioException.response?.data}");
           // Vérifiez si le statut de la réponse est 401 (Unauthorized) ou 403 (Forbidden)
           if (dioException.response?.statusCode == 401) {
             // Supprimez le token expiré ou invalide de GetStorage
@@ -48,7 +49,7 @@ class ApiProvider {
         },
       ),
     );
-    print("let's continue");
+    debugPrint("let's continue");
     return dio;
   }
 

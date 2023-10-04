@@ -21,68 +21,83 @@ class PostsScreen extends StatelessWidget {
         child: const Text("get posts"),
       ),
       body: SafeArea(
-          child: Padding(
+          child: RefreshIndicator(
+            onRefresh: () async{
+
+            },
+            child: Padding(
         padding: const EdgeInsets.all(15),
         child: CustomScrollView(
-          slivers: [
-            Obx(() => controller.storyIsInLoading.value
-                ?  const SliverPadding(
-                    padding: EdgeInsets.zero,
-                    sliver: SliverToBoxAdapter(
-                        child: SizedBox(
-                          child: SingleChildScrollView(
-                            scrollDirection: Axis.horizontal,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                StoryTileShimmer(),
-                                StoryTileShimmer(),
-                                StoryTileShimmer(),
-                                StoryTileShimmer(),
-                              ],
+            slivers: [
+              Obx(() => controller.storyIsInLoading.value
+                  ?  const SliverPadding(
+                      padding: EdgeInsets.zero,
+                      sliver: SliverToBoxAdapter(
+                          child: SizedBox(
+                            child: SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  StoryTileShimmer(),
+                                  StoryTileShimmer(),
+                                  StoryTileShimmer(),
+                                  StoryTileShimmer(),
+                                ],
+                              ),
                             ),
-                          ),
-                        )
-                    ),
-                  )
-                : SliverPadding(
-                    padding: const EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 5.0),
-                    sliver: SliverToBoxAdapter(
-                      child: Stories(
-                        stories: controller.stories.value,
+                          )
                       ),
-                    ),
-                  )),
-            Obx(() => controller.postIsInLoading.value
-                ? const SliverPadding(
-              padding: EdgeInsets.zero,
-              sliver: SliverToBoxAdapter(
-                  child: SizedBox(
-                    child: SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          PostTileShimmer(),
-                          PostTileShimmer(),
-                          PostTileShimmer(),
-                          PostTileShimmer(),
-                        ],
-                      ),
-                    ),
-                  )
-              ),
+                    ) : controller.stories.value.isEmpty ? SliverPadding(
+                padding: EdgeInsets.zero,
+            sliver: SliverToBoxAdapter(
+              child: Container(),
             )
-                : SliverList(
-                    delegate: SliverChildBuilderDelegate(
-                      (context, index) {
-                        return PostContainer(
-                            postModel: controller.posts.value[index]);
-                      },
-                      childCount: controller.posts.value.length,
-                    ),
-                  )),
-          ],
+              )
+                  : SliverPadding(
+                      padding: const EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 5.0),
+                      sliver: SliverToBoxAdapter(
+                        child: Stories(
+                          stories: controller.stories.value,
+                        ),
+                      ),
+                    )),
+              Obx(() => controller.postIsInLoading.value
+                  ? const SliverPadding(
+                padding: EdgeInsets.zero,
+                sliver: SliverToBoxAdapter(
+                    child: SizedBox(
+                      child: SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            PostTileShimmer(),
+                            PostTileShimmer(),
+                            PostTileShimmer(),
+                            PostTileShimmer(),
+                          ],
+                        ),
+                      ),
+                    )
+                ),
+              ) : controller.posts.value.isEmpty ? SliverPadding(
+                  padding: EdgeInsets.zero,
+                  sliver: SliverToBoxAdapter(
+                    child: Container(),
+                  )
+              )
+                  : SliverList(
+                      delegate: SliverChildBuilderDelegate(
+                        (context, index) {
+                          return PostContainer(
+                              postModel: controller.posts.value[index]);
+                        },
+                        childCount: controller.posts.value.length,
+                      ),
+                    )),
+            ],
         ),
-      )),
+      ),
+          )),
     );
   }
 }

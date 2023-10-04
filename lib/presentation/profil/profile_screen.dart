@@ -83,7 +83,7 @@ class ProfileScreen extends StatelessWidget {
               profileTile(
                   iconData: Icons.settings,
                   tileName: "language".tr,
-                  tileSubName: "English",
+                  tileSubName: "${Get.locale?.toLanguageTag()}",
                 onTap: (){
                     controller.onTapChangeLanguage();
                 }

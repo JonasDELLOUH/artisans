@@ -26,7 +26,6 @@ import 'package:artisans/presentation/stories/stories_screen.dart';
 import 'package:artisans/presentation/update_salon/update_salon_binding.dart';
 import 'package:artisans/presentation/update_salon/update_salon_screen.dart';
 import 'package:get/get.dart';
-
 import '../../presentation/single_chat/single_chat_screen.dart';
 
 class AppRoutes {

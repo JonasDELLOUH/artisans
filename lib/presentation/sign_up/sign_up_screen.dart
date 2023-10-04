@@ -30,12 +30,15 @@ class SignUpScreen extends GetWidget<SignUpController> {
                 Padding(
                   padding: const EdgeInsets.all(10),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      // InkWell(
-                      //   child: ConstantIcons.backIcon(context, color: whiteColor),
-                      //   onTap: () {},
-                      // ),
+                      const Padding(
+                        padding: EdgeInsets.only(left: 10),
+                        child: CustomText(
+                            text: "Ar+++",
+                            color: whiteColor,
+                            fontSize: 20),
+                      ),
                       Row(
                         children: [
                           CustomText(
@@ -46,7 +49,7 @@ class SignUpScreen extends GetWidget<SignUpController> {
                           CustomTextButton(
                               text: "sign_in".tr,
                               onPressed: () {
-                                Get.toNamed(AppRoutes.signInRoute);
+                                Get.offAllNamed(AppRoutes.signInRoute);
                               },
                               textColor: whiteColor,
                               fontWeight: FontWeight.w700,
@@ -61,7 +64,7 @@ class SignUpScreen extends GetWidget<SignUpController> {
                   height: 20,
                 ),
                 const CustomText(
-                    text: "Artisans",
+                    text: "Artisans +",
                     color: whiteColor,
                     fontSize: 25,
                     fontWeight: FontWeight.bold),

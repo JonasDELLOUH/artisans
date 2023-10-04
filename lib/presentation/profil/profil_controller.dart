@@ -14,12 +14,12 @@ class ProfileController extends GetxController{
 
   final List<SelectedListItem> listOfLanguages = [
     SelectedListItem(
-      name: "english".tr,
+      name: "English en-US",
       value: "en_US",
       isSelected: false,
     ),
     SelectedListItem(
-      name: "french".tr,
+      name: "Français fr-FR",
       value: "fr_FR",
       isSelected: false,
     ),
@@ -28,7 +28,7 @@ class ProfileController extends GetxController{
   @override
   void onInit() {
     super.onInit();
-    print("ProfileController hasSalon : ${appServices.hasSalon.value}");
+    debugPrint("ProfileController hasSalon : ${appServices.hasSalon.value}");
   }
 
   logout(){
@@ -44,7 +44,6 @@ class ProfileController extends GetxController{
     debugPrint(languageCode);
     debugPrint(languageCountryCode);
     Get.updateLocale(Locale(languageCode, languageCountryCode));
-
   }
 
   onTapChangeLanguage(){
@@ -63,7 +62,7 @@ class ProfileController extends GetxController{
             fontWeight: FontWeight.bold,
           ),
         ),
-        data: listOfLanguages ?? [],
+        data: listOfLanguages,
         selectedItems: (List<dynamic> selectedList) {
           for (var item in selectedList) {
             if (item is SelectedListItem) {

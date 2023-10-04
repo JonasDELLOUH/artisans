@@ -28,7 +28,13 @@ class SignInScreen extends GetView<SignInController> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    ConstantIcons.backIcon(context, color: whiteColor),
+                    const Padding(
+                      padding: EdgeInsets.only(left: 10),
+                      child: CustomText(
+                          text: "Ar+++",
+                          color: whiteColor,
+                          fontSize: 20),
+                    ),
                     Row(
                       children: [
                         CustomText(
@@ -37,7 +43,7 @@ class SignInScreen extends GetView<SignInController> {
                             fontSize: 12),
                         CustomTextButton(
                             onPressed: () {
-                              Get.toNamed(AppRoutes.signUpRoute);
+                              Get.offAllNamed(AppRoutes.signUpRoute);
                             },
                             text: "start".tr,
                             textColor: whiteColor,
@@ -52,7 +58,7 @@ class SignInScreen extends GetView<SignInController> {
                   height: 20,
                 ),
                 const CustomText(
-                    text: "Artisans",
+                    text: "Artisans +",
                     color: whiteColor,
                     fontSize: 25,
                     fontWeight: FontWeight.bold),

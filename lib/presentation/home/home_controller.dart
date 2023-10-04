@@ -1,7 +1,6 @@
 import 'package:artisans/core/models/salon_model.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import '../../core/models/job_model.dart';
 import '../../data/services/app_services.dart';
@@ -22,7 +21,7 @@ class HomeController extends GetxController {
     super.onInit();
     getJob();
     getNearestSalons();
-    print("HomeController cuurent Salon : ${appServices.currentSalon.toJson()}");
+    debugPrint("HomeController cuurent Salon : ${appServices.currentSalon.toJson()}");
   }
 
   getJob() async {
@@ -33,7 +32,7 @@ class HomeController extends GetxController {
       jobIsInLoading.value = false;
     } catch (e) {
       jobIsInLoading.value = false;
-      print(e);
+      debugPrint("$e");
       if (e is DioException) {
         appSnackBar("error", "Échoué", "${e.response?.data}");
       }
@@ -49,7 +48,7 @@ class HomeController extends GetxController {
       getSalonsIsInLoading.value = false;
     } catch (e) {
       getSalonsIsInLoading.value = false;
-      print(e);
+      debugPrint("$e");
       if (e is DioException) {
         appSnackBar("error", "Échoué", "${e.response?.data}");
       }

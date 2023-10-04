@@ -22,7 +22,7 @@ Map<String, String> frFr = {
   'personal_data': "Données personnellles",
   'settings': "Paramètres",
   "create_salon": "Créer un salon",
-  "change_password": "Changer le mot de password",
+  "change_password": "Changer le mot de passe",
   'logout': "Déconnexion",
   'privacy_policy': "Politique de confidentialité",
   'content': "Contenue",

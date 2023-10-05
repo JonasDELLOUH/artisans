@@ -73,5 +73,6 @@ Map<String, String> enUS = {
   "failed": "Failed",
   "discuss": "Discuss",
   "salon_whatsapp_number": "Salon Whatsapp number",
-  "language": "Language"
+  "language": "Language",
+
 };

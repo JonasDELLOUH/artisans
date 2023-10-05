@@ -140,11 +140,12 @@ class _StoryCardState extends State<StoryCard> {
             right: 8.0,
             child: CustomText(
               text: widget.isAddStory
-                  ? 'Add to Story'
+                  ? 'add_a_story'.tr
                   : widget.story.salonModel?.salonName ?? "",
               color: whiteColor,
               fontWeight: FontWeight.w600,
               fontSize: 14,
+              // textAlign: TextAlign.center,
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
             ),

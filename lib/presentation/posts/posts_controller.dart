@@ -3,11 +3,12 @@ import 'package:artisans/core/models/story_model.dart';
 import 'package:artisans/data/data_models/get_posts_data.dart';
 import 'package:artisans/data/data_models/get_stories_data.dart';
 import 'package:dio/dio.dart';
-import 'package:geolocator/geolocator.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-
+import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 import '../../data/functions/functions.dart';
 import '../../data/services/api_services.dart';
+import '../../data/services/app_services.dart';
 
 class PostsController extends GetxController {
   Rx<List<PostModel>> posts = Rx<List<PostModel>>([]);
@@ -15,9 +16,11 @@ class PostsController extends GetxController {
   RxBool postIsInLoading = false.obs;
   RxBool storyIsInLoading = false.obs;
   RxString salonId = "".obs;
+  final appServices = Get.find<AppServices>();
 
-  RxDouble latitude = 0.0.obs;
-  RxDouble longitude = 0.0.obs;
+  RefreshController refreshController =
+  RefreshController(initialRefresh: false);
+
 
   @override
   void onInit() {
@@ -29,24 +32,36 @@ class PostsController extends GetxController {
     getStories();
   }
 
-  updateLocation() async {
-    Position position = await Geolocator.getCurrentPosition();
-    latitude.value = position.latitude;
-    longitude.value = position.longitude;
+
+  void onRefresh() async {
+    try {
+      await appServices.checkLocationPermissionAndFetchLocation();
+      GetPostsData getPostsData = await ApiServices.getPosts(
+          lat: appServices.latitude.value, long: appServices.longitude.value);
+      posts.value = getPostsData.posts ?? [];
+      GetStoriesData getStoriesData = await ApiServices.getStories(
+          lat: appServices.latitude.value, long: appServices.longitude.value);
+      stories.value = getStoriesData.stories ?? [];
+      refreshController.refreshCompleted();
+    } catch(e){
+      refreshController.refreshFailed();
+      if (e is DioException) {
+        appSnackBar("error", "Échoué", "${e.response?.data}");
+      }
+    }
   }
 
   getPosts() async {
     try {
       postIsInLoading.value = true;
-      await updateLocation();
+      await appServices.checkLocationPermissionAndFetchLocation();
       GetPostsData getPostsData = await ApiServices.getPosts(
-          lat: latitude.value, long: longitude.value);
+          lat: appServices.latitude.value, long: appServices.longitude.value);
       posts.value = getPostsData.posts ?? [];
-      print("taille de posts : ${posts.value.length}");
       postIsInLoading.value = false;
     } catch (e) {
       postIsInLoading.value = false;
-      print("getPosts error:  $e");
+      debugPrint("getPosts error:  $e");
       if (e is DioException) {
         appSnackBar("error", "Échoué", "${e.response?.data}");
       }
@@ -56,11 +71,11 @@ class PostsController extends GetxController {
   getStories() async {
     try {
       storyIsInLoading.value = true;
-      await updateLocation();
+      await appServices.checkLocationPermissionAndFetchLocation();
       GetStoriesData getStoriesData = await ApiServices.getStories(
-          lat: latitude.value, long: longitude.value);
+          lat: appServices.latitude.value, long: appServices.longitude.value);
       stories.value = getStoriesData.stories ?? [];
-      print("taille de stories : ${stories.value.length}");
+      debugPrint("taille de stories : ${stories.value.length}");
       storyIsInLoading.value = false;
     } catch (e) {
       storyIsInLoading.value = false;

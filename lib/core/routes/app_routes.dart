@@ -84,7 +84,7 @@ class AppRoutes {
         binding: CreateSalonBinding()),
     GetPage(
         name: personalDataRoute,
-        page: () => const PersonalDataScreen(),
+        page: () => PersonalDataScreen(),
         binding: PersonalDataBinding()),
     GetPage(
         name: changePasswordRoute,

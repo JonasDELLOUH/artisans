@@ -13,7 +13,8 @@ class Stories extends StatelessWidget {
 
   Stories({
     Key? key,
-    required this.stories, this.isSingleSalon = false,
+    required this.stories,
+    this.isSingleSalon = false,
   }) : super(key: key);
 
   @override
@@ -31,25 +32,26 @@ class Stories extends StatelessWidget {
         itemBuilder: (BuildContext context, int index) {
           if (index == 0) {
             return Obx(() =>
-            (appServices.hasSalon.value == true && isSingleSalon == false)
-                ? Padding(
+                (appServices.hasSalon.value == true && isSingleSalon == false)
+                    ? Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                        child: StoryCard(
+                          isAddStory: true,
+                          story: StoryModel(content: "", salonId: "", videoUrl: "", id: ""),
+                          currentSalon: appServices.currentSalon.value!,
+                        ),
+                      )
+                    : Container());
+          } else {
+            final StoryModel story = stories[index - 1];
+            return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 4.0),
               child: StoryCard(
-                isAddStory: true,
-                story: stories[index],
-                currentSalon: appServices.currentSalon.value!,
+                story: story,
+                currentSalon: SalonModel.currentSalon(),
               ),
-            )
-                : Container());
+            );
           }
-          final StoryModel story = stories[index - 1];
-          return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 4.0),
-            child: StoryCard(
-              story: story,
-              currentSalon: SalonModel.currentSalon(),
-            ),
-          );
         },
       ),
     );

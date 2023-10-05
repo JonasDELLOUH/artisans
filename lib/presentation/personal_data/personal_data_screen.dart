@@ -8,7 +8,10 @@ import '../../core/functions/basics_functions.dart';
 import '../../widgets/text_field.dart';
 
 class PersonalDataScreen extends GetView<PersonalDataController> {
-  const PersonalDataScreen({super.key});
+   PersonalDataScreen({super.key});
+
+  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
+  GlobalKey<RefreshIndicatorState>();
 
   @override
   Widget build(BuildContext context) {

@@ -2,6 +2,7 @@ import 'package:artisans/core/models/salon_model.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 import '../../core/models/job_model.dart';
 import '../../data/services/app_services.dart';
 import '../../data/data_models/get_salons_data.dart';
@@ -15,6 +16,9 @@ class HomeController extends GetxController {
   RxBool jobIsInLoading = true.obs;
   RxBool getSalonsIsInLoading = false.obs;
   final appServices = Get.find<AppServices>();
+
+  RefreshController refreshController =
+  RefreshController(initialRefresh: false);
 
   @override
   onInit() {
@@ -33,6 +37,20 @@ class HomeController extends GetxController {
     } catch (e) {
       jobIsInLoading.value = false;
       debugPrint("$e");
+      if (e is DioException) {
+        appSnackBar("error", "Échoué", "${e.response?.data}");
+      }
+    }
+  }
+
+  void onRefresh() async {
+    try {
+      await appServices.checkLocationPermissionAndFetchLocation();
+      GetSalonsData getSalonsData = await ApiServices.getSalons(lat: appServices.latitude.value, long: appServices.longitude.value);
+      nearestSalons.value = getSalonsData.salons ?? [];
+      refreshController.refreshCompleted();
+    } catch(e){
+      refreshController.refreshFailed();
       if (e is DioException) {
         appSnackBar("error", "Échoué", "${e.response?.data}");
       }

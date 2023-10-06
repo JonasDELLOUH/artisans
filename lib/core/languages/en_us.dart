@@ -67,12 +67,17 @@ Map<String, String> enUS = {
   "salon_image": "Salon image",
   "salon_address": 'Salon Address',
   'not_changed_info': "You have not changed any information",
-  "salon_ufpdated": "Salon updated",
+  "salon_updated": "Salon updated",
   "profile_updated": "Profile updated",
   "password_changed": "Password changed",
   "failed": "Failed",
   "discuss": "Discuss",
   "salon_whatsapp_number": "Salon Whatsapp number",
   "language": "Language",
-
+  "year": "year",
+  "month": "month",
+  "day": "day",
+  "hour": "hour",
+  "minute": "minute",
+  "now": "now"
 };

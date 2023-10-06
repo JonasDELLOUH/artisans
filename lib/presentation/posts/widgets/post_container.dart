@@ -5,6 +5,7 @@ import 'package:artisans/widgets/responsive.dart';
 import 'package:artisans/presentation/posts/widgets/post_header.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 import '../../../core/config/palette.dart';
@@ -57,7 +58,7 @@ class PostContainer extends StatelessWidget {
             postModel.imageUrl.isNotEmpty
                 ? Padding(
                     padding: const EdgeInsets.symmetric(vertical: 8.0),
-                    child: CustomImageNetwork(imageUrl: Constants.imageOriginUrl + postModel.imageUrl),
+                    child: CustomImageNetwork(imageUrl: Constants.imageOriginUrl + postModel.imageUrl, height: 200, width: Get.width, borderRadius: BorderRadius.circular(10),),
                   )
                 : const SizedBox.shrink(),
             // Padding(

@@ -1,4 +1,6 @@
 
+import 'package:flutter/cupertino.dart';
+import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 bool isEmailValid(String value) {
@@ -30,5 +32,33 @@ void openWhatsAppChat(String phoneNumber) async {
     await launchUrl(Uri.parse(whatsappUrl));
   } else {
     throw 'Impossible d\'ouvrir WhatsApp.';
+  }
+}
+
+String formatDurationFromNow(String date) {
+  final now = DateTime.now();
+  final parsedDate = DateTime.parse(date);
+
+  final difference = now.difference(parsedDate);
+
+  try{
+    if (difference.inDays >= 365) {
+      final years = (difference.inDays / 365).floor();
+      return '$years ${years > 1 ? "${'year'.tr}s" : 'year'.tr}';
+    } else if (difference.inDays >= 30) {
+      final months = (difference.inDays / 30).floor();
+      return '$months ${months > 1 ? 'month'.tr : 'month'.tr}';
+    } else if (difference.inDays > 0) {
+      return '${difference.inDays} ${difference.inDays > 1 ? "${'day'.tr}s" : 'day'.tr}';
+    } else if (difference.inHours > 0) {
+      return '${difference.inHours} ${difference.inHours > 1 ? "${'hour'.tr}s" : 'hour'.tr}';
+    } else if (difference.inMinutes > 0) {
+      return '${difference.inMinutes} ${difference.inMinutes > 1 ? "${'minute'.tr}s" : 'minute'.tr}';
+    } else {
+      return 'now'.tr;
+    }
+  } catch(e){
+    debugPrint("$e");
+    return "";
   }
 }

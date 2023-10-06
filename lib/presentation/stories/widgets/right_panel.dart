@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-
-import '../../../core/constants/icons.dart';
+import 'package:get/get.dart';
+import '../../../core/models/salon_model.dart';
+import '../../../core/routes/app_routes.dart';
 
 class RightPanel extends StatelessWidget {
   final String likes;
+  final SalonModel salonModel;
   final String comments;
   final String shares;
   final String profileImg;
@@ -16,6 +18,7 @@ class RightPanel extends StatelessWidget {
     required this.shares,
     required this.profileImg,
     required this.albumImg,
+    required this.salonModel
   }) : super(key: key);
 
   final Size size;
@@ -23,7 +26,7 @@ class RightPanel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: Container(
+      child: SizedBox(
         height: size.height,
         child: Column(
           children: <Widget>[
@@ -34,7 +37,12 @@ class RightPanel extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    getProfile(profileImg),
+                    InkWell(
+                        onTap: () {
+                          Get.toNamed(AppRoutes.salonRoute,
+                              arguments: [salonModel]);
+                        },
+                        child: getProfile(profileImg)),
                     // getIcons(ConstantIcons.heart, likes, 35.0),
                     // getIcons(ConstantIcons.chat_bubble, comments, 35.0),
                     // getIcons(ConstantIcons.reply, shares, 25.0),
@@ -61,7 +69,7 @@ Widget getAlbum(albumImg) {
         Container(
           width: 50,
           height: 50,
-          decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.black),
+          decoration: const BoxDecoration(shape: BoxShape.circle, color: Colors.black),
         ),
         Center(
           child: Container(
@@ -81,7 +89,7 @@ Widget getAlbum(albumImg) {
 }
 
 Widget getProfile(img) {
-  return Container(
+  return SizedBox(
     width: 50,
     height: 60,
     child: Stack(
@@ -104,8 +112,8 @@ Widget getProfile(img) {
               width: 20,
               height: 20,
               decoration:
-              BoxDecoration(shape: BoxShape.circle, color: Color(0xFFFC2D55)),
-              child: Center(
+              const BoxDecoration(shape: BoxShape.circle, color: Color(0xFFFC2D55)),
+              child: const Center(
                   child: Icon(
                     Icons.add,
                     color: Colors.white,
@@ -118,19 +126,17 @@ Widget getProfile(img) {
 }
 
 Widget getIcons(icon, count, size) {
-  return Container(
-    child: Column(
-      children: <Widget>[
-        Icon(icon, color: Colors.white, size: size),
-        const SizedBox(
-          height: 5,
-        ),
-        Text(
-          count,
-          style: TextStyle(
-              color: Colors.white, fontSize: 12, fontWeight: FontWeight.w700),
-        )
-      ],
-    ),
+  return Column(
+    children: <Widget>[
+      Icon(icon, color: Colors.white, size: size),
+      const SizedBox(
+        height: 5,
+      ),
+      Text(
+        count,
+        style: const TextStyle(
+            color: Colors.white, fontSize: 12, fontWeight: FontWeight.w700),
+      )
+    ],
   );
 }

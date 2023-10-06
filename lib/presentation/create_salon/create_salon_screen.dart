@@ -9,7 +9,6 @@ import 'package:get/get.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 import '../../core/colors/colors.dart';
 import '../../core/functions/basics_functions.dart';
-import '../../core/functions/map_functions.dart';
 import '../../data/functions/functions.dart';
 import '../../widgets/custom_button.dart';
 import '../../widgets/custom_text.dart';
@@ -209,7 +208,13 @@ class CreateSalonScreen extends GetView<CreateSalonController> {
               },
               child: Obx(() => CustomTextFormField(
                     enabled: false,
-                    hintText: controller.itemSelected.value!.name,
+                validator: (validator) {
+                  if (controller.itemSelected.value?.name.isEmpty ?? true) {
+                    return 'field_must_not_be_empty'.tr;
+                  }
+                  return null;
+                },
+                    hintText: controller.itemSelected.value?.name,
                     borderRadius: const BorderRadius.all(Radius.circular(15)),
                   ))),
           const SizedBox(

@@ -10,6 +10,7 @@ class Post {
   final int comments;
   final int shares;
 
+
   const Post({
     required this.user,
     required this.caption,

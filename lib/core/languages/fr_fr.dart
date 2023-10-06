@@ -73,5 +73,11 @@ Map<String, String> frFr = {
   "failed": "Échoué",
   "discuss": "Discuter",
   "salon_whatsapp_number": "Numéro Whatsapp du salon",
-  "language": "Langue"
+  "language": "Langue",
+  "year": "année",
+  "month": "mois",
+  "day": "jour",
+  "hour": "heure",
+  "minute": "minute",
+  "now": "maintenant"
 };

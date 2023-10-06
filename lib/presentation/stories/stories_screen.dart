@@ -6,6 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:video_player/video_player.dart';
 
+import '../../core/models/salon_model.dart';
+import '../../core/routes/app_routes.dart';
+
 class StoriesScreen extends GetView<StoriesController> {
   const StoriesScreen({super.key});
 
@@ -21,25 +24,25 @@ class StoriesScreen extends GetView<StoriesController> {
     return RotatedBox(
       quarterTurns: 1,
       child: ListView.builder(
-        scrollDirection: Axis.horizontal,
+          scrollDirection: Axis.horizontal,
           itemCount: controller.stories.value.length,
           itemBuilder: (context, index) {
-        return VideoPlayerItem(
-          videoUrl: Constants.imageOriginUrl +
-              controller.stories.value[index].videoUrl,
-          size: Get.size,
-          name: controller.stories.value[index].salonModel?.salonName ?? "",
-          caption: Constants.imageOriginUrl +
-              controller.stories.value[index].content,
-          songName: "",
-          profileImg: Constants.imageOriginUrl +
-              controller.stories.value[index].salonModel!.imageUrl,
-          likes: "items[index]['likes']",
-          comments: "items[index]['comments']",
-          shares: "items[index]['shares']",
-          albumImg: "",
-        );
-      }),
+            return VideoPlayerItem(
+              salonModel: controller.stories.value[index].salonModel ?? SalonModel.currentSalon(),
+              videoUrl: Constants.imageOriginUrl +
+                  controller.stories.value[index].videoUrl,
+              size: Get.size,
+              name: controller.stories.value[index].salonModel?.salonName ?? "",
+              caption: controller.stories.value[index].content,
+              songName: "",
+              profileImg: Constants.imageOriginUrl +
+                  controller.stories.value[index].salonModel!.imageUrl,
+              likes: "items[index]['likes']",
+              comments: "items[index]['comments']",
+              shares: "items[index]['shares']",
+              albumImg: "",
+            );
+          }),
     );
   }
 }
@@ -54,6 +57,7 @@ class VideoPlayerItem extends StatefulWidget {
   final String comments;
   final String shares;
   final String albumImg;
+  final SalonModel salonModel;
 
   VideoPlayerItem(
       {Key? key,
@@ -66,7 +70,7 @@ class VideoPlayerItem extends StatefulWidget {
       required this.comments,
       required this.shares,
       required this.albumImg,
-      required this.videoUrl})
+      required this.videoUrl, required this.salonModel})
       : super(key: key);
 
   final Size size;
@@ -166,6 +170,7 @@ class _VideoPlayerItemState extends State<VideoPlayerItem> {
                                 songName: widget.songName,
                               ),
                               RightPanel(
+                                salonModel: widget.salonModel,
                                 size: widget.size,
                                 likes: widget.likes,
                                 comments: widget.comments,

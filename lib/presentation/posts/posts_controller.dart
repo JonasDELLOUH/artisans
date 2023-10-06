@@ -79,7 +79,7 @@ class PostsController extends GetxController {
       storyIsInLoading.value = false;
     } catch (e) {
       storyIsInLoading.value = false;
-      print("getStories error:  $e");
+      debugPrint("getStories error:  $e");
       if (e is DioException) {
         appSnackBar("error", "Échoué", "${e.response?.data}");
       }

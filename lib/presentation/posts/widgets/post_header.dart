@@ -1,9 +1,10 @@
 import 'package:artisans/core/models/post_model.dart';
 import 'package:flutter/material.dart';
-
+import 'package:get/get.dart';
 import '../../../core/colors/colors.dart';
 import '../../../core/constants/constants.dart';
-import '../../../core/models/post.dart';
+import '../../../core/functions/basics_functions.dart';
+import '../../../core/routes/app_routes.dart';
 import '../../../widgets/custom_text.dart';
 import '../../../widgets/profile_avatar.dart';
 
@@ -19,7 +20,11 @@ class PostHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        ProfileAvatar(imageUrl: Constants.imageOriginUrl + postModel.salonModel!.imageUrl),
+        InkWell(
+            onTap: () {
+              Get.toNamed(AppRoutes.salonRoute, arguments: [postModel.salonModel]);
+            },
+            child: ProfileAvatar(imageUrl: Constants.imageOriginUrl + postModel.salonModel!.imageUrl)),
         const SizedBox(width: 8.0),
         Expanded(
           child: Column(
@@ -32,7 +37,7 @@ class PostHeader extends StatelessWidget {
               Row(
                 children: [
                   CustomText(
-                    text: '${"5h"} • ',
+                    text: formatDurationFromNow(postModel.createdAt),
                     fontSize: 12.0,
                     color: greyColor.withOpacity(0.6),
                   ),
@@ -48,7 +53,7 @@ class PostHeader extends StatelessWidget {
         ),
         IconButton(
           icon: const Icon(Icons.more_horiz),
-          onPressed: () => print('More'),
+          onPressed: () => debugPrint('More'),
         ),
       ],
     );

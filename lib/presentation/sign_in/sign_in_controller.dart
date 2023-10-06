@@ -10,7 +10,7 @@ import '../../data/services/api_services.dart';
 
 class SignInController extends GetxController {
   TextEditingController usernameController = TextEditingController(text: "JonasDELLOUH");
-  TextEditingController passwordController = TextEditingController(text: "jonas1007");
+  TextEditingController passwordController = TextEditingController(text: "Jonas1007");
   final RoundedLoadingButtonController btnController =
       RoundedLoadingButtonController();
   final appServices = Get.find<AppServices>();

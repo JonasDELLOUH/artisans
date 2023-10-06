@@ -4,6 +4,7 @@ import 'package:artisans/widgets/story_tile_shimmer.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
+import '../../core/colors/colors.dart';
 import 'widgets/post_container.dart';
 import 'widgets/stories.dart';
 
@@ -13,15 +14,27 @@ class PostsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SmartRefresher(
-      controller: controller.refreshController,
-      onRefresh: controller.onRefresh,
-      child: Scaffold(
-        body: SafeArea(
-          child: Padding(
+    return SafeArea(
+      child: SmartRefresher(
+        controller: controller.refreshController,
+        onRefresh: controller.onRefresh,
+        child: Scaffold(
+          floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
+          floatingActionButton: ElevatedButton(
+            onPressed: controller.onRefresh,
+            style: const ButtonStyle(
+              elevation: MaterialStatePropertyAll<double>(0),
+                iconColor: MaterialStatePropertyAll<Color>(blueColor),
+                iconSize: MaterialStatePropertyAll<double>(40),
+                backgroundColor: MaterialStatePropertyAll<Color>(Colors.transparent)),
+            child: const Icon(Icons.refresh),
+          ),
+          body: Padding(
             padding: const EdgeInsets.all(15),
             child: CustomScrollView(
-              shrinkWrap: true,
+              // shrinkWrap: false,
+              // physics:
+              // const NeverScrollableScrollPhysics(),
               slivers: [
                 Obx(() => controller.storyIsInLoading.value
                     ? const SliverPadding(
@@ -42,15 +55,14 @@ class PostsScreen extends StatelessWidget {
                           ),
                         )),
                       )
-                        : SliverPadding(
-                            padding:
-                                const EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 5.0),
-                            sliver: SliverToBoxAdapter(
-                              child: Stories(
-                                stories: controller.stories.value,
-                              ),
-                            ),
-                          )),
+                    : SliverPadding(
+                        padding: const EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 5.0),
+                        sliver: SliverToBoxAdapter(
+                          child: Stories(
+                            stories: controller.stories.value,
+                          ),
+                        ),
+                      )),
                 Obx(() => controller.postIsInLoading.value
                     ? const SliverPadding(
                         padding: EdgeInsets.zero,

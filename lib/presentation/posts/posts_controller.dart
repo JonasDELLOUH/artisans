@@ -5,6 +5,7 @@ import 'package:artisans/data/data_models/get_stories_data.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 import '../../data/functions/functions.dart';
 import '../../data/services/api_services.dart';
@@ -21,6 +22,10 @@ class PostsController extends GetxController {
   RefreshController refreshController =
   RefreshController(initialRefresh: false);
 
+  final PagingController<int, PostModel> postsPagingController =
+  PagingController(firstPageKey: 0);
+
+
 
   @override
   void onInit() {
@@ -28,8 +33,30 @@ class PostsController extends GetxController {
     salonId.value = Get.arguments != null && Get.arguments is List && Get.arguments.isNotEmpty
         ? Get.arguments[0]
         : "";
-    getPosts();
-    getStories();
+
+    postsPagingController.addPageRequestListener((pageKey) {
+      fetchPosts(pageKey);
+    });
+    // getPosts();
+    // getStories();
+  }
+
+  Future<void> fetchPosts(int pageKey) async {
+    try {
+      await appServices.checkLocationPermissionAndFetchLocation();
+      GetPostsData getPostsData = await ApiServices.getPosts(
+          lat: appServices.latitude.value, long: appServices.longitude.value, skip: pageKey, limit: 5);
+      final newItems = getPostsData.posts ?? [];
+      final isLastPage = newItems.length < 5;
+      if (isLastPage) {
+        postsPagingController.appendLastPage(newItems);
+      } else {
+        final nextPageKey = pageKey + newItems.length;
+        postsPagingController.appendPage(newItems, nextPageKey);
+      }
+    } catch (error) {
+      postsPagingController.error = error;
+    }
   }
 
 

@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:google_static_maps_controller/google_static_maps_controller.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../core/functions/app_functions.dart';
 import '../../core/models/post_model.dart';
@@ -35,6 +36,9 @@ class SalonController extends GetxController {
           center: Location(0.0, 0.0),
           zoom: 10));
 
+  final PagingController<int, PostModel> postsPagingController =
+  PagingController(firstPageKey: 0);
+
   @override
   void onInit() {
     super.onInit();
@@ -46,8 +50,11 @@ class SalonController extends GetxController {
         appServices.longitude.value);
     verifySalonLikeStatus();
     updateLocation();
-    getPosts();
-    getStories();
+    postsPagingController.addPageRequestListener((pageKey) {
+      fetchPosts(pageKey);
+    });
+    // getPosts();
+    // getStories();
   }
 
   void launchGoogleMaps(double lat, double long) async {
@@ -71,6 +78,24 @@ class SalonController extends GetxController {
         height: 264,
         center: Location(latitude.value, longitude.value),
         zoom: 10);
+  }
+
+  Future<void> fetchPosts(int pageKey) async {
+    try {
+      await appServices.checkLocationPermissionAndFetchLocation();
+      GetPostsData getPostsData = await ApiServices.getPosts(
+          lat: appServices.latitude.value, long: appServices.longitude.value, skip: pageKey, limit: 5, salonId: salon.value?.salonId);
+      final newItems = getPostsData.posts ?? [];
+      final isLastPage = newItems.length < 5;
+      if (isLastPage) {
+        postsPagingController.appendLastPage(newItems);
+      } else {
+        final nextPageKey = pageKey + newItems.length;
+        postsPagingController.appendPage(newItems, nextPageKey);
+      }
+    } catch (error) {
+      postsPagingController.error = error;
+    }
   }
 
   getPosts() async {

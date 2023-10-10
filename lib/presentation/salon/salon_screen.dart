@@ -5,7 +5,9 @@ import 'package:artisans/widgets/custom_image_network.dart';
 import 'package:artisans/presentation/salon/salon_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:velocity_x/velocity_x.dart';
+import '../../core/models/post_model.dart';
 import '../../widgets/custom_text.dart';
 import '../../widgets/post_tile_shimmer.dart';
 import '../../widgets/stars_tile.dart';
@@ -15,6 +17,7 @@ import '../posts/widgets/stories.dart';
 
 class SalonScreen extends GetView<SalonController> {
   const SalonScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -123,24 +126,31 @@ class SalonScreen extends GetView<SalonController> {
                   const SizedBox(
                     height: 10,
                   ),
-                  controller.salon.value?.email.isEmptyOrNull ?? false ? Container() :  contactWidget(
-                      contactType: 'E-MAIL',
-                      contactValue: "${controller.salon.value?.email}",
-                      contactIcon: Icons.email),
-                  controller.salon.value?.phone.isEmptyOrNull ?? false ? Container() :  contactWidget(
-                      onTap: () {
-                        controller.callPhone();
-                      },
-                      contactType: 'phone'.tr,
-                      contactValue: "${controller.salon.value?.phone}",
-                      contactIcon: Icons.phone),
-                  controller.salon.value?.whatsappNumber.isEmptyOrNull ?? false ? Container() : contactWidget(
-                      onTap: () {
-                        controller.openWhatsapp();
-                      },
-                      contactType: "salon_whatsapp_number".tr,
-                      contactValue: "${controller.salon.value?.whatsappNumber}",
-                      contactIcon: Icons.chat),
+                  controller.salon.value?.email.isEmptyOrNull ?? false
+                      ? Container()
+                      : contactWidget(
+                          contactType: 'E-MAIL',
+                          contactValue: "${controller.salon.value?.email}",
+                          contactIcon: Icons.email),
+                  controller.salon.value?.phone.isEmptyOrNull ?? false
+                      ? Container()
+                      : contactWidget(
+                          onTap: () {
+                            controller.callPhone();
+                          },
+                          contactType: 'phone'.tr,
+                          contactValue: "${controller.salon.value?.phone}",
+                          contactIcon: Icons.phone),
+                  controller.salon.value?.whatsappNumber.isEmptyOrNull ?? false
+                      ? Container()
+                      : contactWidget(
+                          onTap: () {
+                            controller.openWhatsapp();
+                          },
+                          contactType: "salon_whatsapp_number".tr,
+                          contactValue:
+                              "${controller.salon.value?.whatsappNumber}",
+                          contactIcon: Icons.chat),
                   const SizedBox(
                     height: 10,
                   ),
@@ -148,66 +158,38 @@ class SalonScreen extends GetView<SalonController> {
                   const SizedBox(
                     height: 10,
                   ),
-                  CustomScrollView(
-                    physics: const NeverScrollableScrollPhysics(),
+                  Stories(
+                    controller: Get.put(StoriesController(
+                        salonId: controller.salon.value?.salonId)),
+                    isSingleSalon: true,
+                  ),
+                  PagedListView<int, PostModel>(
                     shrinkWrap: true,
-                    slivers: [
-                      Obx(() => controller.storyIsInLoading.value
-                          ? const SliverPadding(
-                              padding: EdgeInsets.zero,
-                              sliver: SliverToBoxAdapter(
-                                  child: SizedBox(
-                                child: SingleChildScrollView(
-                                  scrollDirection: Axis.horizontal,
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      StoryTileShimmer(),
-                                      StoryTileShimmer(),
-                                      StoryTileShimmer(),
-                                      StoryTileShimmer(),
-                                    ],
-                                  ),
+                      physics: NeverScrollableScrollPhysics(),
+                      pagingController: controller.postsPagingController,
+                      builderDelegate: PagedChildBuilderDelegate<PostModel>(
+                          firstPageProgressIndicatorBuilder: (_) =>
+                              const SingleChildScrollView(
+                                child: Column(
+                                  children: [
+                                    PostTileShimmer(),
+                                    PostTileShimmer(),
+                                    PostTileShimmer(),
+                                    PostTileShimmer(),
+                                  ],
                                 ),
-                              )),
-                            )
-                          : SliverPadding(
-                              padding:
-                                  const EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 5.0),
-                              sliver: SliverToBoxAdapter(
-                                child: Stories(
-                                    stories: controller.stories.value,
-                                    isSingleSalon: true),
                               ),
-                            )),
-                      Obx(() => controller.postIsInLoading.value
-                          ? const SliverPadding(
-                              padding: EdgeInsets.zero,
-                              sliver: SliverToBoxAdapter(
-                                  child: SizedBox(
-                                child: SingleChildScrollView(
-                                  child: Column(
-                                    children: [
-                                      PostTileShimmer(),
-                                      PostTileShimmer(),
-                                      PostTileShimmer(),
-                                      PostTileShimmer(),
-                                    ],
-                                  ),
+                          newPageProgressIndicatorBuilder: (_) =>
+                              const SingleChildScrollView(
+                                child: Column(
+                                  children: [
+                                    PostTileShimmer(),
+                                    PostTileShimmer(),
+                                  ],
                                 ),
-                              )),
-                            )
-                          : SliverList(
-                              delegate: SliverChildBuilderDelegate(
-                                (context, index) {
-                                  return PostContainer(
-                                      postModel: controller.posts.value[index]);
-                                },
-                                childCount: controller.posts.value.length,
                               ),
-                            )),
-                    ],
-                  )
+                          itemBuilder: (context, item, index) =>
+                              PostContainer(postModel: item))),
                 ],
               ),
             ),

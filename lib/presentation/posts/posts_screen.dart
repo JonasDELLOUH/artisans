@@ -1,7 +1,6 @@
 import 'package:artisans/core/models/post_model.dart';
 import 'package:artisans/presentation/posts/posts_controller.dart';
 import 'package:artisans/widgets/post_tile_shimmer.dart';
-import 'package:artisans/widgets/story_tile_shimmer.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
@@ -29,7 +28,7 @@ class PostsScreen extends StatelessWidget {
                 iconColor: MaterialStatePropertyAll<Color>(blueColor),
                 iconSize: MaterialStatePropertyAll<double>(40),
                 backgroundColor:
-                    MaterialStatePropertyAll<Color>(Colors.transparent)),
+                MaterialStatePropertyAll<Color>(Colors.transparent)),
             child: const Icon(Icons.refresh),
           ),
           body: Padding(
@@ -44,25 +43,25 @@ class PostsScreen extends StatelessWidget {
                         pagingController: controller.postsPagingController,
                         builderDelegate: PagedChildBuilderDelegate<PostModel>(
                             firstPageProgressIndicatorBuilder: (_) =>
-                                const SingleChildScrollView(
-                                  child: Column(
-                                    children: [
-                                      PostTileShimmer(),
-                                      PostTileShimmer(),
-                                      PostTileShimmer(),
-                                      PostTileShimmer(),
-                                    ],
-                                  ),
-                                ),
+                            const SingleChildScrollView(
+                              child: Column(
+                                children: [
+                                  PostTileShimmer(),
+                                  PostTileShimmer(),
+                                  PostTileShimmer(),
+                                  PostTileShimmer(),
+                                ],
+                              ),
+                            ),
                             newPageProgressIndicatorBuilder: (_) =>
-                                const SingleChildScrollView(
-                                  child: Column(
-                                    children: [
-                                      PostTileShimmer(),
-                                      PostTileShimmer(),
-                                    ],
-                                  ),
-                                ),
+                            const SingleChildScrollView(
+                              child: Column(
+                                children: [
+                                  PostTileShimmer(),
+                                  PostTileShimmer(),
+                                ],
+                              ),
+                            ),
                             itemBuilder: (context, item, index) =>
                                 PostContainer(postModel: item)))),
               ],

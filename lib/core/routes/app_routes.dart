@@ -14,11 +14,14 @@ import 'package:artisans/presentation/salons_map/salons_map_binding.dart';
 import 'package:artisans/presentation/salons_map/salons_map_screen.dart';
 import 'package:artisans/presentation/search/search_binding.dart';
 import 'package:artisans/presentation/search/search_screen.dart';
+import 'package:artisans/presentation/select_location/select_location.binding.dart';
+import 'package:artisans/presentation/select_location/select_location.screen.dart';
+import 'package:artisans/presentation/select_own_location_on_map/select_own_location_on_map.binding.dart';
+import 'package:artisans/presentation/select_own_location_on_map/select_own_location_on_map.screen.dart';
 import 'package:artisans/presentation/sign_in/sign_in_bindings.dart';
 import 'package:artisans/presentation/sign_in/sign_in_screen.dart';
 import 'package:artisans/presentation/sign_up/sign_up_binding.dart';
 import 'package:artisans/presentation/sign_up/sign_up_screen.dart';
-import 'package:artisans/presentation/single_chat/single_chat_binding.dart';
 import 'package:artisans/presentation/splash/splash_bindings.dart';
 import 'package:artisans/presentation/splash/splash_screen.dart';
 import 'package:artisans/presentation/stories/stories_binding.dart';
@@ -26,7 +29,6 @@ import 'package:artisans/presentation/stories/stories_screen.dart';
 import 'package:artisans/presentation/update_salon/update_salon_binding.dart';
 import 'package:artisans/presentation/update_salon/update_salon_screen.dart';
 import 'package:get/get.dart';
-import '../../presentation/single_chat/single_chat_screen.dart';
 
 class AppRoutes {
   static const String initialRoute = '/initial';
@@ -43,6 +45,8 @@ class AppRoutes {
   static const String splashRoute = "/splash";
   static const String updateSalonRoute = "/update_salon";
   static const String salonsMapRoute = "/salons_map_route";
+  static const String selectLocationRoute = "/select_location_route";
+  static const String selectOwnLocationOnMapRoute = "/select_own_location_on_map_route";
   // static const String singleChatRoute = "/single_chat";
 
   static List<GetPage> pages = [
@@ -98,6 +102,14 @@ class AppRoutes {
         name: salonsMapRoute,
         page: () => const SalonsMapScreen(),
         binding: SalonsMapBinding()),
+    GetPage(
+        name: selectLocationRoute,
+        page: () => const SelectLocationScreen(),
+        binding: SelectLocationBinding()),
+    GetPage(
+        name: selectOwnLocationOnMapRoute,
+        page: () => SelectOwnLocationOnMapSCreen(),
+        binding: SelectOwnLocationOnMapBinding()),
     // GetPage(name: singleChatRoute, page: () => SingleChatScreen(), binding: SingleChatBinding())
   ];
 }

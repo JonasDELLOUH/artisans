@@ -11,6 +11,7 @@ class SalonModel {
   final String imageUrl;
   final String address;
   final int nbrStar;
+  int totalStar;
 
   SalonModel(
       {required this.jobId,
@@ -21,6 +22,7 @@ class SalonModel {
       required this.latitude,
       required this.longitude,
       required this.nbrStar,
+        required this.totalStar,
       required this.salonName, required this.phone, required this.whatsappNumber, required this.email});
 
   factory SalonModel.fromJson(Map<String, dynamic> json) {
@@ -33,6 +35,7 @@ class SalonModel {
         latitude: json["lat"] ?? 0.0,
         longitude: json["long"] ?? 0.0,
         nbrStar: json["nbrStar"] ?? 1,
+        totalStar: json["totalStar"] ?? 10,
         salonName: json["name"] ?? "",
       phone: json["phone"] ?? "",
         whatsappNumber: json["whatsappNumber"] ?? "",
@@ -55,5 +58,5 @@ class SalonModel {
     };
   }
 
-  static SalonModel currentSalon() =>  SalonModel(jobId: "", salonId: "", desc: "this.desc,", address: "Calavi-UAC", imageUrl: "", latitude: 1.1, longitude: 1.7, nbrStar: 4, salonName: "Jonas Coiffure", phone: "", email: "", whatsappNumber: '');
+  static SalonModel currentSalon() =>  SalonModel(jobId: "", salonId: "", desc: "this.desc,", address: "Calavi-UAC", imageUrl: "", latitude: 1.1, longitude: 1.7, nbrStar: 4, salonName: "Jonas Coiffure", phone: "", email: "", whatsappNumber: '', totalStar: 10);
 }

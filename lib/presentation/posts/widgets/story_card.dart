@@ -63,7 +63,7 @@ class _StoryCardState extends State<StoryCard> {
         if (widget.isAddStory) {
           Get.toNamed(AppRoutes.addPostRoute);
         } else {
-          Get.toNamed(AppRoutes.storiesRoute);
+          // Get.toNamed(AppRoutes.storiesRoute);
         }
       },
       child: Stack(

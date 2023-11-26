@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:artisans/presentation/create_salon/create_salon_controller.dart';
 import 'package:artisans/presentation/create_salon/widgets/step_tile.dart';
 import 'package:artisans/widgets/custom_picture_view.dart';
@@ -6,10 +8,13 @@ import 'package:drop_down_list/drop_down_list.dart';
 import 'package:drop_down_list/model/selected_list_item.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_static_maps_controller/google_static_maps_controller.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 import '../../core/colors/colors.dart';
 import '../../core/functions/basics_functions.dart';
+import '../../core/functions/map_functions.dart';
 import '../../data/functions/functions.dart';
+import '../../secret.dart';
 import '../../widgets/custom_button.dart';
 import '../../widgets/custom_text.dart';
 import '../../widgets/text_field.dart';
@@ -113,21 +118,45 @@ class CreateSalonScreen extends GetView<CreateSalonController> {
                 if (snapshot.connectionState == ConnectionState.done) {
                   return ClipRRect(
                       borderRadius: const BorderRadius.all(Radius.circular(30)),
-                      child: Obx(() => Image(
-                          errorBuilder: (context, error, stackTrace) =>
-                              Container(
-                                decoration: BoxDecoration(
-                                    borderRadius: const BorderRadius.all(
-                                        Radius.circular(30)),
-                                    border: Border.all(
-                                        color: Colors.red, width: 3)),
-                                width: 300,
-                                height: 264,
-                                child: Center(
-                                    child: CustomText(
-                                        text: "${"loading_error".tr}....")),
-                              ),
-                          image: controller.locationController.value.image)));
+                      child: Obx(() => InkWell(
+                        onTap: (){
+                          selectPosition().then((value) {
+                            log(value?.toString() ?? "###", name: "+++++>");
+                            if(value != null){
+                              // controller.appServices.currentSalon.value?.latitude =
+
+                              controller.locationController.value = StaticMapController(
+                                  googleApiKey: Secret.googleApiKey,
+                                  width: (Get.width * 0.7).toInt(),
+                                  height: 264,
+                                  center: Location(value.latitude, value.longitude),
+                                  zoom: 10);
+                              controller.latitude.value = value.latitude;
+                              controller.longitude.value = value.longitude;
+                            } else{
+                              toast("aucune position sélectionnée");
+                            }
+                            print("++++++++++++++++");
+                            print(value);
+                            print("================");
+                          });
+                        },
+                        child: Image(
+                            errorBuilder: (context, error, stackTrace) =>
+                                Container(
+                                  decoration: BoxDecoration(
+                                      borderRadius: const BorderRadius.all(
+                                          Radius.circular(30)),
+                                      border: Border.all(
+                                          color: Colors.red, width: 3)),
+                                  width: 300,
+                                  height: 264,
+                                  child: Center(
+                                      child: CustomText(
+                                          text: "${"loading_error".tr}....")),
+                                ),
+                            image: controller.locationController.value.image),
+                      )));
                 } else {
                   return Container(
                     decoration: BoxDecoration(

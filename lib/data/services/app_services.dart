@@ -6,8 +6,10 @@ import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:permission_handler/permission_handler.dart';
+import '../../core/functions/map_functions.dart';
 import '../../core/routes/app_routes.dart';
 import '../data_models/user_data.dart';
 import '../functions/functions.dart';
@@ -38,18 +40,42 @@ class AppServices extends GetxService {
         await updateLocation();
       }
     }
+    // LatLng? latLng = await getCurrentLatLng();
+    // latitude.value = latLng?.latitude ?? 0.0;
+    // longitude.value = latLng?.longitude ?? 0.0;
   }
 
   Future<void> updateLocation() async {
-    print("updateLocation");
+    debugPrint("updateLocation");
     try {
-      Position position = await Geolocator.getCurrentPosition();
-      latitude.value = position.latitude;
-      longitude.value = position.longitude;
+      Stopwatch stopwatch = Stopwatch()..start();
+
+      // Récupérer la dernière position connue
+      Position? position = await Geolocator.getLastKnownPosition();
+
+      // Vérifier si la position est disponible
+      if (position != null) {
+        // Utiliser la dernière position connue
+        latitude.value = position.latitude;
+        longitude.value = position.longitude;
+
+        debugPrint(
+            '\n \n \n Utilisation de getLastKnownPosition. Dernière position connue - Lat: ${position.latitude}, Long: ${position.longitude} \n \n \n');
+      } else {
+        // Si aucune position connue n'est disponible, récupérer une nouvelle position
+        position = await Geolocator.getCurrentPosition(
+            desiredAccuracy: LocationAccuracy.high, timeLimit: const Duration(seconds: 2));
+
+        latitude.value = position.latitude;
+        longitude.value = position.longitude;
+        debugPrint(
+            '\n \n \n getCurrentPosition a pris ${stopwatch.elapsedMilliseconds} millisecondes pour s\'exécuter \n \n \n');
+            }
     } catch (e) {
-      print(e);
+      debugPrint("$e");
     }
   }
+
 
   setCurrentUser(UserModel userModel, String token1) {
     MyGetStorage.instance.write(Constants.currentUser, userModel.toJson());
@@ -82,6 +108,7 @@ class AppServices extends GetxService {
 
   setJobs(List<JobModel> jobList) {
     jobs.value = jobList;
+    debugPrint("\n\n\njobs.value: ${jobs.value.length}\n\n\n");
   }
 
   getUserSalon() async {

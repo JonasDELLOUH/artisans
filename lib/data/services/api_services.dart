@@ -28,12 +28,11 @@ class ApiServices {
     }
   }
 
-  static Future<UserData> registerUser(
-      {
-      required String email,
-      required String phoneNumber,
-      required String password,
-      required username}) async {
+  static Future<UserData> registerUser({
+    required String email,
+    required String phoneNumber,
+    required String password,
+    required username}) async {
     debugPrint("loginUser");
     var response = await ApiProvider.client.post("auth/register", data: {
       "username": username,
@@ -50,15 +49,15 @@ class ApiServices {
     }
   }
 
-  static Future<bool> verifyUsernameExist({required String username}) async{
+  static Future<bool> verifyUsernameExist({required String username}) async {
     debugPrint("verifyUsernameExist");
     var response = await ApiProvider.client.post("user/username-exist", data: {
       "username": username,
     });
     debugPrint("finish");
-    if(response.statusCode == HttpStatus.ok){
+    if (response.statusCode == HttpStatus.ok) {
       return response.data["exist"];
-    } else{
+    } else {
       throw Exception();
     }
   }
@@ -66,7 +65,8 @@ class ApiServices {
   static Future<ChangePasswordData> changePassword(
       {required String currentPassword, required String newPassword}) async {
     var response = await ApiProvider.client
-        .post("user/change-password", data: {"currentPassword": currentPassword, "newPassword": newPassword});
+        .post("user/change-password",
+        data: {"currentPassword": currentPassword, "newPassword": newPassword});
     if (response.statusCode == HttpStatus.ok) {
       if (response.data is! Map) return ChangePasswordData.fromJson({});
       return ChangePasswordData.fromJson(response.data);
@@ -75,11 +75,10 @@ class ApiServices {
     }
   }
 
-  static Future<UpdateProfileData> updateUserProfile(
-      {
-        required String email,
-        required String phoneNumber,
-        required username}) async {
+  static Future<UpdateProfileData> updateUserProfile({
+    required String email,
+    required String phoneNumber,
+    required username}) async {
     debugPrint("loginUser");
     var response = await ApiProvider.client.put("user/update-profile", data: {
       "username": username,
@@ -105,17 +104,16 @@ class ApiServices {
     }
   }
 
-  static Future<CreateSalonData> createSalon(
-      {required String jobId,
-      required String name,
-      required double lat,
-      required double long,
-      required File image,
-     String? address,
-      required String email,
-      required String phone,
-        required String whatsappNumber,
-      required String desc}) async {
+  static Future<CreateSalonData> createSalon({required String jobId,
+    required String name,
+    required double lat,
+    required double long,
+    required File image,
+    String? address,
+    required String email,
+    required String phone,
+    required String whatsappNumber,
+    required String desc}) async {
     debugPrint("createSalon");
     dio.FormData formData = dio.FormData.fromMap({
       "jobId": jobId,
@@ -171,7 +169,8 @@ class ApiServices {
       ));
     }
 
-    var response = await ApiProvider.client.put("salon/$salonId", data: formData);
+    var response = await ApiProvider.client.put(
+        "salon/$salonId", data: formData);
 
     debugPrint("finish");
 
@@ -184,21 +183,30 @@ class ApiServices {
   }
 
 
-  static Future<GetSalonsData> getSalons(
-      {String? name,
-      String? jobId,
-      int limit = 10,
-      int skip = 0,
-      double? lat,
-      double? long}) async {
-    var response = await ApiProvider.client.get("salon", data: {
+  static Future<GetSalonsData> getSalons({String? name,
+    String? jobId,
+    int page = 1,
+    int perPage = 4,
+    double? lat,
+    double? long}) async {
+    // Démarrez le chrono au début de la requête
+    Stopwatch stopwatch = Stopwatch()..start();
+
+    var response = await ApiProvider.client.get("salon", queryParameters: {
       "name": name,
       "jobId": jobId,
-      "limit": limit,
-      "skip": skip,
+      "page": page,
+      "per_page": perPage,
       "lat": lat,
       "long": long
     });
+
+    // Arrêtez le chrono après la réception de la réponse
+    stopwatch.stop();
+
+    debugPrint('\n \n \n La requête a pris ${stopwatch.elapsedMilliseconds} millisecondes pour s\'exécuter \n \n \n' );
+
+
     if (response.statusCode == HttpStatus.ok) {
       // if (response.data is! List) return GetSalonsData.fromJson({});
       return GetSalonsData.fromJson(response.data);
@@ -207,12 +215,11 @@ class ApiServices {
     }
   }
 
-  static Future<GetPostsData> getPosts(
-      {int limit = 10,
-      int skip = 0,
-      double? lat,
-      double? long,
-      String? salonId}) async {
+  static Future<GetPostsData> getPosts({int limit = 10,
+    int skip = 0,
+    double? lat,
+    double? long,
+    String? salonId}) async {
     var response = await ApiProvider.client.get("post", queryParameters: {
       "limit": limit,
       "skip": skip,
@@ -228,17 +235,18 @@ class ApiServices {
     }
   }
 
-  static Future<CreatePostData> createPost(
-      {required String salonId,
-        required String content,
-        File? image,
+  static Future<CreatePostData> createPost({required String salonId,
+    required String content,
+    File? image,
 
-      }) async {
+  }) async {
     debugPrint("createPost");
     dio.FormData formData = dio.FormData.fromMap({
       "salonId": salonId,
       "content": content,
-      "imageUrl": image != null ?  await dio.MultipartFile.fromFile(image.path) : null,
+      "imageUrl": image != null
+          ? await dio.MultipartFile.fromFile(image.path)
+          : null,
     });
     var response = await ApiProvider.client.post("post", data: formData);
     debugPrint("finish");
@@ -251,17 +259,18 @@ class ApiServices {
     }
   }
 
-  static Future<CreateStoryData> createStory(
-      {required String salonId,
-        required String content,
-        File? video,
+  static Future<CreateStoryData> createStory({required String salonId,
+    required String content,
+    File? video,
 
-      }) async {
+  }) async {
     debugPrint("createStory");
     dio.FormData formData = dio.FormData.fromMap({
       "salonId": salonId,
       "content": content,
-      "videoUrl": video != null ?  await dio.MultipartFile.fromFile(video.path) : null,
+      "videoUrl": video != null
+          ? await dio.MultipartFile.fromFile(video.path)
+          : null,
     });
     var response = await ApiProvider.client.post("story", data: formData);
     debugPrint("finish");
@@ -273,12 +282,11 @@ class ApiServices {
     }
   }
 
-  static Future<GetStoriesData> getStories(
-      {int limit = 10,
-      int skip = 0,
-      double? lat,
-      double? long,
-      String? salonId}) async {
+  static Future<GetStoriesData> getStories({int limit = 10,
+    int skip = 0,
+    double? lat,
+    double? long,
+    String? salonId}) async {
     var response = await ApiProvider.client.get("story", queryParameters: {
       "limit": limit,
       "skip": skip,
@@ -306,24 +314,25 @@ class ApiServices {
     }
   }
 
-  static Future<bool> verifyLikeStatus({required String salonId}) async{
+  static Future<bool> verifyLikeStatus({required String salonId}) async {
     debugPrint("verifyLikeStatus");
-    var response = await ApiProvider.client.post("salon/verify_like_status/$salonId");
+    var response = await ApiProvider.client.post(
+        "salon/verify_like_status/$salonId");
     debugPrint("finish");
-    if(response.statusCode == HttpStatus.ok){
+    if (response.statusCode == HttpStatus.ok) {
       return response.data["isLiked"];
-    } else{
+    } else {
       throw Exception();
     }
   }
 
-  static Future<bool> likeSalon({required String salonId}) async{
+  static Future<bool> likeSalon({required String salonId}) async {
     debugPrint("likeSalon");
     var response = await ApiProvider.client.post("salon/like/$salonId");
     debugPrint("finish");
-    if(response.statusCode == HttpStatus.ok){
+    if (response.statusCode == HttpStatus.ok) {
       return response.data["isLiked"];
-    } else{
+    } else {
       throw Exception();
     }
   }

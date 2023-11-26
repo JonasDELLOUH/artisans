@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-import '../../widgets/search_text_field.dart';
-
 class SalonsMapScreen extends GetWidget<SalonsMapController> {
   const SalonsMapScreen({super.key});
 
@@ -20,7 +18,7 @@ class SalonsMapScreen extends GetWidget<SalonsMapController> {
           child: Stack(
             children: [
               Padding(
-                padding: const EdgeInsets.only(top: 95),
+                padding: const EdgeInsets.only(top: 45),
                 child: Obx(() => GoogleMap(
                   myLocationEnabled: true,
                   onMapCreated: (ctrl) => controller.mapController = ctrl,
@@ -35,7 +33,7 @@ class SalonsMapScreen extends GetWidget<SalonsMapController> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Container(
-                    height: 102,
+                    height: 52,
                     padding: const EdgeInsets.only(left: 4, right: 20),
                     decoration: BoxDecoration(
                         color: Colors.white,
@@ -50,25 +48,25 @@ class SalonsMapScreen extends GetWidget<SalonsMapController> {
                             blurStyle: BlurStyle.normal,
                           )
                         ]),
-                    child:  Center(
+                    child:  const Center(
                       child: Row(
                         children: [
-                          const BackButton(
+                          BackButton(
                             color: blueColor,
                           ),
-                          const SizedBox(
+                          SizedBox(
                             width: 10,
                           ),
-                          Expanded(
-                            child: InkWell(
-                              onTap: () {
-                              },
-                              child: SearchTextField(
-                                suffixIconData: Icons.location_on,
-                                enabled: false,
-                              ),
-                            ),
-                          ),
+                          // Expanded(
+                          //   child: InkWell(
+                          //     onTap: () {
+                          //     },
+                          //     child: SearchTextField(
+                          //       suffixIconData: Icons.location_on,
+                          //       enabled: false,
+                          //     ),
+                          //   ),
+                          // ),
                         ],
                       ),
                     ),

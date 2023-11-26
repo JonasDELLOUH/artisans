@@ -35,7 +35,7 @@ class PostsController extends GetxController {
 
   Future<void> fetchPosts(int pageKey) async {
     try {
-      await appServices.checkLocationPermissionAndFetchLocation();
+      // await appServices.checkLocationPermissionAndFetchLocation();
       GetPostsData getPostsData = await ApiServices.getPosts(
           lat: appServices.latitude.value, long: appServices.longitude.value, skip: pageKey, limit: 5);
       final newItems = getPostsData.posts ?? [];

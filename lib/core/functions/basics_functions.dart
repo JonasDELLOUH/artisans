@@ -1,5 +1,7 @@
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -62,3 +64,18 @@ String formatDurationFromNow(String date) {
     return "";
   }
 }
+
+void toast(String message,
+    {duration = 2,
+      Color textColor = Colors.black,
+      Color backgroundColor = Colors.white,
+      Icon icon = const Icon(Icons.add_alert_sharp)}) {
+  Fluttertoast.showToast(
+    msg: message,
+    gravity: ToastGravity.BOTTOM,
+    timeInSecForIosWeb: 1,
+    backgroundColor: backgroundColor,
+    textColor: textColor,
+  );
+}
+

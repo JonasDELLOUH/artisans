@@ -37,7 +37,7 @@ class CreateSalonController extends GetxController {
   Rxn<File> salonImage = Rxn<File>();
   final appServices = Get.find<AppServices>();
   final RoundedLoadingButtonController btnController =
-      RoundedLoadingButtonController();
+  RoundedLoadingButtonController();
 
   Rx<StaticMapController> locationController = Rx<StaticMapController>(
       const StaticMapController(
@@ -57,7 +57,8 @@ class CreateSalonController extends GetxController {
 
   createSalon() async {
     try {
-      String? address = await getAddressFromCoordinates(latitude.value, longitude.value);
+      String? address = await getAddressFromCoordinates(
+          latitude.value, longitude.value);
       creatingSalon.value = true;
       CreateSalonData createSalonData = (await ApiServices.createSalon(
           jobId: itemSelected.value?.value ?? "",
@@ -101,7 +102,7 @@ class CreateSalonController extends GetxController {
   imgFromCamera() async {
     final ImagePicker picker = ImagePicker();
     XFile? image =
-        await picker.pickImage(source: ImageSource.camera, imageQuality: 50);
+    await picker.pickImage(source: ImageSource.camera, imageQuality: 50);
     dynamic files = [];
     files.add(File(image!.path));
     salonImage.value = File(image.path);
@@ -160,7 +161,7 @@ class CreateSalonController extends GetxController {
   getJobInItem() {
     for (JobModel jobModel in jobs.value) {
       SelectedListItem selectedListItem =
-          SelectedListItem(name: jobModel.jobName, value: jobModel.jobId);
+      SelectedListItem(name: jobModel.jobName, value: jobModel.jobId);
       selectedListItems.value.add(selectedListItem);
     }
   }

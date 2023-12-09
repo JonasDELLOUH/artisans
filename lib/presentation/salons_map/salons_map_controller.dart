@@ -24,7 +24,8 @@ class SalonsMapController extends GetxController {
     try {
       return await BitmapDescriptor.fromAssetImage(
         const ImageConfiguration(size: Size(20, 20)),
-        "assets/icons/artisan_logo1.jpeg",
+        // "assets/icons/artisan_logo1.jpeg",
+        "assets/artisan_marker.jpeg"
       );
     } catch (e) {
       debugPrint("Voici l'erreur: $e");

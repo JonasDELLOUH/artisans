@@ -25,34 +25,38 @@ class SignInScreen extends GetView<SignInController> {
             height: 200,
             child: Column(
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Padding(
-                      padding: EdgeInsets.only(left: 10),
-                      child: CustomText(
-                          text: "Ar+++",
-                          color: whiteColor,
-                          fontSize: 20),
-                    ),
-                    Row(
-                      children: [
-                        CustomText(
-                            text: "have_not_account".tr,
+                Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.only(left: 10),
+                        child: CustomText(
+                            text: "Ar+++",
                             color: whiteColor,
-                            fontSize: 12),
-                        CustomTextButton(
-                            onPressed: () {
-                              Get.offAllNamed(AppRoutes.signUpRoute);
-                            },
-                            text: "start".tr,
-                            textColor: whiteColor,
-                            fontWeight: FontWeight.w700,
-                            fontSize: 14,
-                            backgroundColor: goldenColor),
-                      ],
-                    )
-                  ],
+                            fontSize: 20),
+                      ),
+                      Row(
+                        children: [
+                          CustomText(
+                              text: "have_not_account".tr,
+                              color: whiteColor,
+                              fontSize: 10),
+                          CustomTextButton(
+                              onPressed: () {
+                                Get.offAllNamed(AppRoutes.signUpRoute);
+                              },
+                              text: "start".tr,
+                              height: 35,
+                              textColor: whiteColor,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 10,
+                              backgroundColor: goldenColor),
+                        ],
+                      )
+                    ],
+                  ),
                 ),
                 const SizedBox(
                   height: 20,

@@ -22,6 +22,7 @@ class SearchController extends GetxController {
   Rx<List<JobModel>> jobs = Rx<List<JobModel>>([]);
   RxBool jobIsInLoading = true.obs;
   final appServices = Get.find<AppServices>();
+  RxInt length = 0.obs;
 
   final PagingController<int, SalonModel> salonsPagingController =
   PagingController(firstPageKey: 1);
@@ -85,6 +86,7 @@ class SearchController extends GetxController {
           lat: latitude.value, page: pageKey, perPage: 2);
       salons.value = getSalonsData.salons ?? [];
       final newItems = getSalonsData.salons ?? [];
+
       log("\t \t \t getSalonsData.hasNext : ${getSalonsData.hasNext}");
       final isLastPage = getSalonsData.hasNext == false;
       if (isLastPage) {
@@ -93,6 +95,7 @@ class SearchController extends GetxController {
         final nextPageKey = pageKey + 1;
         salonsPagingController.appendPage(newItems, nextPageKey);
       }
+      length.value = salonsPagingController.itemList?.length ?? 0;
     } catch (error) {
       salonsPagingController.error = error;
     }

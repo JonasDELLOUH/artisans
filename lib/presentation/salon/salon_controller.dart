@@ -39,6 +39,9 @@ class SalonController extends GetxController {
   final PagingController<int, PostModel> postsPagingController =
   PagingController(firstPageKey: 0);
 
+  final PagingController<int, StoryModel> storiesPagingController =
+  PagingController(firstPageKey: 0);
+
   @override
   void onInit() {
     super.onInit();
@@ -53,6 +56,11 @@ class SalonController extends GetxController {
     postsPagingController.addPageRequestListener((pageKey) {
       fetchPosts(pageKey);
     });
+
+    storiesPagingController.addPageRequestListener((pageKey) {
+      fetchStories(pageKey);
+    });
+
     // getPosts();
     // getStories();
   }
@@ -95,6 +103,28 @@ class SalonController extends GetxController {
       }
     } catch (error) {
       postsPagingController.error = error;
+    }
+  }
+
+  Future<void> fetchStories(int pageKey) async {
+    try {
+      // await appServices.checkLocationPermissionAndFetchLocation();
+      GetStoriesData getStoriesData = await ApiServices.getStories(
+          lat: appServices.latitude.value,
+          long: appServices.longitude.value,
+          skip: pageKey,
+          limit: 5,
+          salonId: salon.value?.salonId);
+      final newItems = getStoriesData.stories ?? [];
+      final isLastPage = newItems.length < 5;
+      if (isLastPage) {
+        storiesPagingController.appendLastPage(newItems);
+      } else {
+        final nextPageKey = pageKey + newItems.length;
+        storiesPagingController.appendPage(newItems, nextPageKey);
+      }
+    } catch (error) {
+      storiesPagingController.error = error;
     }
   }
 

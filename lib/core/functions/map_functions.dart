@@ -94,7 +94,7 @@ Future<Position?> getCurrentPosition() async {
   }
 
   // Retrieve the current device's position with high accuracy.
-  return Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+  return Geolocator.getLastKnownPosition();
 }
 
 Future<LatLng?> getCurrentLatLng() async {

@@ -6,7 +6,7 @@ class CreateSalonBinding extends Bindings{
   @override
   void dependencies() {
     Get.lazyPut(() => CreateSalonController());
-    Get.put(() => AppServices());
+    Get.lazyPut(() => AppServices());
   }
 
 }

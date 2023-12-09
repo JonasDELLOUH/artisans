@@ -18,6 +18,9 @@ class HomeController extends GetxController {
   RxBool jobIsInLoading = false.obs;
   RxBool getSalonsIsInLoading = false.obs;
   final appServices = Get.find<AppServices>();
+  final GlobalKey<RefreshIndicatorState> refreshIndicatorKey =
+  GlobalKey<RefreshIndicatorState>();
+
   SalonModel s = SalonModel(
       salonId: "6562e09ca6f9912e219c5154",
       jobId: "651c52c10e918d2afcc4ac13",

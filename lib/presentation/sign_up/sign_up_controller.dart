@@ -9,10 +9,10 @@ import '../../data/functions/functions.dart';
 import '../../data/services/api_services.dart';
 
 class SignUpController extends GetxController {
-  TextEditingController emailController = TextEditingController(text: "jdellouh2@gmail.com");
-  TextEditingController passwordController = TextEditingController(text: "Jonas1007");
-  TextEditingController nameController = TextEditingController(text: "JonasDELLOUH2");
-  TextEditingController phoneController = TextEditingController(text: "96133502");
+  TextEditingController emailController = TextEditingController(text: "");
+  TextEditingController passwordController = TextEditingController(text: "");
+  TextEditingController nameController = TextEditingController(text: "");
+  TextEditingController phoneController = TextEditingController(text: "");
   final RoundedLoadingButtonController btnController =
       RoundedLoadingButtonController();
   RxBool passwordIsVisible = false.obs;

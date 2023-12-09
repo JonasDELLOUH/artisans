@@ -10,6 +10,7 @@ import '../../widgets/custom_text.dart';
 class SelectOwnLocationOnMapSCreen
     extends GetView<SelectOwnLocationOnMapController> {
   SelectOwnLocationOnMapSCreen({super.key});
+
   LatLng? selectedlocation;
 
   @override
@@ -34,44 +35,46 @@ class SelectOwnLocationOnMapSCreen
               ],
             ),
             body: Obx(
-              () => Column(
-                children: [
-                  Expanded(
-                    child: GoogleMap(
-                      mapType: controller.mapType.value,
-                      onTap: controller.updateSelectedlocation,
-                      onMapCreated: (GoogleMapController controller) {
-                        this.controller.mapController = controller;
-                      },
-                      initialCameraPosition: CameraPosition(
-                        zoom: 18.4746,
-                        target: controller.selectedlocation.value,
+                  () =>
+                  Column(
+                    children: [
+                      Expanded(
+                        child: GoogleMap(
+                          mapType: controller.mapType.value,
+                          onTap: controller.updateSelectedlocation,
+                          onMapCreated: (GoogleMapController controller) {
+                            this.controller.mapController = controller;
+                          },
+                          initialCameraPosition: CameraPosition(
+                            zoom: 15.4746,
+                            target: controller.selectedlocation.value,
+                          ),
+                          onCameraMove: controller.handleCameraMove,
+                          markers: {
+                            Marker(
+                              markerId: const MarkerId("currentPosition"),
+                              position: controller.selectedlocation.value,
+                              consumeTapEvents: true,
+                            )
+                          },
+                        ),
                       ),
-                      onCameraMove: controller.handleCameraMove,
-                      markers: {
-                        Marker(
-                          markerId: const MarkerId("curentPosition"),
-                          position: controller.selectedlocation.value,
-                          consumeTapEvents: true,
-                        )
-                      },
-                    ),
+                      ListTile(
+                          leading: const CustomSvgPicture(
+                              width: 40,
+                              height: 40,
+                              color: blueColor,
+                              assetName: "assets/selectedlocation.svg"),
+                          title: const CustomText(
+                            text: "Envoyer cette localisation",
+                            fontWeight: FontWeight.w600,
+                          ),
+                          subtitle: CustomText(
+                              fontSize: 12,
+                              text: "${controller.locationName} "),
+                          onTap: controller.selectLocation),
+                    ],
                   ),
-                  ListTile(
-                      leading: const CustomSvgPicture(
-                          width: 40,
-                          height: 40,
-                          color: blueColor,
-                          assetName: "assets/selectedlocation.svg"),
-                      title: const CustomText(
-                        text: "Envoyer cette localisation",
-                        fontWeight: FontWeight.w600,
-                      ),
-                      subtitle: CustomText(
-                          fontSize: 12, text: "${controller.locationName} "),
-                      onTap: controller.selectLocation),
-                ],
-              ),
             )));
   }
 }

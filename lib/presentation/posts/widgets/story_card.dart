@@ -58,99 +58,102 @@ class _StoryCardState extends State<StoryCard> {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        if (widget.isAddStory) {
-          Get.toNamed(AppRoutes.addPostRoute);
-        } else {
-          // Get.toNamed(AppRoutes.storiesRoute);
-        }
-      },
-      child: Stack(
-        children: [
-          ClipRRect(
-              borderRadius: BorderRadius.circular(12.0),
+    return Container(
+      margin: const EdgeInsets.all(2.0),
+      child: InkWell(
+        onTap: () {
+          if (widget.isAddStory) {
+            Get.toNamed(AppRoutes.addPostRoute);
+          } else {
+            // Get.toNamed(AppRoutes.storiesRoute);
+          }
+        },
+        child: Stack(
+          children: [
+            ClipRRect(
+                borderRadius: BorderRadius.circular(12.0),
+                child: widget.isAddStory
+                    ? CustomImageNetwork(
+                        imageUrl: Constants.imageOriginUrl +
+                            widget.currentSalon.imageUrl,
+                        height: double.infinity,
+                        width: 110.0,
+                        fit: BoxFit.cover,
+                      )
+                    : FutureBuilder<Uint8List?>(
+                        future: getVideoThumbnail(),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState == ConnectionState.done &&
+                              snapshot.hasData) {
+                            return snapshot.data == null
+                                ? Container()
+                                : Image.memory(snapshot.data!, height: double.infinity,
+                              width: 110.0, fit: BoxFit.cover,);
+                          } else {
+                            return Container(); // Affichez un indicateur de chargement en attendant.
+                          }
+                        },
+                      )),
+            Container(
+              height: double.infinity,
+              width: 110.0,
+              decoration: BoxDecoration(
+                gradient: Palette.storyGradient,
+                borderRadius: BorderRadius.circular(12.0),
+                boxShadow: Responsive.isDesktop(context)
+                    ? const [
+                        BoxShadow(
+                          color: Colors.black26,
+                          offset: Offset(0, 2),
+                          blurRadius: 4.0,
+                        ),
+                      ]
+                    : null,
+              ),
+            ),
+            Positioned(
+              top: 8.0,
+              left: 8.0,
               child: widget.isAddStory
-                  ? CustomImageNetwork(
-                      imageUrl: Constants.imageOriginUrl +
-                          widget.currentSalon.imageUrl,
-                      height: double.infinity,
-                      width: 110.0,
-                      fit: BoxFit.cover,
-                    )
-                  : FutureBuilder<Uint8List?>(
-                      future: getVideoThumbnail(),
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState == ConnectionState.done &&
-                            snapshot.hasData) {
-                          return snapshot.data == null
-                              ? Container()
-                              : Image.memory(snapshot.data!, height: double.infinity,
-                            width: 110.0, fit: BoxFit.cover,);
-                        } else {
-                          return Container(); // Affichez un indicateur de chargement en attendant.
-                        }
-                      },
-                    )),
-          Container(
-            height: double.infinity,
-            width: 110.0,
-            decoration: BoxDecoration(
-              gradient: Palette.storyGradient,
-              borderRadius: BorderRadius.circular(12.0),
-              boxShadow: Responsive.isDesktop(context)
-                  ? const [
-                      BoxShadow(
-                        color: Colors.black26,
-                        offset: Offset(0, 2),
-                        blurRadius: 4.0,
+                  ? Container(
+                      height: 40.0,
+                      width: 40.0,
+                      decoration: BoxDecoration(
+                        color: whiteColor.withOpacity(0.8),
+                        shape: BoxShape.circle,
                       ),
-                    ]
-                  : null,
-            ),
-          ),
-          Positioned(
-            top: 8.0,
-            left: 8.0,
-            child: widget.isAddStory
-                ? Container(
-                    height: 40.0,
-                    width: 40.0,
-                    decoration: BoxDecoration(
-                      color: whiteColor.withOpacity(0.8),
-                      shape: BoxShape.circle,
+                      child: IconButton(
+                        padding: EdgeInsets.zero,
+                        icon: const Icon(Icons.add),
+                        iconSize: 30.0,
+                        color: blueColor,
+                        onPressed: () => debugPrint('Add to Story'),
+                      ),
+                    )
+                  : ProfileAvatar(
+                      imageUrl: Constants.imageOriginUrl +
+                          widget.story.salonModel!.imageUrl,
+                      hasBorder: true,
                     ),
-                    child: IconButton(
-                      padding: EdgeInsets.zero,
-                      icon: const Icon(Icons.add),
-                      iconSize: 30.0,
-                      color: blueColor,
-                      onPressed: () => debugPrint('Add to Story'),
-                    ),
-                  )
-                : ProfileAvatar(
-                    imageUrl: Constants.imageOriginUrl +
-                        widget.story.salonModel!.imageUrl,
-                    hasBorder: true,
-                  ),
-          ),
-          Positioned(
-            bottom: 8.0,
-            left: 8.0,
-            right: 8.0,
-            child: CustomText(
-              text: widget.isAddStory
-                  ? 'add_a_story'.tr
-                  : widget.story.salonModel?.salonName ?? "",
-              color: whiteColor,
-              fontWeight: FontWeight.w600,
-              fontSize: 14,
-              // textAlign: TextAlign.center,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
             ),
-          ),
-        ],
+            Positioned(
+              bottom: 8.0,
+              left: 8.0,
+              right: 8.0,
+              child: CustomText(
+                text: widget.isAddStory
+                    ? 'add_a_story'.tr
+                    : widget.story.salonModel?.salonName ?? "",
+                color: whiteColor,
+                fontWeight: FontWeight.w600,
+                fontSize: 14,
+                // textAlign: TextAlign.center,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

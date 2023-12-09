@@ -39,38 +39,6 @@ class Stories extends StatelessWidget {
                       ),
                     )
                   : Container()),
-          // ListView.builder(
-          //   padding: const EdgeInsets.symmetric(
-          //     vertical: 10.0,
-          //     horizontal: 8.0,
-          //   ),
-          //   scrollDirection: Axis.horizontal,
-          //   itemCount: 1 + stories.length,
-          //   itemBuilder: (BuildContext context, int index) {
-          //     if (index == 0) {
-          //       return Obx(() =>
-          //           (appServices.hasSalon.value == true && isSingleSalon == false)
-          //               ? Padding(
-          //                   padding: const EdgeInsets.symmetric(horizontal: 4.0),
-          //                   child: StoryCard(
-          //                     isAddStory: true,
-          //                     story: StoryModel(content: "", salonId: "", videoUrl: "", id: ""),
-          //                     currentSalon: appServices.currentSalon.value!,
-          //                   ),
-          //                 )
-          //               : Container());
-          //     } else {
-          //       final StoryModel story = stories[index - 1];
-          //       return Padding(
-          //         padding: const EdgeInsets.symmetric(horizontal: 4.0),
-          //         child: StoryCard(
-          //           story: story,
-          //           currentSalon: SalonModel.currentSalon(),
-          //         ),
-          //       );
-          //     }
-          //   },
-          // ),
           Expanded(
             child: PagedListView<int, StoryModel>(
               scrollDirection: Axis.horizontal,
@@ -101,7 +69,8 @@ class Stories extends StatelessWidget {
                         StoryTileShimmer(),
                       ],
                     ),
-                  )
+                  ),
+                noItemsFoundIndicatorBuilder: (_) => Container()
               ),
             ),
           )
@@ -114,25 +83,47 @@ class Stories extends StatelessWidget {
 class StoriesController extends GetxController {
   final PagingController<int, StoryModel> storiesPagingController =
       PagingController(firstPageKey: 0);
-  final appServices = Get.find<AppServices>();
   String? salonId;
+  final appServices = Get.find<AppServices>();
+
 
   StoriesController({this.salonId}) {
     Get.put(AppServices());
+    storiesPagingController.addPageRequestListener((pageKey) {
+      fetchStories(pageKey);
+    });
   }
 
   @override
   void onInit() {
     // TODO: implement onInit
     super.onInit();
-    storiesPagingController.addPageRequestListener((pageKey) {
-      fetchStories(pageKey);
-    });
+    // storiesPagingController.addPageRequestListener((pageKey) {
+    //   fetchStories(pageKey);
+    // });
   }
+
+  // Future<void> fetchPosts(int pageKey) async {
+  //   try {
+  //     // await appServices.checkLocationPermissionAndFetchLocation();
+  //     GetPostsData getPostsData = await ApiServices.getPosts(
+  //         lat: appServices.latitude.value, long: appServices.longitude.value, skip: pageKey, limit: 5);
+  //     final newItems = getPostsData.posts ?? [];
+  //     final isLastPage = newItems.length < 5;
+  //     if (isLastPage) {
+  //       postsPagingController.appendLastPage(newItems);
+  //     } else {
+  //       final nextPageKey = pageKey + newItems.length;
+  //       postsPagingController.appendPage(newItems, nextPageKey);
+  //     }
+  //   } catch (error) {
+  //     postsPagingController.error = error;
+  //   }
+  // }
 
   Future<void> fetchStories(int pageKey) async {
     try {
-      await appServices.checkLocationPermissionAndFetchLocation();
+      // await appServices.checkLocationPermissionAndFetchLocation();
       GetStoriesData getStoriesData = await ApiServices.getStories(
           lat: appServices.latitude.value,
           long: appServices.longitude.value,

@@ -44,7 +44,7 @@ class SignUpScreen extends GetWidget<SignUpController> {
                           CustomText(
                               text: "has_already_account".tr,
                               color: whiteColor,
-                              fontSize: 12),
+                              fontSize: 10),
                           const SizedBox(width: 5,),
                           CustomTextButton(
                               text: "sign_in".tr,
@@ -53,7 +53,8 @@ class SignUpScreen extends GetWidget<SignUpController> {
                               },
                               textColor: whiteColor,
                               fontWeight: FontWeight.w700,
-                              fontSize: 14,
+                              fontSize: 10,
+                              height: 30,
                               backgroundColor: goldenColor),
                         ],
                       )

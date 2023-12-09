@@ -1,9 +1,10 @@
 import 'package:artisans/core/models/post_model.dart';
 import 'package:artisans/core/models/story_model.dart';
 import 'package:artisans/data/data_models/get_posts_data.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
+import '../../data/data_models/get_stories_data.dart';
 import '../../data/services/api_services.dart';
 import '../../data/services/app_services.dart';
 
@@ -15,10 +16,13 @@ class PostsController extends GetxController {
   RxString salonId = "".obs;
   final appServices = Get.find<AppServices>();
 
-  RefreshController refreshController =
-  RefreshController(initialRefresh: false);
+  final GlobalKey<RefreshIndicatorState> refreshIndicatorKey =
+  GlobalKey<RefreshIndicatorState>();
 
   final PagingController<int, PostModel> postsPagingController =
+  PagingController(firstPageKey: 0);
+
+  final PagingController<int, StoryModel> storiesPagingController =
   PagingController(firstPageKey: 0);
 
   @override
@@ -30,6 +34,9 @@ class PostsController extends GetxController {
 
     postsPagingController.addPageRequestListener((pageKey) {
       fetchPosts(pageKey);
+    });
+    storiesPagingController.addPageRequestListener((pageKey) {
+      fetchStories(pageKey);
     });
   }
 
@@ -51,16 +58,38 @@ class PostsController extends GetxController {
     }
   }
 
-
-  void onRefresh() async {
+  Future<void> fetchStories(int pageKey) async {
     try {
-      await fetchPosts(0);
-      refreshController.refreshCompleted();
-    } catch(e){
-      refreshController.refreshFailed();
-
+      // await appServices.checkLocationPermissionAndFetchLocation();
+      GetStoriesData getStoriesData = await ApiServices.getStories(
+          lat: appServices.latitude.value,
+          long: appServices.longitude.value,
+          skip: pageKey,
+          limit: 5,
+          salonId: salonId.value);
+      final newItems = getStoriesData.stories ?? [];
+      final isLastPage = newItems.length < 5;
+      if (isLastPage) {
+        storiesPagingController.appendLastPage(newItems);
+      } else {
+        final nextPageKey = pageKey + newItems.length;
+        storiesPagingController.appendPage(newItems, nextPageKey);
+      }
+    } catch (error) {
+      storiesPagingController.error = error;
     }
   }
+
+
+  // void onRefresh() async {
+  //   try {
+  //     await fetchPosts(0);
+  //     refreshController.refreshCompleted();
+  //   } catch(e){
+  //     refreshController.refreshFailed();
+  //
+  //   }
+  // }
 
   // getPosts() async {
   //   try {

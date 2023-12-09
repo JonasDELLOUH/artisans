@@ -11,11 +11,14 @@ import 'package:google_static_maps_controller/google_static_maps_controller.dart
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
+import '../../core/constants/constants.dart';
 import '../../core/functions/map_functions.dart';
 import '../../core/models/job_model.dart';
+import '../../core/routes/app_routes.dart';
 import '../../data/services/app_services.dart';
 import '../../data/functions/functions.dart';
 import '../../data/services/api_services.dart';
+import '../../data/services/my_get_storage.dart';
 import '../../widgets/custom_text.dart';
 
 class CreateSalonController extends GetxController {
@@ -73,8 +76,11 @@ class CreateSalonController extends GetxController {
           desc: descController.value.text));
       await appServices.getUserSalon();
       creatingSalon.value = false;
-      Get.back();
       appSnackBar("success", "salon_created".tr, "");
+      MyGetStorage.instance.remove(Constants.currentSalon);
+      MyGetStorage.instance.remove(Constants.currentUser);
+      MyGetStorage.instance.remove(Constants.token);
+      Get.offAllNamed(AppRoutes.signInRoute);
       btnController.stop();
     } catch (e) {
       btnController.stop();

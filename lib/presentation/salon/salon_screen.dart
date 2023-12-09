@@ -8,12 +8,16 @@ import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:velocity_x/velocity_x.dart';
 import '../../core/models/post_model.dart';
+import '../../core/models/salon_model.dart';
+import '../../core/models/story_model.dart';
 import '../../widgets/custom_text.dart';
 import '../../widgets/post_tile_shimmer.dart';
+import '../../widgets/responsive.dart';
 import '../../widgets/stars_tile.dart';
 import '../../widgets/story_tile_shimmer.dart';
 import '../posts/widgets/post_container.dart';
 import '../posts/widgets/stories.dart';
+import '../posts/widgets/story_card.dart';
 
 class SalonScreen extends GetView<SalonController> {
   const SalonScreen({super.key});
@@ -158,14 +162,48 @@ class SalonScreen extends GetView<SalonController> {
                   const SizedBox(
                     height: 10,
                   ),
-                  Stories(
-                    controller: Get.put(StoriesController(
-                        salonId: controller.salon.value?.salonId)),
-                    isSingleSalon: true,
+                  Container(
+                    height: 200.0,
+                    color: Responsive.isDesktop(context) ? Colors.transparent : Colors.white,
+                    child: Expanded(
+                      child: PagedListView<int, StoryModel>(
+                        scrollDirection: Axis.horizontal,
+                        pagingController: controller.storiesPagingController,
+                        builderDelegate: PagedChildBuilderDelegate<StoryModel>(
+                            itemBuilder: (context, item, index) => StoryCard(
+                              story: item,
+                              currentSalon: SalonModel.currentSalon(),
+                            ),
+                            firstPageProgressIndicatorBuilder: (_) => const SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  StoryTileShimmer(),
+                                  StoryTileShimmer(),
+                                  StoryTileShimmer(),
+                                  StoryTileShimmer(),
+                                ],
+                              ),
+                            ),
+                            newPageProgressIndicatorBuilder: (_) => const SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  StoryTileShimmer(),
+                                  StoryTileShimmer(),
+                                ],
+                              ),
+                            ),
+                            noItemsFoundIndicatorBuilder: (_) => Container()
+                        ),
+                      ),
+                    ),
                   ),
                   PagedListView<int, PostModel>(
                     shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
+                      physics: const NeverScrollableScrollPhysics(),
                       pagingController: controller.postsPagingController,
                       builderDelegate: PagedChildBuilderDelegate<PostModel>(
                           firstPageProgressIndicatorBuilder: (_) =>
@@ -189,7 +227,9 @@ class SalonScreen extends GetView<SalonController> {
                                 ),
                               ),
                           itemBuilder: (context, item, index) =>
-                              PostContainer(postModel: item))),
+                              PostContainer(postModel: item),
+                        noItemsFoundIndicatorBuilder: (_) => Container()
+                      )),
                 ],
               ),
             ),

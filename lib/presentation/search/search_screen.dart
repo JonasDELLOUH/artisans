@@ -38,11 +38,11 @@ class SearchScreen extends GetView<search_controller.SearchController> {
               children: [
                 Expanded(
                     child: SearchTextField(
-                      controller: controller.searchController,
-                      onEditingComplete: () {
-                        controller.salonsPagingController.refresh();
-                      },
-                    )),
+                  controller: controller.searchController,
+                  onEditingComplete: () {
+                    controller.salonsPagingController.refresh();
+                  },
+                )),
                 Padding(
                   padding: const EdgeInsets.all(15),
                   child: InkWell(
@@ -63,74 +63,69 @@ class SearchScreen extends GetView<search_controller.SearchController> {
             ),
             SizedBox(
                 height: 30,
-                child: Obx(() =>
-                controller.jobIsInLoading.value
+                child: Obx(() => controller.jobIsInLoading.value
                     ? LinearProgressIndicator(
-                  color: greyColor.withOpacity(0.4),
-                  backgroundColor: whiteColor,
-                )
+                        color: greyColor.withOpacity(0.4),
+                        backgroundColor: whiteColor,
+                      )
                     : controller.jobs.value.isEmpty
-                    ? Container()
-                    : ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: controller.jobs.value.length,
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (context, index) {
-                      return Obx(() =>
-                          SearchJobTile(
-                            jobModel: controller.jobs.value[index],
-                            isSelected:
-                            controller.jobs.value[index].jobId ==
-                                controller.jobId.value,
-                            onTap: () {
-                              controller.jobId.value =
-                                  controller.jobs.value[index].jobId;
-                              controller.salonsPagingController.refresh();
-                            },
-                          ));
-                    }))),
+                        ? Container()
+                        : ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: controller.jobs.value.length,
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (context, index) {
+                              return Obx(() => SearchJobTile(
+                                    jobModel: controller.jobs.value[index],
+                                    isSelected:
+                                        controller.jobs.value[index].jobId ==
+                                            controller.jobId.value,
+                                    onTap: () {
+                                      controller.jobId.value =
+                                          controller.jobs.value[index].jobId;
+                                      controller.salonsPagingController
+                                          .refresh();
+                                    },
+                                  ));
+                            }))),
             const SizedBox(
               height: 10,
             ),
-            Obx(() =>
-                CustomText(
+            Obx(() => CustomText(
                   text:
-                  "${"result_found".tr}(${controller.salons.value.length
-                      .toString()})",
+                      "${"result_found".tr}(${controller.length.toString() ?? ""})",
                   fontWeight: FontWeight.w700,
                 )),
             const SizedBox(
               height: 10,
             ),
-
             Expanded(
                 child: PagedListView<int, SalonModel>(
                     pagingController: controller.salonsPagingController,
                     builderDelegate: PagedChildBuilderDelegate<SalonModel>(
                         firstPageProgressIndicatorBuilder: (_) =>
-                        const SingleChildScrollView(
-                          child: Column(
-                            children: [
-                              SalonTileShimmer(),
-                              SalonTileShimmer(),
-                              SalonTileShimmer(),
-                              SalonTileShimmer(),
-                            ],
-                          ),
-                        ),
+                            const SingleChildScrollView(
+                              child: Column(
+                                children: [
+                                  SalonTileShimmer(),
+                                  SalonTileShimmer(),
+                                  SalonTileShimmer(),
+                                  SalonTileShimmer(),
+                                ],
+                              ),
+                            ),
                         newPageProgressIndicatorBuilder: (_) =>
-                        const SingleChildScrollView(
-                          child: Column(
-                            children: [
-                              SalonTileShimmer(),
-                              SalonTileShimmer(),
-                            ],
-                          ),
-                        ),
-                        noItemsFoundIndicatorBuilder: (
-                            _) => const NoSalonFindView(),
-                        itemBuilder: (context, item, index) =>
-                            SalonTile(
+                            const SingleChildScrollView(
+                              child: Column(
+                                children: [
+                                  SalonTileShimmer(),
+                                  SalonTileShimmer(),
+                                ],
+                              ),
+                            ),
+                        noItemsFoundIndicatorBuilder: (_) =>
+                            const NoSalonFindView(),
+                        itemBuilder: (context, item, index) => SalonTile(
                               salonModel: item,
                               latitude: controller.latitude.value,
                               longitude: controller.longitude.value,

@@ -16,26 +16,25 @@ import 'widgets/stories.dart';
 class PostsScreen extends StatelessWidget {
   PostsScreen({Key? key, required this.controller}) : super(key: key);
   PostsController controller = Get.find<PostsController>();
-  StoriesController storiesController = StoriesController();
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
           floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
-          floatingActionButton: ElevatedButton(
-            onPressed: (){
-              controller.postsPagingController.refresh();
-              storiesController.storiesPagingController.refresh();
-            },
-            style: const ButtonStyle(
-                elevation: MaterialStatePropertyAll<double>(0),
-                iconColor: MaterialStatePropertyAll<Color>(blueColor),
-                iconSize: MaterialStatePropertyAll<double>(40),
-                backgroundColor:
-                MaterialStatePropertyAll<Color>(Colors.transparent)),
-            child: const Icon(Icons.refresh),
-          ),
+          // floatingActionButton: ElevatedButton(
+          //   onPressed: (){
+          //     controller.postsPagingController.refresh();
+          //     controller.storiesPagingController.refresh();
+          //   },
+          //   style: const ButtonStyle(
+          //       elevation: MaterialStatePropertyAll<double>(0),
+          //       iconColor: MaterialStatePropertyAll<Color>(blueColor),
+          //       iconSize: MaterialStatePropertyAll<double>(40),
+          //       backgroundColor:
+          //       MaterialStatePropertyAll<Color>(Colors.transparent)),
+          //   child: const Icon(Icons.refresh),
+          // ),
           body: Padding(
             padding: const EdgeInsets.all(15),
             child: Column(
@@ -97,10 +96,11 @@ class PostsScreen extends StatelessWidget {
                 ),
                 Expanded(
                     child: RefreshIndicator(
+                      color: blueColor,
                       key: controller.refreshIndicatorKey,
                       onRefresh:() async{
                         controller.postsPagingController.refresh();
-                        storiesController.storiesPagingController.refresh();
+                        controller.storiesPagingController.refresh();
                       },
                       child: PagedListView<int, PostModel>(
                           pagingController: controller.postsPagingController,

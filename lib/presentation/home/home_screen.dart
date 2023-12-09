@@ -130,6 +130,7 @@ class HomeScreen extends StatelessWidget {
                   ),
                   Expanded(
                     child: RefreshIndicator(
+                      color: blueColor,
                       key: controller.refreshIndicatorKey,
                       onRefresh: () async {
                         controller.getNearestSalons();

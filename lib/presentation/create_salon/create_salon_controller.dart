@@ -52,10 +52,11 @@ class CreateSalonController extends GetxController {
 
   @override
   void onInit() {
-    super.onInit();
-    updateLocation();
-    // itemSelected.value = SelectedListItem(name: "Autre");
     getJob();
+    updateLocation();
+    super.onInit();
+    // itemSelected.value = SelectedListItem(name: "Autre");
+
   }
 
   createSalon() async {
